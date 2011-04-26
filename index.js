@@ -58,20 +58,9 @@ $("#userForm").submit(function (e) {
     fetch_scrobbles($("#user").val(), resetAndRedrawScrobbles);
 });
 
-$("searchForm").submit(function (e) {
+$("#searchForm").submit(function (e) {
     e.preventDefault();
     if (!scrobbles) return;
     if (!plot) return;
-
-    plot.setData([])
-    plot.draw();
-    var re = new RegExp($("#search").val(), "i");
-    var filtered_scrobbles = _(scrobbles).filter(function (scrobble) {
-        var track = scrobble.name;
-        var artist = scrobble.artist["#text"];
-        var album = scrobble.album["#text"];
-        return (re.exec(track) || re.exec(artist) || re.exec(album));
-    });
-    plot.setData(scrobbles_to_series(filtered_scrobbles));
-    plot.draw();
+    resetAndRedrawScrobbles(scrobbles);
 });

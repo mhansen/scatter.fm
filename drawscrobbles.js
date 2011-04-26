@@ -44,11 +44,19 @@ function resetAndRedrawScrobbles(s) {
         });
     }
 
+    var re = new RegExp($("#search").val(), "i");
+    var filtered_scrobbles = _(scrobbles).filter(function (scrobble) {
+        var track = scrobble.name;
+        var artist = scrobble.artist["#text"];
+        var album = scrobble.album["#text"];
+        return (re.exec(track) || re.exec(artist) || re.exec(album));
+    });
+
     var ONE_DAY = 1000*60*60*24;
     var minTime = _(scrobbles).min(function(s) { return s.date.uts; }).date.uts * 1000;
     var maxTime = _(scrobbles).max(function(s) { return s.date.uts; }).date.uts * 1000;
 
-    plot = $.plot($("#placeholder"), scrobbles_to_series(scrobbles), {
+    plot = $.plot($("#placeholder"), scrobbles_to_series(filtered_scrobbles), {
         xaxis: {
             mode: "time", 
             timeformat: "%d %b %y",
