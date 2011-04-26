@@ -201,12 +201,13 @@
             left: x + xOffset 
           };
         }
+        var dateString = (new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy");
         $("<div id='tooltip'>").
           append($("<div id='text'>").
             append($("<div id='name'>").text(scrobble.name)).
             append($("<div id='artist'>").text(scrobble.artist["#text"])).
             append($("<div id='album'>").text(scrobble.album["#text"])).
-            append($("<div id='date'>").text(new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy"))
+            append($("<div id='date'>").text(dateString))
           ).css(css).appendTo("body").fadeIn(200);
 
         if (scrobble.image[0] && scrobble.image[0]["#text"]) {
