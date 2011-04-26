@@ -1,7 +1,19 @@
 <!doctype html>
-<html style="height:96%;">
+<html>
   <head>
     <style>
+      html {
+        overflow-y: scroll;
+      }
+      body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #placeholder {
+        width: 100%;
+        min-height: 90%;
+      }
       #tooltip {
           font-size: 11px;
           font-family: sans-serif;
@@ -28,8 +40,12 @@
       }
     </style>
   </head>
-  <body style="height:100%;">
-    <div id="placeholder" style="width:100%;height:100%"></div>
+  <body>
+    <form>
+      <input id="search" name="search"></input>
+      <input type="submit" value="Search">
+    </form>
+    <div id="placeholder" style="width:100%;height:95%"></div>
   </body>
   <script src="flot/jquery.js"></script>
   <script src="flot/jquery.flot.js"></script>
@@ -38,7 +54,8 @@
   <script src="date.js"></script>
   <script>
 
-    var colors = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan" ];
+    // distinct colors that aren't likely to be confused with one another
+    var colors = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ];
 
     $.getJSON("all_scrobbles.Mark_Hansen.json", function (scrobbles) {
       var artist_scrobbles = {};
@@ -69,8 +86,6 @@
         artist_colors[artist] = color;
       }
 
-      var series = [];
-
       var minTime = Number.POSITIVE_INFINITY;
       var maxTime = Number.NEGATIVE_INFINITY;
       for (var i = 0; i < scrobbles.length; i++) {
@@ -78,21 +93,30 @@
         var date = new Date(scrobble.date.uts * 1000);
         if (date.getTime() < minTime) minTime = date.getTime();
         if (date.getTime() > maxTime) maxTime = date.getTime();
-        var time = date.getHours() + (date.getMinutes() / 60);
-        var artist = scrobble.artist["#text"];
-        series.push({ 
-          color: artist_colors[artist],
-          data: [[date.getTime(), time]],
-          scrobble: scrobble
-        });
       }
 
-      $.plot($("#placeholder"), series, { 
-        xaxis: { 
+      function scrobbles_to_series(scrobbles) {
+        var series = [];
+        for (var i = 0; i < scrobbles.length; i++) {
+          var scrobble = scrobbles[i];
+          var date = new Date(scrobble.date.uts * 1000);
+          var time = date.getHours() + (date.getMinutes() / 60);
+          var artist = scrobble.artist["#text"];
+          series.push({
+            color: artist_colors[artist],
+            data: [[date.getTime(), time]],
+            scrobble: scrobble
+          });
+        }
+        return series;
+      }
+
+      var plot = $.plot($("#placeholder"), scrobbles_to_series(scrobbles), { 
+        xaxis: {
           mode: "time", 
           timeformat: "%d %b %y",
           tickLength: 0,
-          zoomRange: [null, maxTime - minTime],
+          zoomRange: [1000*60*60*24, maxTime - minTime],
           panRange: [minTime, maxTime]
         },
         yaxis: {
@@ -125,6 +149,25 @@
           interactive: true
         }
       });
+      $("form").submit(function (e) {
+        plot.setData([])
+        plot.draw();
+        var re = new RegExp($("#search").val(), "i");
+        var filtered_scrobbles = [];
+        for (var i = 0; i < scrobbles.length; i++) {
+          var scrobble = scrobbles[i];
+          var track = scrobble.name;
+          var artist = scrobble.artist["#text"];
+          var album = scrobble.album["#text"];
+          if (re.exec(track) || re.exec(artist) || re.exec(album)) {
+            filtered_scrobbles.push(scrobble);
+          }
+        }
+        plot.setData(scrobbles_to_series(filtered_scrobbles));
+        plot.draw();
+        e.preventDefault();
+      });
+
       var previousPoint = null;
       $("#placeholder").bind("plothover", function (event, pos, item) {
         if (!item) {
@@ -136,20 +179,42 @@
         previousPoint = item.seriesIndex;
         $("#tooltip").remove();
         showTooltip(item.pageX, item.pageY, item.series.scrobble);
-      }).bind("mouseout", function () {
-        $("#tooltip").remove();
       });
       function showTooltip(x, y, scrobble) {
-        var text = "<div id='name'>" + scrobble.name + "</div>";
-        text += "<div id='artist'>" + scrobble.artist["#text"] + "</div>";
-        text += "<div id='album'>" + scrobble.album["#text"] + "</div>";
-        text += "<div id='date'>" + (new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy") + "</div>";
-        var html = "<div id='tooltip'><div id='text'>" + text + "</div></div>";
 
-        $(html).css({
-          top: y + 5,
-          left: x + 5
-        }).appendTo("body").fadeIn(200);
+        var tipWidth = 300;
+        var tipHeight = 66;
+        var xOffset = 5;
+        var yOffset = 5;
+        var scrollLeft = window.pageXOffset;
+        var scrollTop = window.pageYOffset;
+        var docWidth = window.innerWidth - 15;
+        var docHeight = window.innerHeight - 8;
+
+        if (y + tipHeight - scrollTop > docHeight) { // off the bottom side
+          var calculatedY = y - tipHeight - yOffset;
+        } else { 
+          var calculatedY = y;
+        }
+
+        if (x + tipWidth - scrollLeft > docWidth) { // over the right side
+          var css = { 
+            top: calculatedY,
+            right: docWidth - x + xOffset 
+          };
+        } else {
+          var css = { 
+            top: calculatedY,
+            left: x + xOffset 
+          };
+        }
+        $("<div id='tooltip'>").
+          append($("<div id='text'>").
+            append($("<div id='name'>").text(scrobble.name)).
+            append($("<div id='artist'>").text(scrobble.artist["#text"])).
+            append($("<div id='album'>").text(scrobble.album["#text"])).
+            append($("<div id='date'>").text(new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy"))
+          ).css(css).appendTo("body").fadeIn(200);
 
         if (scrobble.image[0] && scrobble.image[0]["#text"]) {
           var img = new Image();
