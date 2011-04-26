@@ -12,7 +12,7 @@
       }
       #placeholder {
         width: 100%;
-        min-height: 90%;
+        height: 80%;
       }
       #tooltip {
           font-size: 11px;
@@ -41,11 +41,15 @@
     </style>
   </head>
   <body>
-    <form>
+    <form id="searchForm">
       <input id="search" name="search"></input>
-      <input type="submit" value="Search">
+      <input type="submit" value="Filter Scrobbles">
     </form>
-    <div id="placeholder" style="width:100%;height:95%"></div>
+    <form id="userForm">
+      <input id="user" name="user"></input>
+      <input type="submit" value="Get User">
+    </form>
+    <div id="placeholder"></div>
   </body>
   <script src="flot/jquery.js"></script>
   <script src="flot/jquery.flot.js"></script>
@@ -53,17 +57,15 @@
   <script src="flot/jquery.flot.resize.js"></script>
   <script src="date.js"></script>
   <script src="underscore.js"></script>
+  <script src="fetch_from_lastfm.js"></script>
   <script>
-
     // distinct colors that aren't likely to be confused with one another
     var COLORS = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ];
 
-    var dataInGraph = false;
-    function resetAndRedrawScrobbles(scrobbles) {
-      dataInGraph = true;
-    }
+    var scrobbles;
+    function resetAndRedrawScrobbles(s) {
+      scrobbles = s;
 
-    $.getJSON("all_scrobbles.Mark_Hansen.json", function (scrobbles) {
       function compute_top_artists(scrobbles) {
         var artist_scrobbles_hash = {};
         _(scrobbles).each(function (scrobble) {
@@ -92,9 +94,6 @@
         artist_colors[artist] = color;
       }
 
-      var minTime = _(scrobbles).min(function(s) { return s.date.uts; }).date.uts * 1000;
-      var maxTime = _(scrobbles).max(function(s) { return s.date.uts; }).date.uts * 1000;
-
       function scrobbles_to_series(scrobbles) {
         return _(scrobbles).map(function (scrobble) {
           var date = new Date(scrobble.date.uts * 1000);
@@ -108,12 +107,16 @@
         });
       }
 
-      var plot = $.plot($("#placeholder"), scrobbles_to_series(scrobbles), { 
+      var ONE_DAY = 1000*60*60*24;
+      var minTime = _(scrobbles).min(function(s) { return s.date.uts; }).date.uts * 1000;
+      var maxTime = _(scrobbles).max(function(s) { return s.date.uts; }).date.uts * 1000;
+
+      var plot = $.plot($("#placeholder"), scrobbles_to_series(scrobbles), {
         xaxis: {
           mode: "time", 
           timeformat: "%d %b %y",
           tickLength: 0,
-          zoomRange: [1000*60*60*24, maxTime - minTime],
+          zoomRange: [ONE_DAY, maxTime - minTime],
           panRange: [minTime, maxTime]
         },
         yaxis: {
@@ -146,76 +149,83 @@
           interactive: true
         }
       });
-      $("form").submit(function (e) {
-        plot.setData([])
-        plot.draw();
-        var re = new RegExp($("#search").val(), "i");
-        var filtered_scrobbles = _(scrobbles).filter(function (scrobble) {
-          var track = scrobble.name;
-          var artist = scrobble.artist["#text"];
-          var album = scrobble.album["#text"];
-          return (re.exec(track) || re.exec(artist) || re.exec(album));
-        });
-        plot.setData(scrobbles_to_series(filtered_scrobbles));
-        plot.draw();
-        e.preventDefault();
-      });
 
-      var previousPoint = null;
-      $("#placeholder").bind("plothover", function (event, pos, item) {
-        if (!item) {
-          return;
-        }
-        if (previousPoint == item.seriesIndex) {
-          return;
-        }
-        previousPoint = item.seriesIndex;
-        $("#tooltip").remove();
-        showTooltip(item.pageX, item.pageY, item.series.scrobble);
-      });
-      function showTooltip(x, y, scrobble) {
-
-        var tipWidth = 300;
-        var tipHeight = 66;
-        var xOffset = 5;
-        var yOffset = 5;
-        var scrollLeft = window.pageXOffset;
-        var scrollTop = window.pageYOffset;
-        var docWidth = window.innerWidth - 15;
-        var docHeight = window.innerHeight - 8;
-
-        if (y + tipHeight - scrollTop > docHeight) { // off the bottom side
-          var calculatedY = y - tipHeight - yOffset;
-        } else { 
-          var calculatedY = y;
-        }
-
-        if (x + tipWidth - scrollLeft > docWidth) { // over the right side
-          var css = { 
-            top: calculatedY,
-            right: docWidth - x + xOffset 
-          };
-        } else {
-          var css = { 
-            top: calculatedY,
-            left: x + xOffset 
-          };
-        }
-        var dateString = (new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy");
-        $("<div id='tooltip'>").
-          append($("<div id='text'>").
-            append($("<div id='name'>").text(scrobble.name)).
-            append($("<div id='artist'>").text(scrobble.artist["#text"])).
-            append($("<div id='album'>").text(scrobble.album["#text"])).
-            append($("<div id='date'>").text(dateString))
-          ).css(css).appendTo("body").fadeIn(200);
-
-        if (scrobble.image[0] && scrobble.image[0]["#text"]) {
-          var img = new Image();
-          img.src = scrobble.image[1]["#text"];
-          $(img).prependTo("#tooltip");
-        }
+    }
+    var previousPoint = null;
+    $("#placeholder").bind("plothover", function (event, pos, item) {
+      if (!item) {
+        return;
       }
+      if (previousPoint == item.seriesIndex) {
+        return;
+      }
+      previousPoint = item.seriesIndex;
+      $("#tooltip").remove();
+      showTooltip(item.pageX, item.pageY, item.series.scrobble);
+    });
+
+    function showTooltip(x, y, scrobble) {
+      var tipWidth = 300;
+      var tipHeight = 66;
+      var xOffset = 5;
+      var yOffset = 5;
+      var scrollLeft = window.pageXOffset;
+      var scrollTop = window.pageYOffset;
+      var docWidth = window.innerWidth - 15;
+      var docHeight = window.innerHeight - 8;
+
+      if (y + tipHeight - scrollTop > docHeight) { // off the bottom side
+        var calculatedY = y - tipHeight - yOffset;
+      } else { 
+        var calculatedY = y;
+      }
+
+      if (x + tipWidth - scrollLeft > docWidth) { // over the right side
+        var css = { 
+          top: calculatedY,
+          right: docWidth - x + xOffset 
+        };
+      } else {
+        var css = { 
+          top: calculatedY,
+          left: x + xOffset 
+        };
+      }
+      var dateString = (new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy");
+      $("<div id='tooltip'>").
+        append($("<div id='text'>").
+          append($("<div id='name'>").text(scrobble.name)).
+          append($("<div id='artist'>").text(scrobble.artist["#text"])).
+          append($("<div id='album'>").text(scrobble.album["#text"])).
+          append($("<div id='date'>").text(dateString))
+        ).css(css).appendTo("body").fadeIn(200);
+
+      if (scrobble.image[0] && scrobble.image[0]["#text"]) {
+        var img = new Image();
+        img.src = scrobble.image[1]["#text"];
+        $(img).prependTo("#tooltip");
+      }
+    }
+
+    $("#userForm").submit(function () {
+      fetch_scrobbles($("#user").val(), resetAndRedrawScrobbles);
+    });
+
+    $("form").submit(function (e) {
+      e.preventDefault();
+      if (!scrobbles) return;
+
+      plot.setData([])
+      plot.draw();
+      var re = new RegExp($("#search").val(), "i");
+      var filtered_scrobbles = _(scrobbles).filter(function (scrobble) {
+        var track = scrobble.name;
+        var artist = scrobble.artist["#text"];
+        var album = scrobble.album["#text"];
+        return (re.exec(track) || re.exec(artist) || re.exec(album));
+      });
+      plot.setData(scrobbles_to_series(filtered_scrobbles));
+      plot.draw();
     });
   </script>
 </html>
