@@ -52,36 +52,51 @@
   <script src="flot/jquery.flot.navigate.js"></script>
   <script src="flot/jquery.flot.resize.js"></script>
   <script src="date.js"></script>
+  <script src="underscore.js"></script>
   <script>
 
     // distinct colors that aren't likely to be confused with one another
     var colors = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ];
 
+    var dataInGraph = false;
+    function resetAndRedrawScrobbles(scrobbles) {
+      dataInGraph = true;
+
+    }
+
     $.getJSON("all_scrobbles.Mark_Hansen.json", function (scrobbles) {
-      var artist_scrobbles = {};
-      for (var i = 0; i < scrobbles.length; i++) {
-        var scrobble = scrobbles[i];
-        var artist = scrobble.artist["#text"];
-        if (artist_scrobbles[artist]) {
-          artist_scrobbles[artist].push(scrobble);
-        } else {
-          artist_scrobbles[artist] = [ scrobble ];
+      function compute_top_artists(scrobbles) {
+        var artist_scrobbles_hash = {};
+        for (var i = 0; i < scrobbles.length; i++) {
+          var scrobble = scrobbles[i];
+          var artist = scrobble.artist["#text"];
+          if (artist_scrobbles_hash[artist]) {
+            artist_scrobbles_hash[artist].push(scrobble);
+          } else {
+            artist_scrobbles_hash[artist] = [ scrobble ];
+          }
         }
-      }
 
-      var artists = [];
+        var artist_scrobbles_array = [];
 
-      for (var artist in artist_scrobbles) {
-        if (artist_scrobbles.hasOwnProperty(artist)) {
-          artists.push(artist_scrobbles[artist]);
+        for (var artist in artist_scrobbles_hash) {
+          if (artist_scrobbles_hash.hasOwnProperty(artist)) {
+            artist_scrobbles_array.push(artist_scrobbles_hash[artist]);
+          }
         }
-      }
 
-      artists.sort(function(a,b) { return b.length - a.length; });
+        artist_scrobbles_array.sort(function(a,b) { return b.length - a.length; });
+        var top_artists = []
+        for (var i = 0; i < artist_scrobbles_array.length; i++) {
+          top_artists.push(artist_scrobbles_array[i][0]["artist"]["#text"]);
+        }
+        return top_artists;
+      }
+      var artists = compute_top_artists(scrobbles);
 
       artist_colors = {};
       for (var i = 0; i < artists.length; i++) {
-        var artist = artists[i][0]["artist"]["#text"];
+        var artist = artists[i];
         var color = colors[i] || "gray";
         artist_colors[artist] = color;
       }
@@ -96,19 +111,16 @@
       }
 
       function scrobbles_to_series(scrobbles) {
-        var series = [];
-        for (var i = 0; i < scrobbles.length; i++) {
-          var scrobble = scrobbles[i];
+        return _(scrobbles).map(function (scrobble) {
           var date = new Date(scrobble.date.uts * 1000);
           var time = date.getHours() + (date.getMinutes() / 60);
           var artist = scrobble.artist["#text"];
-          series.push({
+          return {
             color: artist_colors[artist],
             data: [[date.getTime(), time]],
             scrobble: scrobble
-          });
-        }
-        return series;
+          }
+        });
       }
 
       var plot = $.plot($("#placeholder"), scrobbles_to_series(scrobbles), { 
