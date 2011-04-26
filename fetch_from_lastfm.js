@@ -1,4 +1,4 @@
-function fetch_scrobbles(username, callback) {
+function fetch_scrobbles(username, progress, done) {
     if (!username) {
         throw "Invalid Username";
     }
@@ -41,12 +41,12 @@ function fetch_scrobbles(username, callback) {
         var timer = setInterval(function() {
             if (pagesToFetch.length == 0) {
                 clearInterval(timer);
-                return;
+                return done(scrobbles);
             }
             var page = pagesToFetch.pop();
             fetch_scrobble_page(page, function (data, textStatus, jqXHR) {
                 append_all_scrobbles_in_page(data);
-                callback(scrobbles);
+                progress(scrobbles);
             });
         }, 1000);
     });

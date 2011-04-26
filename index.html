@@ -38,6 +38,9 @@
       #tooltip img {
         float:left;
       }
+      form {
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
@@ -49,12 +52,20 @@
       <input id="user" name="user"></input>
       <input type="submit" value="Get User">
     </form>
+    <span id="fetchThrobber" style="display:none;">
+      Fetching... <img src="throbber.gif">
+    </span>
+    <span id="drawingThrobber" style="display:none;">
+      Drawing... <img src="throbber.gif">
+    </span>
     <div id="placeholder"></div>
   </body>
   <script src="flot/jquery.js"></script>
   <script src="flot/jquery.flot.js"></script>
   <script src="flot/jquery.flot.navigate.js"></script>
   <script src="flot/jquery.flot.resize.js"></script>
+  <script src="throbber/jquery.throbber.js"></script>
+  <script src="jquery.url.js"></script>
   <script src="date.js"></script>
   <script src="underscore.js"></script>
   <script src="fetch_from_lastfm.js"></script>

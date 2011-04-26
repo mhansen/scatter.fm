@@ -1,7 +1,13 @@
 var scrobbles;
 var plot;
+
 function resetAndRedrawScrobbles(s) {
     scrobbles = s;
+    $("#drawingThrobber").show();
+    _.defer(expensiveDrawingComputation);
+}
+
+function expensiveDrawingComputation() {
 
     function compute_top_artists(scrobbles) {
         var artist_scrobbles_hash = {};
@@ -58,6 +64,8 @@ function resetAndRedrawScrobbles(s) {
 
     plot = $.plot($("#placeholder"), scrobbles_to_series(filtered_scrobbles), {
         xaxis: {
+            min: minTime,
+            max: maxTime,
             mode: "time", 
             timeformat: "%d %b %y",
             tickLength: 0,
@@ -94,4 +102,5 @@ function resetAndRedrawScrobbles(s) {
             interactive: true
         }
     });
+    $("#drawingThrobber").hide();
 }

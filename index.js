@@ -1,4 +1,4 @@
-// distinct colors that aren't likely to be confused with one another
+// Distinct colors that aren't likely to be confused with one another.
 var COLORS = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ];
 
 var previousPoint = null;
@@ -53,14 +53,24 @@ function showTooltip(x, y, scrobble) {
     }
 }
 
-$("#userForm").submit(function (e) {
-    e.preventDefault();
-    fetch_scrobbles($("#user").val(), resetAndRedrawScrobbles);
-});
-
 $("#searchForm").submit(function (e) {
     e.preventDefault();
     if (!scrobbles) return;
     if (!plot) return;
+    window.location.hash = "#" + $("#search").val();
     resetAndRedrawScrobbles(scrobbles);
+});
+
+if ($.url.param("user")) {
+    fetch_scrobbles($.url.param("user"), resetAndRedrawScrobbles, function () {
+        $("#fetchThrobber").hide();
+    });
+    $("#fetchThrobber").show();
+}
+
+if (window.location.hash) {
+    $("#search").val(window.location.hash.substring(1));
+}
+$(window).bind('hashchange', function() {
+    $("#search").val(window.location.hash.substring(1));
 });
