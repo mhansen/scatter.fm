@@ -67,7 +67,11 @@ function fetch_scrobbles(args) {
                 if (finalRequest) {
                     args.onfinished(scrobbles); // toconsider: what if the final request is lost
                 } else {
-                    args.onprogress(scrobbles);
+                    args.onprogress({
+                        scrobbles: scrobbles,
+                        thisPage: page,
+                        totalPages: totalPages
+                    });
                 }
             });
         }, 1000);

@@ -69,12 +69,13 @@ if (user) {
     var next_redraw = 1;
     fetch_scrobbles({
         user: $.url.param("user"), 
-        onprogress: function (scrobbles) {
+        onprogress: function (e) {
             responses_received++;
             if (next_redraw == responses_received) {
                 next_redraw *= 2;
-                resetAndRedrawScrobbles(scrobbles);
+                resetAndRedrawScrobbles(e.scrobbles);
             }
+            $("#fetchStatus").text(e.thisPage - 2 + " to go.");
         },
         onfinished: function (scrobbles) {
             $("#fetchThrobber").hide();
