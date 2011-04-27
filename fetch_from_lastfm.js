@@ -1,5 +1,5 @@
-function fetch_scrobbles(username, progress, done) {
-    if (!username) {
+function fetch_scrobbles(args) {
+    if (!args.user) {
         throw "Invalid Username";
     }
     var scrobbles = [];
@@ -11,7 +11,7 @@ function fetch_scrobbles(username, progress, done) {
 
     var params = {
         method: "user.getrecenttracks",
-        user: username,
+        user: args.user,
         api_key: "b25b959554ed76058ac220b7b2e0a026",
         format: "json",
         limit: "200" 
@@ -41,12 +41,17 @@ function fetch_scrobbles(username, progress, done) {
         var timer = setInterval(function() {
             if (pagesToFetch.length == 0) {
                 clearInterval(timer);
-                return done(scrobbles);
+                return;
             }
             var page = pagesToFetch.pop();
+            var finalRequest = pagesToFetch.length == 0;
             fetch_scrobble_page(page, function (data, textStatus, jqXHR) {
                 append_all_scrobbles_in_page(data);
-                progress(scrobbles);
+                if (finalRequest) {
+                    args.onfinished(scrobbles); // toconsider: what if the final request is lost
+                } else {
+                    args.onprogress(scrobbles);
+                }
             });
         }, 1000);
     });

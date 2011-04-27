@@ -62,8 +62,22 @@ $("#searchForm").submit(function (e) {
 });
 
 if ($.url.param("user")) {
-    fetch_scrobbles($.url.param("user"), resetAndRedrawScrobbles, function () {
-        $("#fetchThrobber").hide();
+    $("#user").val($.url.param("user"));
+    var responses_received = 0;
+    var next_redraw = 1;
+    fetch_scrobbles({
+        user: $.url.param("user"), 
+        onprogress: function (scrobbles) {
+            responses_received++;
+            if (next_redraw == responses_received) {
+                next_redraw *= 2;
+                resetAndRedrawScrobbles(scrobbles);
+            }
+        },
+        onfinished: function (scrobbles) {
+            $("#fetchThrobber").hide();
+            resetAndRedrawScrobbles(scrobbles); // force redraw
+        }
     });
     $("#fetchThrobber").show();
 }
