@@ -12,7 +12,7 @@ function expensiveDrawingComputation() {
     function compute_top_artists(scrobbles) {
         var artist_scrobbles_hash = {};
         _(scrobbles).each(function (scrobble) {
-            var artist = scrobble.artist["#text"];
+            var artist = scrobble.artist;
             if (artist_scrobbles_hash[artist]) {
                 artist_scrobbles_hash[artist].push(scrobble);
             } else {
@@ -25,7 +25,7 @@ function expensiveDrawingComputation() {
             sort(function(a,b) { return b.length - a.length; });
 
         return _(artist_scrobbles_array).map(function (artist_scrobbles) {
-            return artist_scrobbles[0]["artist"]["#text"]; // just return an array of the names
+            return artist_scrobbles[0].artist; // just return an array of the names
         });
     }
     var artists = compute_top_artists(scrobbles);
@@ -39,12 +39,11 @@ function expensiveDrawingComputation() {
 
     function scrobbles_to_series(scrobbles) {
         return _(scrobbles).map(function (scrobble) {
-            var date = new Date(scrobble.date.uts * 1000);
-            var time = date.getHours() + (date.getMinutes() / 60);
-            var artist = scrobble.artist["#text"];
+            var date = scrobble.date.getTime();
+            var time = scrobble.date.getHours() + (scrobble.date.getMinutes() / 60);
             return {
-                color: artist_colors[artist],
-                data: [[date.getTime(), time]],
+                color: artist_colors[scrobble.artist],
+                data: [[date, time]],
                 scrobble: scrobble
             }
         });
@@ -53,14 +52,14 @@ function expensiveDrawingComputation() {
     var re = new RegExp($("#search").val(), "i");
     var filtered_scrobbles = _(scrobbles).filter(function (scrobble) {
         var track = scrobble.name;
-        var artist = scrobble.artist["#text"];
-        var album = scrobble.album["#text"];
+        var artist = scrobble.artist;
+        var album = scrobble.album;
         return (re.exec(track) || re.exec(artist) || re.exec(album));
     });
 
     var ONE_DAY = 1000*60*60*24;
-    var minTime = _(scrobbles).min(function(s) { return s.date.uts; }).date.uts * 1000;
-    var maxTime = _(scrobbles).max(function(s) { return s.date.uts; }).date.uts * 1000;
+    var minTime = _(scrobbles).min(function(s) { return s.date; }).date;
+    var maxTime = _(scrobbles).max(function(s) { return s.date; }).date;
 
     plot = $.plot($("#placeholder"), scrobbles_to_series(filtered_scrobbles), {
         xaxis: {

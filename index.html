@@ -41,23 +41,34 @@
       form {
         display: inline-block;
       }
+      #lastfm_link {
+        float: right;
+      }
+      #header {
+        margin: 15px 30px 15px 30px;
+      }
     </style>
   </head>
   <body>
-    <form id="userForm">
-      <input id="user" name="user"></input>
-      <input type="submit" value="Get User">
-    </form>
-    <form id="searchForm">
-      <input id="search" name="search"></input>
-      <input type="submit" value="Filter Scrobbles">
-    </form>
-    <span id="fetchThrobber" style="display:none;">
-      Fetching... <img src="throbber.gif">
-    </span>
-    <span id="drawingThrobber" style="display:none;">
-      Drawing... <img src="throbber.gif">
-    </span>
+    <div id="header">
+      <form id="userForm">
+        <input id="user" name="user"></input>
+        <input type="submit" value="Get User">
+      </form>
+      <form id="searchForm">
+        <input id="search" name="search"></input>
+        <input type="submit" value="Filter Scrobbles">
+      </form>
+      <span id="fetchThrobber" style="display:none;">
+        Fetching... <img src="throbber.gif">
+      </span>
+      <span id="drawingThrobber" style="display:none;">
+        Drawing... <img src="throbber.gif">
+      </span>
+      <a href="http://www.last.fm" id="lastfm_link">
+        <img src="Last.fm_Logo_Black.png" id="lastfm_logo"></img>
+      </a>
+    </div>
     <div id="placeholder"></div>
   </body>
   <script src="flot/jquery.js"></script>

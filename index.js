@@ -37,18 +37,18 @@ function showTooltip(x, y, scrobble) {
             left: x + xOffset 
         };
     }
-    var dateString = (new Date(scrobble.date.uts * 1000)).toString("HH:mm, ddd dd MMM yyyy");
+    var dateString = scrobble.date.toString("HH:mm, ddd dd MMM yyyy");
     $("<div id='tooltip'>").
     append($("<div id='text'>").
-        append($("<div id='name'>").text(scrobble.name)).
-        append($("<div id='artist'>").text(scrobble.artist["#text"])).
-        append($("<div id='album'>").text(scrobble.album["#text"])).
+        append($("<div id='name'>").text(scrobble.track)).
+        append($("<div id='artist'>").text(scrobble.artist)).
+        append($("<div id='album'>").text(scrobble.album)).
         append($("<div id='date'>").text(dateString))
     ).css(css).appendTo("body").fadeIn(200);
 
-    if (scrobble.image[0] && scrobble.image[0]["#text"]) {
+    if (scrobble.image) {
         var img = new Image();
-        img.src = scrobble.image[1]["#text"];
+        img.src = scrobble.image;
         $(img).prependTo("#tooltip");
     }
 }
@@ -61,8 +61,10 @@ $("#searchForm").submit(function (e) {
     resetAndRedrawScrobbles(scrobbles);
 });
 
-if ($.url.param("user")) {
-    $("#user").val($.url.param("user"));
+var user = $.url.param("user");
+if (user) {
+    $("#user").val(user);
+    $("#lastfm_link").attr("href", "http://www.last.fm/user/" + user);
     var responses_received = 0;
     var next_redraw = 1;
     fetch_scrobbles({

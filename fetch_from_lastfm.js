@@ -5,7 +5,18 @@ function fetch_scrobbles(args) {
     var scrobbles = [];
     function append_all_scrobbles_in_page(page) {
         _.each(page.recenttracks.track, function(scrobble) {
-            scrobbles.push(scrobble);
+            // Pull out just the information we need, because memory can run
+            // out with large datasets.
+            var my_scrobble = {
+                track: scrobble['name'],
+                artist: scrobble['artist']['#text'],
+                album: scrobble['album']['#text'],
+                date: new Date(scrobble['date']['uts'] * 1000),
+            }
+            if (scrobble['image'][1] && scrobble['image'][1]['#text']) {
+                my_scrobble.image = scrobble['image'][1]['#text'];
+            }
+            scrobbles.push(my_scrobble);
         });
     }
 
