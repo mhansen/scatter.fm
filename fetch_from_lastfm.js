@@ -32,6 +32,12 @@ function fetch_scrobbles(args) {
 
     // fetch first page
     fetch_scrobble_page(1, function (data, textStatus, jqXHR) {
+        if (data.error) {
+            return args.onerror(data.error, data.message);
+        }
+        if (data.recenttracks.total == "0") {
+            return args.onerror(null, "User has zero scrobbles.");
+        }
         append_all_scrobbles_in_page(data);
         var totalPages = parseInt(data["recenttracks"]["@attr"]["totalPages"]);
         console.log(totalPages + " pages total.");

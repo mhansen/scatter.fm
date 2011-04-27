@@ -77,6 +77,10 @@ if ($.url.param("user")) {
         onfinished: function (scrobbles) {
             $("#fetchThrobber").hide();
             resetAndRedrawScrobbles(scrobbles); // force redraw
+        },
+        onerror: function (errCode, message) {
+            $("#fetchThrobber").hide();
+            alert("Last.FM Error: "+ message);
         }
     });
     $("#fetchThrobber").show();
