@@ -4,7 +4,11 @@ $("#placeholder").bind "plothover", (event, pos, item) ->
     return if not item or previousPoint == item.seriesIndex
     previousPoint = item.seriesIndex
     $("#tooltip").remove()
-    showTooltip item.pageX, item.pageY, item.series.scrobble
+    window.plot.unhighlight()
+    scrobble = item.series.scrobble
+    showTooltip item.pageX, item.pageY, scrobble
+    for indices in track_indices[scrobble.artist + "#" + scrobble.track]
+        window.plot.highlight indices.series_index, indices.datapoint_index
 
 showTooltip = (x, y, scrobble) ->
     tipWidth = 300

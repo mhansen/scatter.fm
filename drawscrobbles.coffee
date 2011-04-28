@@ -1,6 +1,5 @@
 COLORS = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ]
 scrobbles = null
-plot = null
 
 window.resetAndRedrawScrobbles = (s) ->
     scrobbles = s
@@ -9,7 +8,7 @@ window.resetAndRedrawScrobbles = (s) ->
     _.defer expensiveDrawingComputation
 
 expensiveDrawingComputation = () ->
-    compute_top_artists = (scrobbles) ->
+    compute_artist_colors = (scrobbles) ->
         artist_scrobbles_hash = {}
         for scrobble in scrobbles
             artist = scrobble.artist
@@ -21,33 +20,49 @@ expensiveDrawingComputation = () ->
         artist_scrobbles_array = _(artist_scrobbles_hash).toArray().
             sort (a,b) -> b.length - a.length
 
-        #just return an array of the artist names
-        artist_scrobbles[0].artist for artist_scrobbles in artist_scrobbles_array
-    artists = compute_top_artists scrobbles
+        artists = for artist_scrobbles in artist_scrobbles_array
+            artist_scrobbles[0].artist
+        artist_colors = {}
+        for own i, artist of artists
+            artist_colors[artist] = COLORS[i] or "gray"
+        artist_colors
 
-    artist_colors = {}
-    for own i, artist of artists
-        artist_colors[artist] = COLORS[i] or "gray"
+    artist_colors = compute_artist_colors scrobbles
 
     re = new RegExp $("#search").val(), "i"
-    filtered_scrobbles = _.filter scrobbles (scrobble) ->
+    filtered_scrobbles = _.filter scrobbles, (scrobble) ->
         re.exec(scrobble.track) or re.exec(scrobble.artist) or re.exec(scrobble.album)
 
-    series = for scrobble in filtered_scrobbles
+    window.track_indices = {
+        #"snow patrol - eyes open": {
+            #series_index: 1
+            #datapoint_index:
+        #}
+    }
+
+    series = []
+
+    for scrobble in filtered_scrobbles
         date = scrobble.date.getTime()
         time = scrobble.date.getHours() + (scrobble.date.getMinutes() / 60)
-        {
+        series.push {
             color: artist_colors[scrobble.artist]
             data: [[date, time]]
             scrobble: scrobble
         }
+        if not track_indices[scrobble.artist + "#" + scrobble.track]?
+            track_indices[scrobble.artist + "#" + scrobble.track] = []
+        track_indices[scrobble.artist + "#" + scrobble.track].push {
+            series_index: series.length - 1
+            datapoint_index: 0
+        }
+
 
     ONE_DAY = 1000*60*60*24
     minTime = _(scrobbles).min((scrobble) -> scrobble.date).date
     maxTime = _(scrobbles).max((scrobble) -> scrobble.date).date
 
-
-    plot = $.plot($("#placeholder"), series, {
+    window.plot = $.plot($("#placeholder"), series, {
         xaxis: {
             min: minTime
             max: maxTime
@@ -73,7 +88,10 @@ expensiveDrawingComputation = () ->
             panRange: false
         }
         points: { radius: 0.5, show: true }
-        grid: { hoverable: true }
+        grid: {
+            hoverable: true
+            autoHighlight: false
+        }
         zoom: { interactive: true }
         pan: { interactive: true }
     })
