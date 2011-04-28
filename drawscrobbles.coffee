@@ -5,6 +5,8 @@ window.resetAndRedrawScrobbles = (s) ->
     scrobbles = s
     $("#drawingThrobber").show()
     $("#drawStatus").text "#{s.length} points"
+    # the plotting locks up the DOM, so give it a chance to update
+    # with a status message before launching the expensive plotting
     _.defer expensiveDrawingComputation
 
 expensiveDrawingComputation = () ->
@@ -34,7 +36,7 @@ expensiveDrawingComputation = () ->
         re.exec(scrobble.track) or re.exec(scrobble.artist) or re.exec(scrobble.album)
 
     window.track_indices = {
-        #"snow patrol - eyes open": {
+        #"snow patrol#eyes open": {
             #series_index: 1
             #datapoint_index:
         #}
@@ -87,7 +89,7 @@ expensiveDrawingComputation = () ->
             zoomRange: false
             panRange: false
         }
-        points: { radius: 0.5, show: true }
+        points: { radius: 1, show: true }
         grid: {
             hoverable: true
             autoHighlight: false
