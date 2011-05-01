@@ -1,4 +1,4 @@
-COLORS = [ "red", "green", "blue", "purple", "yellow", "orange", "cyan", "magenta" ]
+COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta" ]
 scrobbles = null
 
 window.resetAndRedrawScrobbles = (s) ->
@@ -97,4 +97,9 @@ expensiveDrawingComputation = () ->
         zoom: { interactive: true }
         pan: { interactive: true }
     })
+    $("#legend li").remove()
+
+    for artist, color of artist_colors when color != "gray"
+        $("<li></li>").text(artist).css("color", color).appendTo("#legend")
+
     $("#drawingThrobber").hide()

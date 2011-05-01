@@ -6,6 +6,7 @@ window.fetch_scrobbles = (args) ->
         for scrobble in page.recenttracks.track
             # Pull out just the information we need, because memory can run
             # out with large datasets.
+            if not scrobble['date']? then continue # 'now playing' songs don't have a date
             my_scrobble = {
                 track: scrobble['name']
                 artist: scrobble['artist']['#text']
