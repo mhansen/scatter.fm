@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      html {
+        overflow-y: scroll;
+      }
+      body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #placeholder {
+        height: 100%;
+        width: 95%;
+      }
+      #toolTipAndGraph {
+        height: 80%;
+      }
+      #tooltip {
+          font-size: 11px;
+          font-family: sans-serif;
+          position: absolute;
+          display: none;
+          border: 1px solid #ddf;
+          padding 2px;
+          opacity: 0.8;
+          background-color: #eef;
+          padding: 5px;
+      }
+      #tooltip #text {
+        float:right;
+        padding: 4px;
+      }
+      #artist {
+        font-weight: bold;
+      }
+      #date {
+        font-weight: bold;
+      }
+      #tooltip img {
+        float:left;
+      }
+      form {
+        display: inline-block;
+      }
+      #lastfm_link {
+        float: right;
+      }
+      #header {
+        margin: 15px 30px 15px 30px;
+      }
+      #legend li {
+        display: inline-block;
+        padding-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <span id="user"></span>
+      <form id="searchForm">
+        <input id="search" name="search"></input>
+        <input type="submit" value="Filter Scrobbles">
+      </form>
+      <span id="fetchThrobber" style="display:none;">
+        Fetching... <span id="fetchStatus"></span><img src="throbber.gif">
+      </span>
+      <span id="drawingThrobber" style="display:none;">
+        Drawing <span id="drawStatus"></span>... <img src="throbber.gif">
+      </span>
+      <a href="http://www.last.fm" id="lastfm_link">
+        Data nicked from last.fm
+      </a>
+    </div>
+    <div id="toolTipAndGraph">
+      <div id="placeholder"></div>
+    </div>
+    <ul id="legend"></ul>
+  </body>
+  <script src="flot/jquery.js"></script>
+  <script src="flot/jquery.flot.js"></script>
+  <script src="flot/jquery.flot.navigate.js"></script>
+  <script src="flot/jquery.flot.resize.js"></script>
+  <script src="jquery.url.js"></script>
+  <script src="date.js"></script>
+  <script src="underscore.js"></script>
+  <script src="fetch_from_lastfm.js"></script>
+  <script src="drawscrobbles.js"></script>
+  <script src="index.js"></script>
+</html>

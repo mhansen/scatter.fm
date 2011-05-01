@@ -72,7 +72,7 @@ $("#searchForm").submit (e) ->
 
 user = $.url.param "user"
 if user
-    $("#user").val(user)
+    $("#user").text("Scrobbles for " + user + ":")
     $("#lastfm_link").attr "href", "http://www.last.fm/user/" + user
     responses_received = 0
     redraw_on_response_number = 1
