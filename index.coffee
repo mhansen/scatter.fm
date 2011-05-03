@@ -24,31 +24,25 @@ $("#placeholder").bind "plothover", (event, pos, item) ->
 
     flashingTimer = setInterval flash, 200
 
-$("#toolTipAndGraph").mouseout (e) ->
+$("#placeholder").mouseout (e) ->
     previousPoint = null
     $("#tooltip").remove()
     if window.plot? then window.plot.unhighlight()
     if flashingTimer? then clearInterval flashingTimer
 
 showTooltip = (x, y, scrobble) ->
-    tipWidth = 300
     tipHeight = 66
     xOffset = 5
     yOffset = 5
-    scrollLeft = window.pageXOffset
     scrollTop = window.pageYOffset
-    docWidth = window.innerWidth - 15
+    docWidth = window.innerWidth
     docHeight = window.innerHeight - 8
 
     top = if y + tipHeight - scrollTop < docHeight
     then y
     else y - tipHeight - yOffset
 
-    css = top: top
-
-    if x + tipWidth - scrollLeft < docWidth
-    then css.left = x + xOffset
-    else css.right = docWidth - x + xOffset
+    css = top: top, right: docWidth - x + xOffset
 
     dateString = scrobble.date.toString("HH:mm, ddd dd MMM yyyy")
     $("<div id='tooltip'>").
@@ -57,7 +51,7 @@ showTooltip = (x, y, scrobble) ->
         append($("<div id='artist'>").text scrobble.artist).
         append($("<div id='album'>").text scrobble.album).
         append($("<div id='date'>").text dateString)
-    ).css(css).appendTo("#toolTipAndGraph").fadeIn(200)
+    ).css(css).appendTo("body").fadeIn(200)
 
     if scrobble.image
         img = new Image()
@@ -72,7 +66,7 @@ $("#searchForm").submit (e) ->
 
 user = $.url.param "user"
 if user
-    $("#user").text("Scrobbles for " + user + ":")
+    $("#user").text(user)
     $("#lastfm_link").attr "href", "http://www.last.fm/user/" + user
     responses_received = 0
     redraw_on_response_number = 1

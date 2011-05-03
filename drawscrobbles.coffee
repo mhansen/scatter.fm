@@ -31,7 +31,12 @@ expensiveDrawingComputation = () ->
 
     artist_colors = compute_artist_colors scrobbles
 
-    re = new RegExp $("#search").val(), "i"
+    try
+        re = new RegExp $("#search").val(), "i"
+    catch error
+        window.alert "Invalid regular expression: " + error
+        re = //
+
     filtered_scrobbles = _.filter scrobbles, (scrobble) ->
         re.exec(scrobble.track) or re.exec(scrobble.artist) or re.exec(scrobble.album)
 
@@ -100,6 +105,7 @@ expensiveDrawingComputation = () ->
     $("#legend li").remove()
 
     for artist, color of artist_colors when color != "gray"
-        $("<li></li>").text(artist).css("color", color).appendTo("#legend")
+        circle = " \u25CF "
+        $("<li></li>").text(circle + artist).css("color", color).appendTo("#legend")
 
     $("#drawingThrobber").hide()
