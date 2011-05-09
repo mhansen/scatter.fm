@@ -1,6 +1,7 @@
 <!doctype html> <html>
   <head>
     <link rel="stylesheet" href="reset.css"/>
+    <title>Scatter.fm | Last.FM Visualisation</title>
     <style>
       li {
         padding-bottom: 0.3em;
@@ -42,12 +43,19 @@
         width: 95%;
       }
       #sidebar {
-        width: 220px;
+        width: 200px;
         height: 100%;
         margin-left: -100%;
+        padding-right: 20px;
         right: 220px;
+        text-align: right;
+        background-color: #f8f8ff;
+        border-right: 1px solid #eef;
+        position: relative;
       }
-
+      #searchForm {
+        margin-top: 1em;
+      }
       body, html {
         height: 100%;
         margin: 0;
@@ -78,18 +86,13 @@
       #tooltip img {
         float:left;
       }
-      #sidebar {
-        text-align: center;
-        background-color: #f8f8ff;
-        border-right: 1px solid #eef;
-      }
       li {
         list-style-type: none;
       }
       #bottom {
         position: absolute;
         bottom: 1em;
-        width: 100%;
+        right: 20px;
       }
       .throbber {
         margin-bottom: 0.3em;
@@ -102,16 +105,17 @@
         <div id="placeholder"></div>
       </div>
       <div id="sidebar" class="column">
-        <h1 id="user"></h1>
-        <form id="searchForm">
-          <input id="search" name="search"></input>
-          <br>
-          <a href="javascript:void($('#searchForm').submit());" id="filter">Filter Scrobbles</a>
-        </form>
-        <div id="legend_wrap">
-          <h2>Legend:</h2>
+        <h1>Scatter.fm</h1>
+        <div id="user"></div>
+        <div id="legend_wrap" style="display:none;">
+          <h2>Artist Legend:</h2>
           <ul id="legend"></ul>
         </div>
+        <form id="searchForm" style="display:none;">
+          <input id="search" name="search"></input>
+          <br>
+          <a href="javascript:void($('#searchForm').submit());" id="filter">Search</a>
+        </form>
         <div id="bottom">
           <div id="fetchThrobber" style="display:none;" class="throbber">
             Fetching... <span id="fetchStatus"></span><img src="throbber.gif">
@@ -120,8 +124,9 @@
             Drawing <span id="drawStatus"></span>... <img src="throbber.gif">
           </div>
           <div>
+            Data nicked from 
             <a href="http://www.last.fm" id="lastfm_link">
-              Data nicked from last.fm
+              last.fm
             </a>
           </div>
         </div>

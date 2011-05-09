@@ -69,43 +69,49 @@ expensiveDrawingComputation = () ->
     minTime = _(scrobbles).min((scrobble) -> scrobble.date).date
     maxTime = _(scrobbles).max((scrobble) -> scrobble.date).date
 
-    window.plot = $.plot($("#placeholder"), series, {
-        xaxis: {
-            min: minTime
-            max: maxTime
-            mode: "time"
-            timeformat: "%d %b %y"
-            tickLength: 0
-            zoomRange: [ONE_DAY, maxTime - minTime]
-            panRange: [minTime, maxTime]
-        }
-        yaxis: {
-            transform: (v) -> -v # flip y axis
-            inverseTransform: (v) -> -v
-            min: 0
-            max: 24
-            tickLength: 0
-            ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24 ]
-            tickFormatter: (val, axis) ->
-                if val == 0 then "12am"
-                else if val < 12 then "#{val}am"
-                else if val == 12 then "12pm"
-                else "#{val - 12}pm"
-            zoomRange: false
-            panRange: false
-        }
-        points: { radius: 1, show: true }
-        grid: {
-            hoverable: true
-            autoHighlight: false
-        }
-        zoom: { interactive: true }
-        pan: { interactive: true }
-    })
+    try
+        window.plot = $.plot($("#placeholder"), series, {
+            xaxis: {
+                min: minTime
+                max: maxTime
+                mode: "time"
+                timeformat: "%d %b %y"
+                tickLength: 0
+                zoomRange: [ONE_DAY, maxTime - minTime]
+                panRange: [minTime, maxTime]
+            }
+            yaxis: {
+                transform: (v) -> -v # flip y axis
+                inverseTransform: (v) -> -v
+                min: 0
+                max: 24
+                tickLength: 0
+                ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24 ]
+                tickFormatter: (val, axis) ->
+                    if val == 0 then "12am"
+                    else if val < 12 then "#{val}am"
+                    else if val == 12 then "12pm"
+                    else "#{val - 12}pm"
+                zoomRange: false
+                panRange: false
+            }
+            points: { radius: 1, show: true }
+            grid: {
+                hoverable: true
+                autoHighlight: false
+            }
+            zoom: { interactive: true }
+            pan: { interactive: true }
+        })
+    catch error
+        console.log error
     $("#legend li").remove()
 
     for artist, color of artist_colors when color != "gray"
         circle = " \u25CF "
-        $("<li></li>").text(circle + artist).css("color", color).appendTo("#legend")
+        $("<li></li>").text(artist+circle).css("color", color).appendTo("#legend")
 
+    $("<li></li>").text("[Other]"+circle).css("color", "gray").appendTo("#legend")
+    $("#legend_wrap").show()
+    $("#searchForm").show()
     $("#drawingThrobber").hide()
