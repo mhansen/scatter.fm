@@ -31,32 +31,48 @@ $("#placeholder").mouseout (e) ->
   if flashingTimer? then clearInterval flashingTimer
 
 showTooltip = (x, y, scrobble) ->
-  tipHeight = 66
-  xOffset = 5
-  yOffset = 5
+  tooltipHeight = 140
   scrollTop = window.pageYOffset
   docWidth = window.innerWidth
   docHeight = window.innerHeight - 8
 
-  top = if y + tipHeight - scrollTop < docHeight
-  then y
-  else y - tipHeight - yOffset
-
-  css = top: top, right: docWidth - x + xOffset
+  # A fugdge factor to position the tooltip just right
+  xFudgeFactor = 10 #px
+  
+  top = y - tooltipHeight/2
+  css =
+    top: top
+    right: docWidth - x - xFudgeFactor
 
   dateString = scrobble.date.toString("HH:mm, ddd dd MMM yyyy")
-  $("<div id='tooltip'>").
-  append($("<div id='text'>").
-    append($("<div id='name'>").text scrobble.track).
-    append($("<div id='artist'>").text scrobble.artist).
-    append($("<div id='album'>").text scrobble.album).
-    append($("<div id='date'>").text dateString)
-  ).css(css).appendTo("body").fadeIn(200)
+  template = """
+  <div id='tooltip' class='popover left'>
+    <div class='arrow'></div>
+    <div class='inner'>
+      <h4 class='title'>{{name}}</h4>
+      <div class='content'>
+        <div id='artist'>{{artist}}</div>
+        <div id='album'><i>{{album}}</i></div>
+        <div id='date'>{{date}}</div>
+      </div>
+    </div>
+  </div>
+  """
+
+  tooltip_html = Mustache.to_html template,
+    name: scrobble.track
+    artist: scrobble.artist
+    album: scrobble.album
+    date: dateString
+
+  a = $(tooltip_html).css(css)
+  a.appendTo("body").fadeIn(200)
+  console.log(a.height())
 
   if scrobble.image
-    img = new Image()
+    img = new Image
     img.src = scrobble.image
-    $(img).prependTo "#tooltip"
+    $(img).prependTo "#tooltip .content"
 
 $("#searchForm").submit (e) ->
   e.preventDefault()

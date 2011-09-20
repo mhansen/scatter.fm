@@ -13,8 +13,8 @@
           %ul.nav
             %li
               %a(href="#") Home
-          %form#searchForm.pull-right(style="display:none;" placeholder="Search")
-            %input#search(name="search")
+          %form#searchForm.pull-right(style="display:none;")
+            %input#search.span3(name="search" placeholder="Search Inside Scrobbles")
             %a#filter(href="javascript:void($('#searchForm').submit());")
               Search
     .container-fluid
@@ -37,11 +37,11 @@
           %div
             Data nicked from
             %a#lastfm_link(href="http://www.last.fm") last.fm
-      .content
-        #placeholder
-          placeholder
+    #placeholder
+      placeholder text
 
     %script(src="lib/less-1.1.3.min.js")
+    %script(src="lib/mustache.js")
     %script(src="lib/jquery.min.js")
     %script(src="lib/flot/jquery.flot.js")
     %script(src="lib/flot/jquery.flot.navigate.js")

@@ -1,45 +1,37 @@
-/*html {*/
-    /*overflow-y: hidden;*/
-/*}*/
-/* from: http://www.alistapart.com/articles/holygrail */
 body {
-    min-width: 440px; /* 2x size of left panel */
     padding-top: 60px;
 }
 #placeholder {
-    height: 500px;
-    width: 95%;
+    position:absolute;
+    top:80px;
+    right:10px;
+    left:250px;
+    bottom: 10px;
 }
-body, html {
-    height: 100%;
-}
-#tooltip {
-    font-size: 11px;
-    font-family: sans-serif;
-    position: absolute;
+#tooltip.popover {
     display: none;
-    border: 1px solid #ddf;
-    padding 2px;
+    /* it's nice to be able to see flashing instances of the same
+     * song, even if they're occluded by the tooltip, so make the
+     * tooltip a little transparent */
     opacity: 0.8;
-    background-color: #eef;
-    padding: 5px;
+    /* override the bootstrap defaults - they make the tooltip
+     * hug the left side of the screen */
+    left: auto;
 }
 #tooltip #text {
     float:right;
     padding: 4px;
 }
-#artist {
-    font-weight: bold;
-}
-#date {
-    font-weight: bold;
-}
 #tooltip img {
     float:left;
 }
-li {
-    list-style-type: none;
-}
-.throbber {
-    margin-bottom: 0.3em;
+#tooltip.popover .arrow {
+/* it's useful to be able to reason about exactly how
+ * many pixels down the arrow will be, so we can
+ * point it exactly at the scrobble.
+ *
+ * so, override the bootstrap defaults from 'halfway
+ * down the box' to a fixed number of pixels down
+ * that's approx halfway.*/
+    top: 70px; 
 }
