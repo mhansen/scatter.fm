@@ -12,7 +12,7 @@
           %a.brand(href="#") Scatter.FM
           %ul.nav
             %li
-              %a(href="#") Home
+              %a(href="#") About
           %form#searchForm.pull-right(style="display:none;")
             %input#search.span3(name="search" placeholder="Search Inside Scrobbles")
             %a#filter(href="javascript:void($('#searchForm').submit());")
@@ -38,7 +38,34 @@
             Data nicked from
             %a#lastfm_link(href="http://www.last.fm") last.fm
     #placeholder
-      placeholder text
+      .hero-unit
+        :markdown
+          # Visualise your scrobbles
+
+          See your entire listening history... in one graph.
+
+        :markdown
+          Life changes often precipitate changes in listening habits - our
+          scrobbling history can give insight into our life history.
+
+          Is your story reflected in your scrobbles?
+        %form
+          %input#user(name="user" placeholder="Last.FM Username")
+          %input.btn.primary(type="submit" value="Visualise my scrobbles!")
+
+      .span5
+        :markdown
+          ## When did I listen to...
+          - **Sgt. Pepper's Lonely Hearts Club Band** for the first time?
+          - **Party Rock Anthem** on repeat for three hours straight?
+          - My favorite artists for the first time?
+      .span5
+        :markdown
+          ## What did I scrobble...
+          - two years ago?
+          - at Tyler's party?
+          - at work?
+          - out at the beach this summer?
 
     %script(src="lib/less-1.1.3.min.js")
     %script(src="lib/mustache.js")

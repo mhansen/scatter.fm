@@ -3,9 +3,9 @@ body {
 }
 #placeholder {
     position:absolute;
-    top:80px;
-    right:10px;
-    left:250px;
+    top:60px;
+    right:20px;
+    left:260px;
     bottom: 10px;
 }
 #tooltip.popover {
