@@ -1,62 +1,18 @@
-li {
-    padding-bottom: 0.3em;
-}
-h1 {
-    font-family: serif;
-    font-size: 2em;
-    margin-top: 1em;
-    margin-bottom: 2em;
-    font-weight: bold;
-}
-h2 {
-    margin-top: 2em;
-    margin-bottom: 0.4em;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-html {
-    overflow-y: hidden;
-}
+/*html {*/
+    /*overflow-y: hidden;*/
+/*}*/
 /* from: http://www.alistapart.com/articles/holygrail */
 body {
     min-width: 440px; /* 2x size of left panel */
-}
-#container {
-    height: 100%;
-    padding-left: 220px; /* Left width */
-}
-#container .column {
-    float:left;
-    position: relative;
-}
-#main_panel {
-    width: 100%;
-    height: 100%;
+    padding-top: 60px;
 }
 #placeholder {
-    height: 95%;
+    height: 500px;
     width: 95%;
-}
-#sidebar {
-    width: 200px;
-    height: 100%;
-    margin-left: -100%;
-    padding-right: 20px;
-    right: 220px;
-    text-align: right;
-    background-color: #f8f8ff;
-    border-right: 1px solid #eef;
-    position: relative;
-}
-#searchForm {
-    margin-top: 1em;
 }
 body, html {
     height: 100%;
-    margin: 0;
-    padding: 0;
 }
-
 #tooltip {
     font-size: 11px;
     font-family: sans-serif;
@@ -83,11 +39,6 @@ body, html {
 }
 li {
     list-style-type: none;
-}
-#bottom {
-    position: absolute;
-    bottom: 1em;
-    right: 20px;
 }
 .throbber {
     margin-bottom: 0.3em;

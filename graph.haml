@@ -1,54 +1,60 @@
 <!doctype html>
 %html
   %head
-    %meta{:charset => "utf-8"}
-    %title Scatter.fm | Last.FM Visualisation
-    %link{:href => "lib/bootstrap/bootstrap.css", :rel => "stylesheet"}
-    %link{:href => "style.css", :rel => "stylesheet"}
+    %meta(charset="utf-8")
+    %title Scatter.FM | Last.FM Visualisation
+    %link(href="lib/bootstrap/bootstrap.css" rel="stylesheet")
+    %link(href="style.css" rel="stylesheet")
   %body
-    #container
-      #main_panel.column
-        #placeholder
-      #sidebar.column
-        %h1
-          %a{:href => "index.html"}
-            %img{:alt => "Scatter.fm", :src => "web20logo.png"}/
-        #user
-        #get_yours
-          %a{:href => "index.html"} View another user
-        #legend_wrap{:style => "display:none;"}
-          %h2 Artist Legend:
-          %ul#legend
-        %form#searchForm{:style => "display:none;"}
-          %input#search{:name => "search"}
-          %br
-          %a#filter{:href => "javascript:void($('#searchForm').submit());"}
-            Search
-        #bottom
-          #fetchThrobber.throbber{:style => "display:none;"}
+    .topbar
+      .topbar-inner
+        .container-fluid
+          %a.brand(href="#") Scatter.FM
+          %ul.nav
+            %li
+              %a(href="#") Home
+          %form#searchForm.pull-right(style="display:none;" placeholder="Search")
+            %input#search(name="search")
+            %a#filter(href="javascript:void($('#searchForm').submit());")
+              Search
+    .container-fluid
+      .sidebar
+        .well
+          #user
+          #get_yours
+            %a(href="index.html") View another user
+          #legend_wrap(style="display:none;")
+            %h2 Artist Legend:
+            %ul#legend
+          #fetchThrobber.throbber(style="display:none;")
             Fetching...
             %span#fetchStatus
-            %img{:src => "throbber.gif"}
-          #drawingThrobber.throbber{:style => "display:none;"}
+            %img(src="throbber.gif")
+          #drawingThrobber.throbber(style="display:none;")
             :plain
               Drawing <span id="drawStatus"></span>... 
               <img src="throbber.gif">
           %div
             Data nicked from
-            %a#lastfm_link{:href => "http://www.last.fm"} last.fm
-    %script{:src => "flot/jquery.js"}
-    %script{:src => "flot/jquery.flot.js"}
-    %script{:src => "flot/jquery.flot.navigate.js"}
-    %script{:src => "flot/jquery.flot.resize.js"}
-    %script{:src => "jquery.url.js"}
-    %script{:src => "date.js"}
-    %script{:src => "underscore.js"}
-    %script{:src => "fetch_from_lastfm.js"}
-    %script{:src => "drawscrobbles.js"}
-    %script{:src => "index.js"}
-    %script{:src => "http://static.getclicky.com/js"}
+            %a#lastfm_link(href="http://www.last.fm") last.fm
+      .content
+        #placeholder
+          placeholder
+
+    %script(src="lib/less-1.1.3.min.js")
+    %script(src="lib/jquery.min.js")
+    %script(src="lib/flot/jquery.flot.js")
+    %script(src="lib/flot/jquery.flot.navigate.js")
+    %script(src="lib/flot/jquery.flot.resize.js")
+    %script(src="lib/jquery.url.js")
+    %script(src="lib/date.js")
+    %script(src="lib/underscore.js")
+    %script(src="fetch_from_lastfm.js")
+    %script(src="drawscrobbles.js")
+    %script(src="index.js")
+    %script(src="http://static.getclicky.com/js")
     :javascript
       clicky.init(236155);
     %noscript
       %p
-        %img{:alt => "Clicky", :height => "1", :src => "http://in.getclicky.com/236155ns.gif", :width => "1"}
+        %img(alt="Clicky" height="1" src="http://in.getclicky.com/236155ns.gif" width="1")
