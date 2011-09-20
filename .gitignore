@@ -1,4 +1,4 @@
 drawscrobbles.js
 index.js
-fetch_from_lastfm.js
+lastfm_scrobble_fetcher.js
 graph.html
