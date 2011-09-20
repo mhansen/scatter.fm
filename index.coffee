@@ -31,19 +31,6 @@ $("#placeholder").mouseout (e) ->
   if flashingTimer? then clearInterval flashingTimer
 
 showTooltip = (x, y, scrobble) ->
-  tooltipHeight = 140
-  scrollTop = window.pageYOffset
-  docWidth = window.innerWidth
-  docHeight = window.innerHeight - 8
-
-  # A fugdge factor to position the tooltip just right
-  xFudgeFactor = 10 #px
-  
-  top = y - tooltipHeight/2
-  css =
-    top: top
-    right: docWidth - x - xFudgeFactor
-
   dateString = scrobble.date.toString("HH:mm, ddd dd MMM yyyy")
   template = """
   <div id='tooltip' class='popover left'>
@@ -65,9 +52,15 @@ showTooltip = (x, y, scrobble) ->
     album: scrobble.album
     date: dateString
 
-  a = $(tooltip_html).css(css)
-  a.appendTo("body").fadeIn(200)
-  console.log(a.height())
+  # A fudge factor to position the tooltip just right
+  xFudgeFactor = 10 #px
+  arrowYOffset= 70 #px, from style.css
+  
+  css =
+    top: y - arrowYOffset
+    right: window.innerWidth - x - xFudgeFactor
+
+  $(tooltip_html).css(css).appendTo("body").fadeIn(200)
 
   if scrobble.image
     img = new Image

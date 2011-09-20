@@ -18,12 +18,12 @@ body {
      * hug the left side of the screen */
     left: auto;
 }
-#tooltip #text {
-    float:right;
-    padding: 4px;
-}
 #tooltip img {
     float:left;
+}
+#tooltip.popover .content {
+    /* clearfix for the floated albumart image*/
+    overflow: auto;
 }
 #tooltip.popover .arrow {
 /* it's useful to be able to reason about exactly how
