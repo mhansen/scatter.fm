@@ -44,15 +44,13 @@
 
           See your entire listening history... in one graph.
 
-        :markdown
           Life changes often precipitate changes in listening habits - our
           scrobbling history can give insight into our life history.
 
           Is your story reflected in your scrobbles?
-        %form
-          %input#user(name="user" placeholder="Last.FM Username")
+        %form#userForm
+          %input#userInput(name="user" placeholder="Last.FM Username")
           %input.btn.primary(type="submit" value="Visualise my scrobbles!")
-
       .span5
         :markdown
           ## When did I listen to...
@@ -77,6 +75,9 @@
     %script(src="lib/date.js")
     %script(src="lib/underscore.js")
     %script(src="lib/backbone-min.js")
+    %script(src="views.js")
+    %script(src="placeholder_view.js")
+    %script(src="models.js")
     %script(src="lastfm_scrobble_fetcher.js")
     %script(src="drawscrobbles.js")
     %script(src="index.js")
