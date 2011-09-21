@@ -14,9 +14,9 @@
             %li
               %a(href="#") About
           %form#searchForm.pull-right(style="display:none;")
-            %input#search.span3(name="search" placeholder="Search Inside Scrobbles")
+            %input#search.span3(name="search" placeholder="Filter Scrobbles")
             %a#filter(href="javascript:void($('#searchForm').submit());")
-              Search
+              Filter
     .container-fluid
       .sidebar
         .well
@@ -75,8 +75,8 @@
     %script(src="lib/flot/jquery.flot.resize.js")
     %script(src="lib/jquery.url.js")
     %script(src="lib/date.js")
-    %script(src="lib/backbone.js")
     %script(src="lib/underscore.js")
+    %script(src="lib/backbone-min.js")
     %script(src="lastfm_scrobble_fetcher.js")
     %script(src="drawscrobbles.js")
     %script(src="index.js")

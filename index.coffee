@@ -69,12 +69,15 @@ showTooltip = (x, y, scrobble) ->
 
 $("#searchForm").submit (e) ->
   e.preventDefault()
-  return if not window.scrobbles
-  window.location.hash = "#" + $("#search").val()
-  resetAndRedrawScrobbles window.scrobbles
+  return if not window.current_lastfm_user
+  path = "/user/" + window.current_lastfm_user + "/filter/" + $("#search").val()
+  myRouter.navigate path, triggerRoute: true
 
-user = $.url.param "user"
-if user
+window.current_lastfm_user = undefined
+graph_a_user = (user) ->
+  return if user == window.current_lastfm_user
+  window.current_lastfm_user = user
+
   $("#user").text(user)
   $("#lastfm_link").attr "href", "http://www.last.fm/user/" + user
   responses_received = 0
@@ -84,6 +87,7 @@ if user
     onprogress: (e) ->
       responses_received++
       if responses_received == redraw_on_response_number
+        # redrawing is slow as hell, don't do it often
         redraw_on_response_number *= 2
         resetAndRedrawScrobbles e.scrobbles
       $("#fetchStatus").text e.thisPage - 2 + " to go."
@@ -95,8 +99,17 @@ if user
       alert "Last.FM Error: " + message
   $("#fetchThrobber").show()
 
-if window.location.hash
-  $("#search").val(window.location.hash.substring 1)
+AppRouter = Backbone.Router.extend
+  routes:
+    "/user/:user": "load_user"
+    "/user/:user/": "load_user"
+    "/user/:user/filter/:searchterm": "load_and_search"
+  load_user: (user) ->
+    graph_a_user user
+  load_and_search: (user, search) ->
+    graph_a_user(user)
+    $("#search").val(search)
+    resetAndRedrawScrobbles window.scrobbles
 
-$(window).bind "hashchange", () ->
-  $("#search").val(window.location.hash.substring 1)
+myRouter = new AppRouter
+Backbone.history.start()
