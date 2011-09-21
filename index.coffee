@@ -8,34 +8,33 @@ window.graph_a_user = (user) ->
   $("#lastfm_link").attr "href", "http://www.last.fm/user/" + user
   responses_received = 0
   redraw_on_response_number = 1
-  fetch_scrobbles
-    user: user
-    onprogress: (e) ->
-      responses_received++
-      if responses_received == redraw_on_response_number
-        # redrawing is slow as hell, don't do it often
-        redraw_on_response_number *= 2
-        resetAndRedrawScrobbles e.scrobbles
-      $("#fetchStatus").text e.thisPage - 2 + " to go."
-    onfinished: (scrobbles) ->
-      $("#fetchThrobber").hide()
-      resetAndRedrawScrobbles scrobbles  # force redraw
-    onerror: (errCode, message) ->
-      $("#fetchThrobber").hide()
-      alert "Last.FM Error: " + message
-  $("#fetchThrobber").show()
+  fetch_scrobbles user
+
+  fetchModel.bind "progress", (e) ->
+    responses_received++
+    if responses_received == redraw_on_response_number
+      # redrawing is slow as hell, don't do it often
+      redraw_on_response_number *= 2
+      resetAndRedrawScrobbles()
+    $("#fetchStatus").text e.thisPage - 2 + " to go."
+
+  fetchModel.bind "change:isFetching", (model, wasFetching) ->
+    if wasFetching and not model.get("isFetching")
+      resetAndRedrawScrobbles() # force redraw
+
+  fetchModel.bind "error", (message) ->
+    alert "Last.FM Error: " + message
+
+  fetchModel.set fetching: true
 
 AppRouter = Backbone.Router.extend
   routes:
     "/user/:user": "load_user"
     "/user/:user/": "load_user"
     "/user/:user/filter/:searchterm": "load_and_search"
-  load_user: (user) ->
-    appModel.set user: user
-    appModel.set filterTerm: ""
+  load_user: (user) -> appModel.set user: user
   load_and_search: (user, filterTerm) ->
-    appModel.set user: user
-    appModel.set filterTerm: filterTerm
+    appModel.set user: user, filterTerm: filterTerm
 window.router = new AppRouter
 
 Backbone.history.start()

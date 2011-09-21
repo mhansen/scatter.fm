@@ -1,10 +1,12 @@
+# these are colors that are pretty easy to tell apart in the graph.
+# we don't want colors that are hard to distinguish, like purple vs violet
 COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta" ]
 scrobbles = null
 
-window.resetAndRedrawScrobbles = (s) ->
-  scrobbles = s
+window.resetAndRedrawScrobbles = ->
+  scrobbles = scrobbleCollection
   $("#drawingThrobber").show()
-  $("#drawStatus").text "#{s.length} points"
+  $("#drawStatus").text "#{scrobbleCollection.size()} points"
   # the plotting locks up the DOM, so give it a chance to update
   # with a status message before launching the expensive plotting
   _.defer expensiveDrawingComputation
@@ -12,8 +14,8 @@ window.resetAndRedrawScrobbles = (s) ->
 expensiveDrawingComputation = ->
   compute_artist_colors = (scrobbles) ->
     artist_scrobbles_hash = {}
-    for scrobble in scrobbles
-      artist = scrobble.artist
+    scrobbles.forEach (scrobble) ->
+      artist = scrobble.artist()
       if artist_scrobbles_hash[artist]
         artist_scrobbles_hash[artist].push scrobble
       else artist_scrobbles_hash[artist] = [ scrobble ]
@@ -23,7 +25,7 @@ expensiveDrawingComputation = ->
       sort (a,b) -> b.length - a.length
 
     artists = for artist_scrobbles in artist_scrobbles_array
-      artist_scrobbles[0].artist
+      artist_scrobbles[0].artist()
     artist_colors = {}
     for own i, artist of artists
       artist_colors[artist] = COLORS[i] or "gray"
@@ -37,8 +39,8 @@ expensiveDrawingComputation = ->
     window.alert "Invalid regular expression: " + error
     re = //
 
-  filtered_scrobbles = _.filter scrobbles, (scrobble) ->
-    re.exec(scrobble.track) or re.exec(scrobble.artist) or re.exec(scrobble.album)
+  filtered_scrobbles = scrobbleCollection.filter (scrobble) ->
+    re.exec(scrobble.track()) or re.exec(scrobble.artist()) or re.exec(scrobble.album())
 
   window.track_indices = {
     # Here's an example:
@@ -51,21 +53,21 @@ expensiveDrawingComputation = ->
   series = []
 
   for scrobble in filtered_scrobbles
-    date = scrobble.date.getTime()
-    time = scrobble.date.getHours() + (scrobble.date.getMinutes() / 60)
+    date = scrobble.date().getTime()
+    time = scrobble.date().getHours() + (scrobble.date().getMinutes() / 60)
     series.push
-      color: artist_colors[scrobble.artist]
+      color: artist_colors[scrobble.artist()]
       data: [[date, time]]
       scrobble: scrobble
-    if not track_indices[scrobble.artist + "#" + scrobble.track]?
-      track_indices[scrobble.artist + "#" + scrobble.track] = []
-    track_indices[scrobble.artist + "#" + scrobble.track].push
+    if not track_indices[scrobble.artist() + "#" + scrobble.track()]?
+      track_indices[scrobble.artist() + "#" + scrobble.track()] = []
+    track_indices[scrobble.artist() + "#" + scrobble.track()].push
       series_index: series.length - 1
       datapoint_index: 0
 
   ONE_DAY = 1000*60*60*24
-  minTime = _(scrobbles).min((scrobble) -> scrobble.date).date
-  maxTime = _(scrobbles).max((scrobble) -> scrobble.date).date
+  minTime = scrobbleCollection.min((scrobble) -> scrobble.date()).date()
+  maxTime = scrobbleCollection.max((scrobble) -> scrobble.date()).date()
 
   try
     window.plot = $.plot($("#placeholder"), series, {
