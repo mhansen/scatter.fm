@@ -18,7 +18,7 @@
             %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
               Filter
     .container-fluid
-      .sidebar
+      .sidebar#sidebar
         .well
           #user
           #get_yours
@@ -75,12 +75,13 @@
     %script(src="lib/date.js")
     %script(src="lib/underscore.js")
     %script(src="lib/backbone.js")
-    %script(src="FetchModel.js")
-    %script(src="ScrobbleCollection.js")
-    %script(src="AppModel.js")
-    %script(src="ToolTipView.js")
-    %script(src="FetchThrobberView.js")
-    %script(src="FlashingScrobbleView.js")
+    %script(src="models/FetchModel.js")
+    %script(src="models/ScrobbleCollection.js")
+    %script(src="models/AppModel.js")
+    %script(src="views/ToolTipView.js")
+    %script(src="views/FetchThrobberView.js")
+    %script(src="views/FlashingScrobbleView.js")
+    %script(src="views/SidebarView.js")
     %script(src="lastfm_scrobble_fetcher.js")
     %script(src="drawscrobbles.js")
     %script(src="index.js")

@@ -4,8 +4,6 @@ window.graph_a_user = (user) ->
   return if user == current_lastfm_user
   current_lastfm_user = user
 
-  $("#user").text(user)
-  $("#lastfm_link").attr "href", "http://www.last.fm/user/" + user
   responses_received = 0
   redraw_on_response_number = 1
   fetch_scrobbles user
@@ -22,8 +20,7 @@ window.graph_a_user = (user) ->
     if wasFetching and not model.get("isFetching")
       resetAndRedrawScrobbles() # force redraw
 
-  fetchModel.bind "error", (message) ->
-    alert "Last.FM Error: " + message
+  fetchModel.bind "error", (message) -> alert "Last.FM Error: #{message}"
 
   fetchModel.set isFetching: true
 
