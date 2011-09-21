@@ -25,7 +25,7 @@ window.graph_a_user = (user) ->
   fetchModel.bind "error", (message) ->
     alert "Last.FM Error: " + message
 
-  fetchModel.set fetching: true
+  fetchModel.set isFetching: true
 
 AppRouter = Backbone.Router.extend
   routes:

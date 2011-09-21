@@ -3,24 +3,24 @@ ToolTipView = Backbone.View.extend
   className: "popover left"
   id: "tooltip"
   render: (x, y, scrobble) ->
-    dateString = scrobble.date().toString("HH:mm, ddd dd MMM yyyy")
     template = """
     <div class='arrow'></div>
     <div class='inner'>
       <h4 class='title'>{{name}}</h4>
       <div class='content'>
+        {{#image}}<img src='{{image}}'>{{/image}}
         <div id='artist'>{{artist}}</div>
         <div id='album'><i>{{album}}</i></div>
         <div id='date'>{{date}}</div>
       </div>
-    </div>
-    """
+    </div>"""
 
     tooltip_html = Mustache.to_html template,
       name: scrobble.track()
       artist: scrobble.artist()
       album: scrobble.album()
-      date: dateString
+      date: scrobble.date().toString("HH:mm, ddd dd MMM yyyy")
+      image: scrobble.image()
 
     # A fudge factor to position the tooltip just right
     xFudgeFactor = 10 #px
@@ -31,11 +31,6 @@ ToolTipView = Backbone.View.extend
       right: window.innerWidth - x - xFudgeFactor
 
     $(@el).html(tooltip_html).css(css).appendTo("body").fadeIn(200)
-
-    if scrobble.image()
-      img = new Image
-      img.src = scrobble.image()
-      $(img).prependTo "#tooltip .content"
 
 window.toolTipView = new ToolTipView
 

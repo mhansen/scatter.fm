@@ -1,20 +1,18 @@
 # these are colors that are pretty easy to tell apart in the graph.
 # we don't want colors that are hard to distinguish, like purple vs violet
 COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta" ]
-scrobbles = null
 
 window.resetAndRedrawScrobbles = ->
-  scrobbles = scrobbleCollection
   $("#drawingThrobber").show()
   $("#drawStatus").text "#{scrobbleCollection.size()} points"
-  # the plotting locks up the DOM, so give it a chance to update
-  # with a status message before launching the expensive plotting
+  # The plotting locks up the DOM, so give it a chance to update
+  # with a status message before launching the expensive plotting.
   _.defer expensiveDrawingComputation
 
 expensiveDrawingComputation = ->
-  compute_artist_colors = (scrobbles) ->
+  compute_artist_colors = ->
     artist_scrobbles_hash = {}
-    scrobbles.forEach (scrobble) ->
+    scrobbleCollection.forEach (scrobble) ->
       artist = scrobble.artist()
       if artist_scrobbles_hash[artist]
         artist_scrobbles_hash[artist].push scrobble
@@ -31,13 +29,9 @@ expensiveDrawingComputation = ->
       artist_colors[artist] = COLORS[i] or "gray"
     artist_colors
 
-  artist_colors = compute_artist_colors scrobbles
+  artist_colors = compute_artist_colors()
 
-  try
-    re = new RegExp $("#search").val(), "i"
-  catch error
-    window.alert "Invalid regular expression: " + error
-    re = //
+  re = appModel.filterRegex()
 
   filtered_scrobbles = scrobbleCollection.filter (scrobble) ->
     re.exec(scrobble.track()) or re.exec(scrobble.artist()) or re.exec(scrobble.album())
