@@ -1,7 +1,7 @@
 # Global state that I couldn't find a more specific place for
 # It's all used to form the path of the URL.
 AppModel = Backbone.Model.extend
-  user: -> @get("user")
+  user: -> @get "user"
   initialize: ->
     @set filterTerm: ""
   filterRegex: -> new RegExp @get("filterTerm"), "i"
@@ -10,7 +10,7 @@ AppModel = Backbone.Model.extend
       new RegExp attrs.filterTerm, "i"
       return null
     catch error
-      "Whoops! That's not a regular expression: " + error
+      return "Whoops! That's not a regular expression: " + error
 
 window.appModel = new AppModel
 
@@ -28,7 +28,5 @@ $("#searchForm").submit (e) ->
   e.preventDefault()
   appModel.set filterTerm: $("#search").val()
 
-appModel.bind "error", (model, error) -> window.alert error
-
 appModel.bind "change:user", ->
-  fetch_scrobbles appModel.user()
+  fetchModel.fetch_scrobbles appModel.user()

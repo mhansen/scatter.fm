@@ -1,7 +1,7 @@
 LegendView = Backbone.View.extend
   el: "#legend_wrap"
   render: ->
-    $("#legend li").remove()
+    this.$("li").remove()
     artistColors = legendModel.get("artistColors")
     for artist, color of artistColors when color != "gray"
       circle = " \u25CF "

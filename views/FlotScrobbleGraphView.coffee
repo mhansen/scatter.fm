@@ -7,22 +7,12 @@ FlotScrobbleGraphViewModel = Backbone.Model.extend
   isDrawing: false
   isDrawn: false
 
-viewmodel = new FlotScrobbleGraphViewModel
-
-viewmodel.bind "change:isDrawing", (model, isDrawing) ->
-  if isDrawing
-    $("#drawingThrobber").show()
-    $("#drawStatus").text "#{scrobbleCollection.size()} points"
-  else
-    $("#drawingThrobber").hide()
-
-viewmodel.bind "change:isDrawn", (model, isDrawn) ->
-  $("#searchForm").show() if isDrawn
+window.graphViewModel = new FlotScrobbleGraphViewModel
 
 FlotScrobbleGraphView = Backbone.View.extend
   render: ->
     return if scrobbleCollection.size() == 0
-    viewmodel.set isDrawing: true
+    graphViewModel.set isDrawing: true
   
     # The plotting locks up the DOM, so give it a chance to update
     # with a status message before launching the expensive plotting.
@@ -39,8 +29,7 @@ FlotScrobbleGraphView = Backbone.View.extend
       maxTime = scrobbleCollection.max((scrobble) -> scrobble.date()).date()
 
       plot_flot_series flot_series, minTime, maxTime
-      viewmodel.set isDrawn: true, isDrawing: false
-
+      graphViewModel.set isDrawn: true, isDrawing: false
 
 compute_artist_colors = ->
   artist_scrobbles_hash = {}
