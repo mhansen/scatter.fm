@@ -1,37 +1,22 @@
-current_lastfm_user = undefined
-window.graph_a_user = (user) ->
-  # don't refetch data for the same user
-  return if user == current_lastfm_user
-  current_lastfm_user = user
+appModel.bind "change:user", ->
+  user = appModel.user()
 
-  responses_received = 0
   redraw_on_response_number = 1
   fetch_scrobbles user
 
-  fetchModel.bind "progress", (e) ->
-    responses_received++
-    if responses_received == redraw_on_response_number
-      # redrawing is slow as hell, don't do it often
+  fetchModel.bind "change:numPagesFetched", ->
+    if fetchModel.get("numPagesFetched") == redraw_on_response_number
+      # Redrawing is slow as hell, and O(n2) if we draw it n times.
+      # So only draw it log2(n) times, for O(nlogn) load times.  Do
+      # this by only drawing on response 1, 2, 4, 8, 16... etc until
+      # the final response.
       redraw_on_response_number *= 2
       resetAndRedrawScrobbles()
-    $("#fetchStatus").text e.thisPage - 2 + " to go."
 
   fetchModel.bind "change:isFetching", (model, wasFetching) ->
     if wasFetching and not model.get("isFetching")
-      resetAndRedrawScrobbles() # force redraw
+      # force redraw on the last response
+      resetAndRedrawScrobbles()
 
-  fetchModel.bind "error", (message) -> alert "Last.FM Error: #{message}"
-
-  fetchModel.set isFetching: true
-
-AppRouter = Backbone.Router.extend
-  routes:
-    "/user/:user": "load_user"
-    "/user/:user/": "load_user"
-    "/user/:user/filter/:searchterm": "load_and_search"
-  load_user: (user) -> appModel.set user: user
-  load_and_search: (user, filterTerm) ->
-    appModel.set user: user, filterTerm: filterTerm
-window.router = new AppRouter
-
-Backbone.history.start()
+  fetchModel.bind "error", (message) ->
+    alert "Last.FM Error: #{message}"

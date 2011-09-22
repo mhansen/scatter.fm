@@ -1,14 +1,17 @@
 FetchThrobberView = Backbone.View.extend
   el: "#fetchThrobber"
-  render: -> $(@el).show()
-  remove: -> $(@el).hide()
+  render: ->
+    if fetchModel.get "isFetching"
+      status = "Fetching... #{fetchModel.get('numPagesFetched')} pages done."
+      this.$("#fetchStatus").text status
+      $(@el).show()
+    else
+      $(@el).hide()
+
 fetchThrobberView = new FetchThrobberView
 
-fetchModel.bind "error", (message) ->
-  fetchThrobberView.remove()
+fetchModel.bind "change:numPagesFetched", ->
+  fetchThrobberView.render()
 
 fetchModel.bind "change:isFetching", (model) ->
-  if model.get("isFetching")
-    fetchThrobberView.render()
-  else
-    fetchThrobberView.remove()
+  fetchThrobberView.render()

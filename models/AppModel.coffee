@@ -23,8 +23,6 @@ appModel.bind "change", (model) ->
 appModel.bind "change:filterTerm", (model, oldFilterTerm) ->
   resetAndRedrawScrobbles window.scrobbles
 
-appModel.bind "change:user", (model, oldUser) ->
-  window.graph_a_user model.user()
 
 $("#userForm").submit (e) ->
   e.preventDefault()

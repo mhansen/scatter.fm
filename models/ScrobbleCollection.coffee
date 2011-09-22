@@ -26,3 +26,6 @@ ScrobbleCollection = Backbone.Collection.extend
       @add my_scrobble, silent: true
 
 window.scrobbleCollection = new ScrobbleCollection
+
+appModel.bind "change:user", ->
+  scrobbleCollection = new ScrobbleCollection

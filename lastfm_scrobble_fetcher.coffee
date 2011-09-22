@@ -1,5 +1,6 @@
 window.fetch_scrobbles = (user) ->
   if not user then throw "Invalid Username"
+  fetchModel.set isFetching: true
 
   fetch_scrobble_page = (num, callback) ->
     $.ajax
@@ -19,16 +20,21 @@ window.fetch_scrobbles = (user) ->
   fetch_scrobble_page 1, (json) ->
     if json.error
       fetchModel.trigger "error", json.message
-      fetchModel.set isFetching: false
+      fetchModel.initialize # reset
       return
     if json.recenttracks.total == "0"
       fetchModel.trigger "error", "User has zero scrobbles."
-      fetchModel.set isFetching: false
+      fetchModel.initialize # reset
       return
 
     window.scrobbleCollection.add_from_lastfm_json json
     totalPages = parseInt json["recenttracks"]["@attr"]["totalPages"]
     pagesToFetch = [2..totalPages]
+
+    fetchModel.set
+      lastPageFetched: 1
+      totalPages: totalPages
+      numPagesFetched: 1
 
     queryFn = ->
       if pagesToFetch.length == 0
@@ -43,8 +49,8 @@ window.fetch_scrobbles = (user) ->
           fetchModel.trigger "done"
           fetchModel.set isFetching: false
         else
-          fetchModel.trigger "progress"
-            thisPage: page
-            totalPages: totalPages
+          fetchModel.set
+            lastPageFetched: page
+            numPagesFetched: fetchModel.get("numPagesFetched") + 1
     # limit our queries to one per second
     timer = setInterval queryFn, 1000
