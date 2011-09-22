@@ -20,10 +20,6 @@ appModel.bind "change", (model) ->
   if model.get("filterTerm") then path += "/filter/" + model.get("filterTerm")
   router.navigate path
 
-appModel.bind "change:filterTerm", (model, oldFilterTerm) ->
-  resetAndRedrawScrobbles window.scrobbles
-
-
 $("#userForm").submit (e) ->
   e.preventDefault()
   appModel.set user: $("#userInput").val()
@@ -33,3 +29,6 @@ $("#searchForm").submit (e) ->
   appModel.set filterTerm: $("#search").val()
 
 appModel.bind "error", (model, error) -> window.alert error
+
+appModel.bind "change:user", ->
+  fetch_scrobbles appModel.user()

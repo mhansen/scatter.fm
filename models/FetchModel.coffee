@@ -7,3 +7,6 @@ FetchModel = Backbone.Model.extend
       isFetching: false
 
 window.fetchModel = new FetchModel
+
+fetchModel.bind "error", (message) ->
+  alert "Last.FM Error: #{message}"

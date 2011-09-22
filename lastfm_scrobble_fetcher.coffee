@@ -42,15 +42,14 @@ window.fetch_scrobbles = (user) ->
         return
       page = pagesToFetch.pop()
 
+      isFinalRequest = pagesToFetch.length == 0
       fetch_scrobble_page page, (json) ->
         window.scrobbleCollection.add_from_lastfm_json json
+        fetchModel.set
+          lastPageFetched: page
+          numPagesFetched: fetchModel.get("numPagesFetched") + 1
         # toconsider: what if the final request is lost?
-        if pagesToFetch.length == 0
-          fetchModel.trigger "done"
+        if isFinalRequest
           fetchModel.set isFetching: false
-        else
-          fetchModel.set
-            lastPageFetched: page
-            numPagesFetched: fetchModel.get("numPagesFetched") + 1
     # limit our queries to one per second
     timer = setInterval queryFn, 1000
