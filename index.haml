@@ -12,7 +12,7 @@
           %a.brand(href="#") Scatter.FM
           %ul.nav
             %li
-              %a(href="#") About
+              %a About
           %form#searchForm.pull-right(style="display:none;")
             %input#search.span3(name="search" placeholder="Filter Scrobbles")
             %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
@@ -21,8 +21,6 @@
       .sidebar#sidebar
         .well
           #user
-          #get_yours
-            %a(href="index.html") View another user
           #legend_wrap(style="display:none;")
             %h2 Artist Legend:
             %ul#legend
@@ -34,22 +32,29 @@
               Drawing <span id="drawStatus"></span>... 
               <img src="throbber.gif">
           %div
-            Data nicked from
-            %a#lastfm_link(href="http://www.last.fm") last.fm
+            Data from the
+            %a#lastfm_link(href="http://www.last.fm/api") Last.fm API
     #placeholder
       .hero-unit
         :markdown
-          # Visualise your scrobbles
+          # The songs of life
+
+          We associate music with our memories. 
+          
+          Unlock old memories by recalling the music of your past.
 
           See your entire listening history... in one graph.
-
-          Life changes often precipitate changes in listening habits - our
-          scrobbling history can give insight into our life history.
-
-          Is your story reflected in your scrobbles?
         %form#userForm
           %input#userInput(name="user" placeholder="Last.FM Username")
           %input.btn.primary(type="submit" value="Visualise my scrobbles!")
+      .span5
+        :markdown
+          ## Your listening story
+          Life changes often precipitate changes in listening
+          habits - your listening history can give insight into
+          your life history.
+
+          Is your story reflected in your songs?
       .span5
         :markdown
           ## When did I listen to...
@@ -58,11 +63,11 @@
           - My favorite artists for the first time?
       .span5
         :markdown
-          ## What did I scrobble...
+          ## What did I listen to...
           - two years ago?
           - at Tyler's party?
-          - at work?
-          - out at the beach this summer?
+          - at work last summer?
+          - out at the beach at Christmas?
     %script(src="lib/mustache.js")
     %script(src="lib/jquery.min.js")
     %script(src="lib/flot/jquery.flot.js")
