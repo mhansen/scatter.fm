@@ -17,6 +17,7 @@ body {
     /* override the bootstrap defaults - they make the tooltip
      * hug the left side of the screen */
     left: auto;
+    z-index: 10001;
 }
 #tooltip img {
     float:left;

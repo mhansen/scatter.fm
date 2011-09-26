@@ -5,7 +5,7 @@ Scrobble = Backbone.Model.extend
   date: -> @get("date")
   image: -> @get("image")
 
-ScrobbleCollection = Backbone.Collection.extend
+window.ScrobbleCollection = Backbone.Collection.extend
   model: Scrobble
   add_from_lastfm_json: (json) ->
     for scrobble in json.recenttracks.track
@@ -24,8 +24,3 @@ ScrobbleCollection = Backbone.Collection.extend
       if scrobble['image'][1] && scrobble['image'][1]['#text']
         my_scrobble.image = scrobble['image'][1]['#text']
       @add my_scrobble, silent: true
-
-window.scrobbleCollection = new ScrobbleCollection
-
-appModel.bind "change:user", ->
-  scrobbleCollection = new ScrobbleCollection

@@ -2,7 +2,7 @@
 # we don't want colors that are hard to distinguish, like purple vs violet
 COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta" ]
 
-LegendModel = Backbone.Model.extend
+window.LegendModel = Backbone.Model.extend
   initialize: ->
     @set
       artistColors: {}
@@ -25,5 +25,3 @@ LegendModel = Backbone.Model.extend
     for own i, artist of artists
       artistColors[artist] = COLORS[i] or "gray"
     @set artistColors: artistColors
-
-window.legendModel = new LegendModel

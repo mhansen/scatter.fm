@@ -1,14 +1,12 @@
-DrawingThrobberView = Backbone.View.extend
+window.DrawingThrobberView = Backbone.View.extend
   render: ->
-    $("#drawingThrobber").show()
-    $("#drawStatus").text "#{scrobbleCollection.size()} scrobbles"
-  remove: ->
-    $("#drawingThrobber").hide()
+    if graphViewModel.get "isDrawing"
+      $("#drawingThrobber").show()
+      $("#drawStatus").text "#{scrobbleCollection.size()} scrobbles"
+    else
+      $("#drawingThrobber").hide()
 
 drawingThrobberView = new DrawingThrobberView
     
 graphViewModel.bind "change:isDrawing", (model, isDrawing) ->
-  if isDrawing
-    drawingThrobberView.render()
-  else
-    drawingThrobberView.remove()
+  drawingThrobberView.render()

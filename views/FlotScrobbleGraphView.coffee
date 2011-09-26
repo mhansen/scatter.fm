@@ -3,12 +3,6 @@
 COLORS = [ "red", "green", "blue", "purple",
            "brown", "orange", "cyan", "magenta" ]
 
-FlotScrobbleGraphViewModel = Backbone.Model.extend
-  isDrawing: false
-  isDrawn: false
-
-window.graphViewModel = new FlotScrobbleGraphViewModel
-
 FlotScrobbleGraphView = Backbone.View.extend
   render: ->
     return if scrobbleCollection.size() == 0
