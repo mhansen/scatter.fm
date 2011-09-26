@@ -1,7 +1,7 @@
 DrawingThrobberView = Backbone.View.extend
   render: ->
     $("#drawingThrobber").show()
-    $("#drawStatus").text "#{scrobbleCollection.size()} points"
+    $("#drawStatus").text "#{scrobbleCollection.size()} scrobbles"
   remove: ->
     $("#drawingThrobber").hide()
 

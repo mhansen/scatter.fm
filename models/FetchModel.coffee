@@ -27,11 +27,11 @@ FetchModel = Backbone.Model.extend
     fetch_scrobble_page 1, (json) =>
       if json.error
         @trigger "error", json.message
-        @initialize # reset
+        @initialize() # reset
         return
       if json.recenttracks.total == "0"
         @trigger "error", "User has zero scrobbles."
-        @initialize # reset
+        @initialize() # reset
         return
 
       window.scrobbleCollection.add_from_lastfm_json json

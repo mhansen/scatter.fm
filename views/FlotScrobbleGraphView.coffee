@@ -79,7 +79,7 @@ construct_flot_series = (scrobbles) ->
 plot_flot_series = (flot_series, minTime, maxTime) ->
   ONE_DAY_IN_MS = 1000*60*60*24
   try
-    window.plot = $.plot $("#placeholder"), flot_series,
+    window.plot = $.plot $("#flot_container"), flot_series,
       xaxis:
         min: minTime
         max: maxTime

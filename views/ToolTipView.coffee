@@ -36,7 +36,7 @@ window.toolTipView = new ToolTipView
 
 previousPointIndex = null
 
-$("#placeholder").bind "plothover", (event, pos, item) ->
+$("#flot_container").bind "plothover", (event, pos, item) ->
   if item # we're overing over a data point
     # Have we already drawn the tooltip?
     return if previousPointIndex == item.seriesIndex
@@ -45,7 +45,7 @@ $("#placeholder").bind "plothover", (event, pos, item) ->
   else # we're hovering over whitespace
     toolTipView.remove()
 
-$("#placeholder").mouseout ->
+$("#flot_container").mouseout ->
   previousPointIndex = null
   toolTipView.remove()
   if window.plot? then window.plot.unhighlight()

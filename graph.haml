@@ -1,0 +1,68 @@
+<!doctype html>
+%html
+  %head
+    %meta(charset="utf-8")
+    %title Scatter.FM | Last.FM Visualisation
+    %link(href="lib/bootstrap/bootstrap.css" rel="stylesheet")
+    %link(href="style.css" rel="stylesheet")
+  %body
+    .topbar
+      .topbar-inner
+        .container-fluid
+          %a.brand(href="/") Scatter.FM
+          %ul.nav
+            %li
+              %a About
+          %form#searchForm.pull-right(style="display:none;")
+            %input#search.span3(name="search" placeholder="Filter Scrobbles")
+            %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
+              Filter
+    .container-fluid
+      .sidebar#sidebar
+        .well
+          #user
+            User:
+            %a#user_link
+          .choose_another_user
+            %a#another_user(href="index.html") Choose another user
+          #legend_wrap(style="display:none;")
+            %h2 Artist Legend
+            %ul#legend
+          #fetchThrobber.throbber(style="display:none;")
+            %span#fetchStatus
+            %img(src="throbber.gif")
+          #drawingThrobber.throbber(style="display:none;")
+            :plain
+              Plotting <span id="drawStatus"></span>... 
+              <img src="throbber.gif">
+          .api_link
+            Data from the
+            %a#lastfm_link(href="http://www.last.fm/api") Last.fm API
+    #flot_container
+    %script(src="lib/mustache.js")
+    %script(src="lib/jquery.min.js")
+    %script(src="lib/flot/jquery.flot.js")
+    %script(src="lib/flot/jquery.flot.navigate.js")
+    %script(src="lib/flot/jquery.flot.resize.js")
+    %script(src="lib/date.js")
+    %script(src="lib/underscore.js")
+    %script(src="lib/backbone.js")
+    %script(src="models/AppModel.js")
+    %script(src="models/LegendModel.js")
+    %script(src="models/FetchModel.js")
+    %script(src="models/ScrobbleCollection.js")
+    %script(src="views/ToolTipView.js")
+    %script(src="views/FetchThrobberView.js")
+    %script(src="views/FlashingScrobbleView.js")
+    %script(src="views/UsernameView.js")
+    %script(src="views/LegendView.js")
+    %script(src="views/FlotScrobbleGraphView.js")
+    %script(src="views/DrawingThrobberView.js")
+    %script(src="views/FilterBoxView.js")
+    %script(src="AppRouter.js")
+    %script(src="http://static.getclicky.com/js")
+    :javascript
+      clicky.init(236155);
+    %noscript
+      %p
+        %img(alt="Clicky" height="1" src="http://in.getclicky.com/236155ns.gif" width="1")

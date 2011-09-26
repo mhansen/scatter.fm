@@ -1,13 +1,13 @@
 FilterBoxView = Backbone.View.extend
   el: "#searchForm"
-  render: -> $(@el).fadeIn 1000
-  remove: -> $(@el).hide()
+  render: (isDrawn) ->
+    if isDrawn
+      $(@el).fadeIn 1000
+    else
+      $(@el).hide()
+  val: -> $("#search").val()
 
-filterBoxView = new FilterBoxView
+window.filterBoxView = new FilterBoxView
 
 graphViewModel.bind "change:isDrawn", (model, isDrawn) ->
-  if isDrawn
-    filterBoxView.render()
-  else
-    filterBoxView.remove()
-
+  filterBoxView.render isDrawn

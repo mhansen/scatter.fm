@@ -16,4 +16,6 @@ fetchModel.bind "change:numPagesFetched", ->
   fetchThrobberView.render()
 
 fetchModel.bind "change:isFetching", (model) ->
-  fetchThrobberView.render()
+  if model.get "isFetching"
+    fetchThrobberView.render()
+  else fetchThrobberView.remove()

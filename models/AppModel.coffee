@@ -3,6 +3,7 @@
 AppModel = Backbone.Model.extend
   user: -> @get "user"
   initialize: ->
+    @set user: null
     @set filterTerm: ""
   filterRegex: -> new RegExp @get("filterTerm"), "i"
   validate: (attrs) ->
@@ -15,18 +16,18 @@ AppModel = Backbone.Model.extend
 window.appModel = new AppModel
 
 appModel.bind "change", (model) ->
-  # Update the URL path
-  path = "/user/" + model.user()
-  if model.get("filterTerm") then path += "/filter/" + model.get("filterTerm")
+  path = "/"
+  if model.user()
+    # Update the URL path
+    path = "/user/" + model.user()
+    if model.get("filterTerm")
+      path += "/filter/" + model.get("filterTerm")
   router.navigate path
-
-$("#userForm").submit (e) ->
-  e.preventDefault()
-  appModel.set user: $("#userInput").val()
 
 $("#searchForm").submit (e) ->
   e.preventDefault()
-  appModel.set filterTerm: $("#search").val()
+  appModel.set filterTerm: filterBoxView.val()
 
 appModel.bind "change:user", ->
-  fetchModel.fetch_scrobbles appModel.user()
+  if appModel.user()
+    fetchModel.fetch_scrobbles appModel.user()

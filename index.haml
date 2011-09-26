@@ -9,32 +9,11 @@
     .topbar
       .topbar-inner
         .container-fluid
-          %a.brand(href="#") Scatter.FM
+          %a.brand(href="/") Scatter.FM
           %ul.nav
             %li
               %a About
-          %form#searchForm.pull-right(style="display:none;")
-            %input#search.span3(name="search" placeholder="Filter Scrobbles")
-            %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
-              Filter
-    .container-fluid
-      .sidebar#sidebar
-        .well
-          #user
-          #legend_wrap(style="display:none;")
-            %h2 Artist Legend:
-            %ul#legend
-          #fetchThrobber.throbber(style="display:none;")
-            %span#fetchStatus
-            %img(src="throbber.gif")
-          #drawingThrobber.throbber(style="display:none;")
-            :plain
-              Drawing <span id="drawStatus"></span>... 
-              <img src="throbber.gif">
-          %div
-            Data from the
-            %a#lastfm_link(href="http://www.last.fm/api") Last.fm API
-    #placeholder
+    #intro_page.container
       .hero-unit
         :markdown
           # Your Life Soundtrack
@@ -68,28 +47,8 @@
           - at Tyler's party?
           - at work last summer?
           - out at the beach at Christmas?
-    %script(src="lib/mustache.js")
     %script(src="lib/jquery.min.js")
-    %script(src="lib/flot/jquery.flot.js")
-    %script(src="lib/flot/jquery.flot.navigate.js")
-    %script(src="lib/flot/jquery.flot.resize.js")
-    %script(src="lib/date.js")
-    %script(src="lib/underscore.js")
-    %script(src="lib/backbone.js")
-    %script(src="models/AppModel.js")
-    %script(src="models/LegendModel.js")
-    %script(src="models/FetchModel.js")
-    %script(src="models/ScrobbleCollection.js")
-    %script(src="views/ToolTipView.js")
-    %script(src="views/FetchThrobberView.js")
-    %script(src="views/FlashingScrobbleView.js")
-    %script(src="views/UsernameView.js")
-    %script(src="views/LastFmLinkView.js")
-    %script(src="views/LegendView.js")
-    %script(src="views/FlotScrobbleGraphView.js")
-    %script(src="views/DrawingThrobberView.js")
-    %script(src="views/FilterBoxView.js")
-    %script(src="AppRouter.js")
+    %script(src="index.js")
     %script(src="http://static.getclicky.com/js")
     :javascript
       clicky.init(236155);

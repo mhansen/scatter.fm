@@ -1,7 +1,7 @@
 body {
     padding-top: 60px;
 }
-#placeholder {
+#flot_container {
     position:absolute;
     top:60px;
     right:20px;
