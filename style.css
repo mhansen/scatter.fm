@@ -20,6 +20,7 @@ body {
 }
 #tooltip img {
     float:left;
+    padding: 4px;
 }
 #tooltip.popover .content {
     /* clearfix for the floated albumart image*/
@@ -34,4 +35,8 @@ body {
  * down the box' to a fixed number of pixels down
  * that's approx halfway.*/
     top: 70px; 
+}
+
+.hero-unit h1 {
+    font-size: 50px;
 }

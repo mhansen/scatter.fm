@@ -8,9 +8,9 @@ ToolTipView = Backbone.View.extend
     <div class='inner'>
       <div class='content'>
         {{#image}}<img src='{{image}}'>{{/image}}
-        <div><b>{{name}}</b></div>
-        <div id='artist'>{{artist}}</div>
-        <div id='album'><i>{{album}}</i></div>
+        <div>{{name}}</div>
+        <div id='artist'><b>{{artist}}</b></div>
+        <div id='album'>{{album}}</div>
         <div id='date'>{{date}}</div>
       </div>
     </div>"""

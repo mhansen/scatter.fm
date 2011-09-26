@@ -9,7 +9,7 @@ FetchModel = Backbone.Model.extend
     if not username then throw "Invalid Username"
     @set isFetching: true
 
-    fetch_scrobble_page = (num, callback) ->
+    fetch_scrobble_page = (num, callback, second_try) ->
       $.ajax
         url: "http://ws.audioscrobbler.com/2.0/"
         data:
@@ -20,8 +20,15 @@ FetchModel = Backbone.Model.extend
           limit: "200"
           page: num
         success: callback
-        error: (e) -> console.log e #todo, handle properly
+        error: (jqXHR, textStatus, errorThrown) ->
+          if second_try
+            console.log "retried req##{num} and failed, giving up"
+            return
+          # retry the request once
+          console.log "failed once. retrying req##{num}"
+          fetch_scrobble_page(num, callback, true)
         dataType: "jsonp"
+        timeout: 20000
 
     # fetch first page
     fetch_scrobble_page 1, (json) =>

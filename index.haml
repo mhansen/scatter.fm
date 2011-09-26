@@ -14,18 +14,30 @@
             %li
               %a About
     #intro_page.container
-      .hero-unit
+      .hero-unit(style="overflow:hidden")
+        .media-grid(style="float:right;")
+          %a(href="#")
+            %img(src="screenshot.png")
+        .copy(style="float:left;")
+          :markdown
+            # Life's Soundtrack
+
+            We all associate music with our memories. 
+            
+            Unlock old memories by recalling the music of your past.
+
+            Scatter.FM can help you remember those moments.
+
+            Visualise your entire listening history... in one graph.
+          %form#userForm
+            %input#userInput(name="user" placeholder="Last.FM Username")
+            %input.btn.primary(type="submit" value="Visualise my scrobbles!")
+      .span5
         :markdown
-          # Your Life Soundtrack
-
-          We associate music with our memories. 
-          
-          Recall the music of your past, and unlock old memories.
-
-          See your entire listening history... in one graph.
-        %form#userForm
-          %input#userInput(name="user" placeholder="Last.FM Username")
-          %input.btn.primary(type="submit" value="Visualise my scrobbles!")
+          ## When did I listen to...
+          - **Sgt. Pepper's Lonely Hearts Club Band** for the first time?
+          - **Party Rock Anthem** on repeat for three hours straight?
+          - **The Rolling Stones** for the first time?
       .span5
         :markdown
           ## Your listening story
@@ -34,12 +46,6 @@
           your life history.
 
           Is your story reflected in your songs?
-      .span5
-        :markdown
-          ## When did I listen to...
-          - **Sgt. Pepper's Lonely Hearts Club Band** for the first time?
-          - **Party Rock Anthem** on repeat for three hours straight?
-          - My favorite artists for the first time?
       .span5
         :markdown
           ## What did I listen to...
