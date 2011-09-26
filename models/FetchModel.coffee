@@ -31,25 +31,13 @@ window.FetchModel = Backbone.Model.extend
         totalPages: totalPages
         numPagesFetched: 1
 
-      queryFn = =>
-        if pagesToFetch.length == 0
-          clearInterval(timer)
-          return
-        page = pagesToFetch.pop()
-
-        isFinalRequest = pagesToFetch.length == 0
+      for page in [totalPages..2]
         req = new Request page: page, user: username
-        requestQueue.add req
         req.bind "success", (json) =>
           window.scrobbleCollection.add_from_lastfm_json json
           @set
             lastPageFetched: page
             numPagesFetched: @get("numPagesFetched") + 1
-          # toconsider: what if the final request is lost?
-          # we'd never trigger 'finished'
-          if isFinalRequest
-            @set isFetching: false
-      # Drip-feed our queries into the queue, one per second.
-      # It's last.fm's api rules, no more than one request per
-      # second.
-      timer = setInterval queryFn, 1000
+        requestQueue.add req
+      requestQueue.bind "empty", =>
+        @set isFetching: false
