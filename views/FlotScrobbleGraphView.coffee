@@ -100,6 +100,7 @@ plot_flot_series = (flot_series, minTime, maxTime) ->
         radius: 1
         show: true
       grid:
+        clickable: true
         hoverable: true
         autoHighlight: false
       zoom:

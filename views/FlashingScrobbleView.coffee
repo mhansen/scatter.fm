@@ -18,7 +18,7 @@ FlashingScrobbleView = Backbone.View.extend
 
 window.flashingScrobbleView = new FlashingScrobbleView
 
-$("#flot_container").bind "plothover", (event, pos, item) ->
+$("#flot_container").bind "plothover plotclick", (event, pos, item) ->
   if item # we're hovering over an data point
     flashingScrobbleView.render(item.series.scrobble)
   else # we're hovering over whitespace

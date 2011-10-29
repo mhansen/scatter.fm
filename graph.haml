@@ -7,17 +7,17 @@
     %link(href="style.css" rel="stylesheet")
   %body
     .topbar
-      .topbar-inner
-        .container-fluid
+      .fill
+        .container(style="width:auto;")
           %a.brand(href="/") Scatter.FM
           %ul.nav
             %li
               %a About
-          %form#searchForm.pull-right(style="display:none;")
+          %form#searchForm(style="display:none;")
             %input#search.span3(name="search" placeholder="Filter Scrobbles")
             %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
               Filter
-    .container-fluid
+    .container-fluid(style="min-width: 300px")
       .sidebar#sidebar
         .well
           #user

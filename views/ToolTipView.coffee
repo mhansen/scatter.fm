@@ -22,13 +22,12 @@ ToolTipView = Backbone.View.extend
       date: scrobble.date().toString("HH:mm, ddd dd MMM yyyy")
       image: scrobble.image()
 
-    # A fudge factor to position the tooltip just right
-    xFudgeFactor = 10 #px
-    arrowYOffset= 70 #px, from style.css
+    # Bring the arrow into the middle of the popover vertically
+    tipsyArrowYOffset = 70 #px, from style.css. 
     
     css =
-      top: y - arrowYOffset
-      right: window.innerWidth - x - xFudgeFactor
+      top: y - tipsyArrowYOffset
+      right: $(document).width() - x
 
     $(@el).html(tooltip_html).css(css).appendTo("body").fadeIn(200)
 
@@ -36,7 +35,7 @@ window.toolTipView = new ToolTipView
 
 previousPointIndex = null
 
-$("#flot_container").bind "plothover", (event, pos, item) ->
+$("#flot_container").bind "plothover plotclick", (event, pos, item) ->
   if item # we're overing over a data point
     # Have we already drawn the tooltip?
     return if previousPointIndex == item.seriesIndex
