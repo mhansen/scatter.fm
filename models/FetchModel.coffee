@@ -1,10 +1,12 @@
 window.FetchModel = Backbone.Model.extend
   initialize: ->
     @set
-      numPagesFetched: 0
+      pagesFetched: []
       totalPages: 0
       lastPageFetched: 0
       isFetching: false
+  numPagesFetched: -> @get("pagesFetched").length
+
   fetch_scrobbles: (username) ->
     if not username then throw "Invalid Username"
     @set isFetching: true
@@ -12,32 +14,37 @@ window.FetchModel = Backbone.Model.extend
     # fetch first page
     req1 = new Request page: 1, user: username
     requestQueue.add req1
-    req1.bind "success", (json) =>
-      if json.error
-        @trigger "error", json.message
-        @initialize() # reset
-        return
-      if json.recenttracks.total == "0"
-        @trigger "error", "User has zero scrobbles."
-        @initialize() # reset
-        return
+    req1.bind "error", (err) =>
+      alert ":( oh no! an error happened querying last.fm: #{err}"
+      @initialize()
+    req1.bind "ratelimited", (err) =>
+      alert ":( oh no! an error happened querying last.fm: #{err}"
+      @initialize()
 
+    req1.bind "success", (json) =>
       window.scrobbleCollection.add_from_lastfm_json json
-      totalPages = parseInt json["recenttracks"]["@attr"]["totalPages"]
-      pagesToFetch = [2..totalPages]
+      totalPages = parseInt json.recenttracks["@attr"].totalPages
 
       @set
         lastPageFetched: 1
         totalPages: totalPages
-        numPagesFetched: 1
+        pagesFetched: [1]
+      @trigger "newPageFetched"
 
-      for page in [totalPages..2]
+      _([totalPages..2]).each (page) =>
         req = new Request page: page, user: username
         req.bind "success", (json) =>
           window.scrobbleCollection.add_from_lastfm_json json
           @set
             lastPageFetched: page
-            numPagesFetched: @get("numPagesFetched") + 1
+          @get("pagesFetched").push page
+          @trigger "newPageFetched"
+          if @numPagesFetched() == totalPages
+            @set isFetching: false
+          console.log @get "pagesFetched"
+        req.bind "error", (err) =>
+          alert ":( oh no! an error happened querying last.fm: #{err}"
+          @initialize()
+        req.bind "ratelimited", =>
+          requestQueue.add req # try again later
         requestQueue.add req
-      requestQueue.bind "empty", =>
-        @set isFetching: false
