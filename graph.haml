@@ -26,7 +26,7 @@
             User:
             %a.user_link
           #legend_wrap(style="display:none;")
-            %h2 Artist Legend
+            %h3 Artist Legend
             %ul#legend
           #fetchThrobber.throbber(style="display:none;")
             %span#fetchStatus
@@ -38,7 +38,12 @@
           .api_link
             Data from the
             %a#lastfm_link(href="http://www.last.fm/api") Last.fm API
-
+          #tips.extra-top
+            %h3 Tips
+            :markdown
+              - Double-click to zoom in.
+              - Scroll down to zoom out.
+              - Drag to pan.
           #user.extra-top
             Not 
             %a.user_link
