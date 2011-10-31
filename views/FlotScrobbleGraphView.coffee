@@ -82,6 +82,7 @@ plot_flot_series = (flot_series, minTime, maxTime) ->
         tickLength: 0
         zoomRange: [ONE_DAY_IN_MS, maxTime - minTime]
         panRange: [minTime, maxTime]
+        position: "top"
       yaxis:
         transform: (v) -> -v # flip y axis so morning is at the top
         inverseTransform: (v) -> -v
