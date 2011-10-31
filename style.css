@@ -57,3 +57,7 @@ body {
     width: auto;
     padding-left: 20px;
 }
+
+.extra-top {
+    margin-top: 15px;
+}

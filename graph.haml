@@ -13,6 +13,8 @@
           %ul.nav
             %li
               %a(href="//markhansen.co.nz/lastfm-scattergraph/") About
+            %li
+              %a#feedback(href="javascript:void()") Give Feedback
           %form#searchForm(style="display:none;")
             %input#search.span3(name="search" placeholder="Filter Songs")
             %a#filter.btn.primary(href="javascript:void($('#searchForm').submit());")
@@ -22,9 +24,7 @@
         .well
           #user
             User:
-            %a#user_link
-          .choose_another_user
-            %a#another_user(href="index.html") Choose another user
+            %a.user_link
           #legend_wrap(style="display:none;")
             %h2 Artist Legend
             %ul#legend
@@ -38,7 +38,24 @@
           .api_link
             Data from the
             %a#lastfm_link(href="http://www.last.fm/api") Last.fm API
+
+          #user.extra-top
+            Not 
+            %a.user_link
+            ?
+          .choose_another_user
+            %a.btn.primary.large#another_user(href="index.html") View another user
     #flot_container
+    #feedback-dialog.modal(style="display:none;")
+      .modal-header
+        %h3 Give Feedback
+        %a.close(href="javascript:void()") x
+      .modal-body
+        :markdown
+          Comments, feedback, criticism, or suggestions, I'd love to hear from you!
+          You can leave a 
+          [comment on my blog](//markhansen.co.nz/lastfm-scattergraph/#disqus-thread) 
+          or [email me](mailto:mark@markhansen.co.nz).
     %script(src="lib/mustache.js")
     %script(src="lib/jquery.min.js")
     %script(src="lib/flot/jquery.flot.js")
@@ -63,6 +80,7 @@
     %script(src="views/LegendView.js")
     %script(src="views/FlotScrobbleGraphView.js")
     %script(src="views/FilterBoxView.js")
+    %script(src="views/FeedbackDialogView.js")
     %script(src="AppRouter.js")
     %script(src="http://static.getclicky.com/js")
     :javascript
