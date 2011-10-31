@@ -52,3 +52,8 @@ body {
     line-height: normal;
     margin-bottom: 15px;
 }
+
+.topbar .container {
+    width: auto;
+    padding-left: 20px;
+}
