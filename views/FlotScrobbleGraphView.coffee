@@ -117,9 +117,9 @@ redraw_on_response_number = 1
 appModel.bind "change:user", ->
   redraw_on_response_number = 1
 
-fetchModel.bind "change:numPagesFetched", ->
-  if fetchModel.get("numPagesFetched") == redraw_on_response_number
-    # Redrawing is slow as hell, and O(n2) if we draw it n times.
+fetchModel.bind "newPageFetched", ->
+  if fetchModel.numPagesFetched() == redraw_on_response_number
+    # Redrawing is slow as hell, and O(n^2) if we draw it n times.
     # So only draw it log2(n) times, for O(nlogn) load times.  Do
     # this by only drawing on response 1, 2, 4, 8, 16... etc until
     # the final response.

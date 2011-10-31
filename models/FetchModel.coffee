@@ -46,5 +46,6 @@ window.FetchModel = Backbone.Model.extend
           alert ":( oh no! an error happened querying last.fm: #{err}"
           @initialize()
         req.bind "ratelimited", =>
+          console.log "rate limited. :("
           requestQueue.add req # try again later
         requestQueue.add req
