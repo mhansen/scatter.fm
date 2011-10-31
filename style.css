@@ -1,3 +1,6 @@
+html, body {
+    background-image: url(project_papper.png);
+}
 body {
     padding-top: 60px;
 }
@@ -40,4 +43,12 @@ body {
 
 .hero-unit h1 {
     font-size: 50px;
+}
+
+#userInput {
+    font-size:40px;
+    width: auto;
+    height: auto;
+    line-height: normal;
+    margin-bottom: 15px;
 }
