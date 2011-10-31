@@ -2,6 +2,7 @@ ToolTipView = Backbone.View.extend
   tagname: "div"
   className: "popover left"
   id: "tooltip"
+  visible: false
   render: (x, y, scrobble) ->
     template = """
     <div class='arrow'></div>
@@ -38,13 +39,14 @@ previousPointIndex = null
 $("#flot_container").bind "plothover plotclick", (event, pos, item) ->
   if item # we're overing over a data point
     # Have we already drawn the tooltip?
-    return if previousPointIndex == item.seriesIndex
+    return if toolTipView.visible and previousPointIndex == item.seriesIndex
     previousPointIndex = item.seriesIndex
     toolTipView.render item.pageX, item.pageY, item.series.scrobble
+    toolTipView.visible = true
   else # we're hovering over whitespace
     toolTipView.remove()
+    toolTipView.visible = false
 
 $("#flot_container").mouseout ->
-  previousPointIndex = null
   toolTipView.remove()
   if window.plot? then window.plot.unhighlight()
