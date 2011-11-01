@@ -44,13 +44,24 @@
               - Double-click to zoom in.
               - Scroll down to zoom out.
               - Drag to pan.
+          #share.extra-top
+            %a#share-btn.btn.primary.large Share this graph
           #user.extra-top
             Not 
             %a.user_link
             ?
-          .choose_another_user
-            %a.btn.primary.large#another_user(href="index.html") View another user
+            %br
+            %a.btn.large#another_user(href="index.html") View another user
+
     #flot_container
+    #share-dialog.modal(style="display:none;")
+      .modal-header
+        %h3 Share this graph
+        %a.close(href="javascript:void()") x
+      .modal-body
+        :markdown
+          Use this link to share the graph:
+        %input#share_link(value="loading..." readonly="readonly" style="width:400px")
     #feedback-dialog.modal(style="display:none;")
       .modal-header
         %h3 Give Feedback
@@ -86,6 +97,7 @@
     %script(src="views/FlotScrobbleGraphView.js")
     %script(src="views/FilterBoxView.js")
     %script(src="views/FeedbackDialogView.js")
+    %script(src="views/ShareDialogView.js")
     %script(src="AppRouter.js")
     %script(src="http://static.getclicky.com/js")
     :javascript
