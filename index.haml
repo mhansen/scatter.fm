@@ -51,10 +51,11 @@
           - at work last summer?
           - out at the beach at Christmas?
     %script(src="lib/jquery.min.js")
-    %script(src="index.js")
-    %script(src="http://static.getclicky.com/js")
     :javascript
       clicky.init(236155);
+      var mpq=[]; mpq.push(["init","f01e3438662912948722a5df5a9e0b70"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
+    %script(src="index.js")
+    %script(src="http://static.getclicky.com/js")
     %noscript
       %p
         %img(alt="Clicky" height="1" src="http://in.getclicky.com/236155ns.gif" width="1")

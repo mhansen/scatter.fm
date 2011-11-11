@@ -17,7 +17,11 @@ appModel.bind "change", (model) ->
 
 $("#searchForm").submit (e) ->
   e.preventDefault()
-  appModel.set filterTerm: filterBoxView.val()
+  filterTerm = filterBoxView.val()
+  appModel.set filterTerm: filterTerm
+  mpq.track 'Filtered',
+    filterTerm: filterTerm
+    mp_note: "Filtered by '#{filterTerm}'"
 
 appModel.bind "change:user", (model, user)->
   window.scrobbleCollection = new ScrobbleCollection
