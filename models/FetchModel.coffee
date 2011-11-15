@@ -15,10 +15,10 @@ window.FetchModel = Backbone.Model.extend
     req1 = new Request page: 1, user: username
     requestQueue.add req1
     req1.bind "error", (err) =>
-      console.log ":( oh no! an error happened querying last.fm: #{err}"
+      log ":( oh no! an error happened querying last.fm: #{err}"
       @initialize()
     req1.bind "ratelimited", (err) =>
-      console.log ":( oh no! an error happened querying last.fm: #{err}"
+      log ":( oh no! an error happened querying last.fm: #{err}"
       @initialize()
 
     req1.bind "success", (json) =>
@@ -41,11 +41,11 @@ window.FetchModel = Backbone.Model.extend
           @trigger "newPageFetched"
           if @numPagesFetched() == totalPages
             @set isFetching: false
-          console.log @get "pagesFetched"
+          log @get "pagesFetched"
         req.bind "error", (err) =>
-          console.log ":( oh no! an error happened querying last.fm: #{err}"
+          log ":( oh no! an error happened querying last.fm: #{err}"
           @initialize()
         req.bind "ratelimited", =>
-          console.log "rate limited. :("
+          log "rate limited. :("
           requestQueue.add req # try again later
         requestQueue.add req

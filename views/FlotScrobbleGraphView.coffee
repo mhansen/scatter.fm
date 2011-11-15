@@ -109,7 +109,7 @@ plot_flot_series = (flot_series, minTime, maxTime) ->
       pan:
         interactive: true
   catch error
-    console.log error
+    log error
 
 flotScrobbleGraphView = new FlotScrobbleGraphView
 

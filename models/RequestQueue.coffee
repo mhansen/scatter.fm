@@ -20,7 +20,7 @@ window.RequestQueue = Backbone.Model.extend
     else
       @currentlyEmptyingQueue = true
       _.delay( =>
-        console.log new Date + "running delayed request"
+        log new Date + "running delayed request"
         @queue.shift().run()
         @doAnotherRequest()
       , rate_limit_ms)
