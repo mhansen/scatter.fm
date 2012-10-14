@@ -33,10 +33,10 @@ body {
 #tooltip.popover .arrow {
 /* it's useful to be able to reason about exactly how
  * many pixels down the arrow will be, so we can
- * point it exactly at the scrobble.
+ * point the arrow exactly at the scrobble graph point.
  *
- * so, override the bootstrap defaults from 'halfway
- * down the box' to a fixed number of pixels down
+ * The bootstrap default style for the arrow is 'halfway
+ * down the box'. Change this to a fixed number of pixels down
  * that's approx halfway.*/
     top: 70px; 
 }
