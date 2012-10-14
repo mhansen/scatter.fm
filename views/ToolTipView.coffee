@@ -36,10 +36,6 @@ window.toolTipView = new ToolTipView
 
 previousPointIndex = null
 
-track_hovering = -> mpq.track "Hover over Track", mp_note: "Throttled to once per second"
-# Send a hovering ping to mixpanel at most once every second
-track_hovering_throttled = _.throttle track_hovering, 1000
-
 $("#flot_container").bind "plothover plotclick", (event, pos, item) ->
   if item # we're overing over a data point
     # Have we already drawn the tooltip?
@@ -47,7 +43,6 @@ $("#flot_container").bind "plothover plotclick", (event, pos, item) ->
     previousPointIndex = item.seriesIndex
     toolTipView.render item.pageX, item.pageY, item.series.scrobble
     toolTipView.visible = true
-    track_hovering_throttled()
   else # we're hovering over whitespace
     toolTipView.remove()
     toolTipView.visible = false
