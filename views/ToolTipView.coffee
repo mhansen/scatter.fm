@@ -30,7 +30,7 @@ ToolTipView = Backbone.View.extend
       top: y - tipsyArrowYOffset
       right: $(document).width() - x
 
-    $(@el).html(tooltip_html).css(css).appendTo("body").fadeIn(200)
+    @$el.html(tooltip_html).css(css).appendTo("body").fadeIn(200)
 
 window.toolTipView = new ToolTipView
 

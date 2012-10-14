@@ -6,9 +6,9 @@ LegendView = Backbone.View.extend
     for artist, color of artistColors when color != "gray"
       $("<li>").text(artist).css("color", color).appendTo("#legend")
     $("<li>").text("[Other Artists]").css("color", "gray").appendTo("#legend")
-    $(@el).show()
+    @$el.show()
   remove: ->
-    $(@el).hide()
+    @$el.hide()
   
 legendView = new LegendView
 

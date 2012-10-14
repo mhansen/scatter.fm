@@ -6,9 +6,9 @@ FetchThrobberView = Backbone.View.extend
       t = fetchModel.get 'totalPages'
       status = "Fetching your scrobbles... #{n}/#{t} pages done."
       this.$("#fetchStatus").text status
-      $(@el).show()
+      @$el.show()
     else
-      $(@el).hide()
+      @$el.hide()
 
 fetchThrobberView = new FetchThrobberView
 
