@@ -25,26 +25,6 @@ FlotScrobbleGraphView = Backbone.View.extend
       plot_flot_series flot_series, minTime, maxTime
       graphViewModel.set isDrawn: true, isDrawing: false
 
-compute_artist_colors = ->
-  artist_scrobbles_hash = {}
-  scrobbleCollection.forEach (scrobble) ->
-    artist = scrobble.artist()
-    if artist_scrobbles_hash[artist]
-      artist_scrobbles_hash[artist].push scrobble
-    else artist_scrobbles_hash[artist] = [ scrobble ]
-
-  # turn the object into an array and sort it
-  # so we get the most popular artists at the start
-  artist_scrobbles_array = _(artist_scrobbles_hash).toArray().
-    sort (a,b) -> b.length - a.length
-
-  artists = for artist_scrobbles in artist_scrobbles_array
-    artist_scrobbles[0].artist()
-  artist_colors = {}
-  for own i, artist of artists
-    artist_colors[artist] = COLORS[i] or "gray"
-  artist_colors
-
 construct_flot_series = (scrobbles) ->
   window.track_indices = {
     # Here's an example:
