@@ -12,7 +12,9 @@ window.FetchModel = Backbone.Model.extend
     @set isFetching: true
 
     # fetch first page
-    req1 = new Request page: 1, user: username
+    req1 = new Request
+      page: 1
+      user: username
     requestQueue.add req1
     req1.bind "error", (err) =>
       console.log ":( oh no! an error happened querying last.fm: #{err}"
@@ -35,7 +37,7 @@ window.FetchModel = Backbone.Model.extend
         @set isFetching: false
         return
 
-      _([totalPages..2]).each (page) =>
+      for page in [totalPages..2]
         req = new Request page: page, user: username
         req.bind "success", (json) =>
           window.scrobbleCollection.add_from_lastfm_json json
@@ -45,7 +47,7 @@ window.FetchModel = Backbone.Model.extend
           @trigger "newPageFetched"
           if @numPagesFetched() == totalPages
             @set isFetching: false
-          console.log @get "pagesFetched"
+          console.log "Pages Fetched: ", @get "pagesFetched"
         req.bind "error", (err) =>
           console.log ":( oh no! an error happened querying last.fm: #{err}"
           @initialize()

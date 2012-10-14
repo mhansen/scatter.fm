@@ -20,10 +20,10 @@ $("#searchForm").submit (e) ->
   filterTerm = filterBoxView.val()
   appModel.set filterTerm: filterTerm
 
-appModel.bind "change:user", (model, user)->
+appModel.on "change:user", (model, user)->
   window.scrobbleCollection = new ScrobbleCollection
   if user
     fetchModel.fetch_scrobbles user
 
-fetchModel.bind "error", (message) ->
+fetchModel.on "error", (message) ->
   alert "Last.FM Error: #{message}"
