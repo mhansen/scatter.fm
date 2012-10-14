@@ -1,0 +1,3 @@
+#!/bin/sh
+SCATTERDIR=$(dirname $0)
+rsync -rv --delete $SCATTERDIR/ vps:www/scatter.fm
