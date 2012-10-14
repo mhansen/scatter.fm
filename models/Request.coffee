@@ -5,7 +5,7 @@ window.Request = Backbone.Model.extend
       data:
         method: "user.getrecenttracks"
         user: @get "user"
-        api_key: "b25b959554ed76058ac220b7b2e0a026"
+        api_key: "274b18a7aa58eea083ce78c0135953fd"
         format: "json"
         limit: "200"
         page: @get "page"
