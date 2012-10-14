@@ -5,4 +5,4 @@ UsernameView = Backbone.View.extend
     $(".user_link").attr "href", "http://www.last.fm/user/#{user}"
 
 usernameView = new UsernameView
-appModel.bind "change:user", -> usernameView.render()
+appModel.on "change:user", -> usernameView.render()

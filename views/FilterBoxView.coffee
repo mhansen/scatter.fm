@@ -9,5 +9,5 @@ FilterBoxView = Backbone.View.extend
 
 window.filterBoxView = new FilterBoxView
 
-graphViewModel.bind "change:isDrawn", (model, isDrawn) ->
+graphViewModel.on "change:isDrawn", (model, isDrawn) ->
   filterBoxView.render isDrawn
