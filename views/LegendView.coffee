@@ -12,5 +12,5 @@ LegendView = Backbone.View.extend
   
 legendView = new LegendView
 
-legendModel.bind "change:artistColors", (model, artistColors) ->
+legendModel.on "change:artistColors", (model, artistColors) ->
   legendView.render()

@@ -36,7 +36,7 @@ window.toolTipView = new ToolTipView
 
 previousPointIndex = null
 
-$("#flot_container").bind "plothover plotclick", (event, pos, item) ->
+$("#flot_container").on "plothover plotclick", (event, pos, item) ->
   if item # we're overing over a data point
     # Have we already drawn the tooltip?
     return if toolTipView.visible and previousPointIndex == item.seriesIndex

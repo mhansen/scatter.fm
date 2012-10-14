@@ -8,5 +8,5 @@ window.DrawingThrobberView = Backbone.View.extend
 
 drawingThrobberView = new DrawingThrobberView
     
-graphViewModel.bind "change:isDrawing", (model, isDrawing) ->
+graphViewModel.on "change:isDrawing", (model, isDrawing) ->
   drawingThrobberView.render()

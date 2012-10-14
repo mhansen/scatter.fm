@@ -115,10 +115,10 @@ flotScrobbleGraphView = new FlotScrobbleGraphView
 
 redraw_on_response_number = 1
 
-appModel.bind "change:user", ->
+appModel.on "change:user", ->
   redraw_on_response_number = 1
 
-fetchModel.bind "newPageFetched", ->
+fetchModel.on "newPageFetched", ->
   if fetchModel.numPagesFetched() == redraw_on_response_number
     # Redrawing is slow as hell, and O(n^2) if we draw it n times.
     # So only draw it log2(n) times, for O(nlogn) load times.  Do
@@ -127,9 +127,9 @@ fetchModel.bind "newPageFetched", ->
     redraw_on_response_number *= 2
     flotScrobbleGraphView.render()
 
-fetchModel.bind "change:isFetching", (model, isFetching) ->
+fetchModel.on "change:isFetching", (model, isFetching) ->
   # Force a redraw when the last response comes through.
   flotScrobbleGraphView.render()
 
-appModel.bind "change:filterTerm", (model, oldFilterTerm) ->
+appModel.on "change:filterTerm", (model, oldFilterTerm) ->
   flotScrobbleGraphView.render()

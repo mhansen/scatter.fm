@@ -6,7 +6,7 @@ window.scrobbleCollection = new ScrobbleCollection
 window.requestQueue = new RequestQueue
   max_n_reqs_in_progress: 4
 
-appModel.bind "change", (model) ->
+appModel.on "change", (model) ->
   path = "/"
   if model.user()
     # Update the URL path

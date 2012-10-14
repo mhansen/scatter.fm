@@ -12,10 +12,10 @@ FetchThrobberView = Backbone.View.extend
 
 fetchThrobberView = new FetchThrobberView
 
-fetchModel.bind "newPageFetched", ->
+fetchModel.on "newPageFetched", ->
   fetchThrobberView.render()
 
-fetchModel.bind "change:isFetching", (model) ->
+fetchModel.on "change:isFetching", (model) ->
   if model.get "isFetching"
     fetchThrobberView.render()
   else fetchThrobberView.remove()
