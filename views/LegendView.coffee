@@ -3,9 +3,15 @@ LegendView = Backbone.View.extend
   render: ->
     this.$("li").remove()
     artistColors = legendModel.get("artistColors")
-    for artist, color of artistColors when color != "gray"
-      $("<li>").text(artist).css("color", color).appendTo("#legend")
-    $("<li>").text("[Other Artists]").css("color", "gray").appendTo("#legend")
+    for artist, color of artistColors when color.color != "gray"
+      $("<li>")
+        .text("#{artist} (#{color.count})")
+        .css("color", color.color)
+        .appendTo("#legend")
+    $("<li>")
+      .text("[Other Artists]")
+      .css("color", "gray")
+      .appendTo("#legend")
     @$el.show()
   remove: ->
     @$el.hide()

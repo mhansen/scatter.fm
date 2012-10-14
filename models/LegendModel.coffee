@@ -7,13 +7,16 @@ window.LegendModel = Backbone.Model.extend
     @set
       artistColors: {}
   compute_artist_colors: (scrobbles) ->
-    artists = _.chain(scrobbles)
+    a = _.chain(scrobbles.models)
       .groupBy((s) -> s.artist())
       .toArray()
       .sortBy('length')
-      .map((artist_scrobbles) -> artist_scrobbles[0].artist())
+      .reverse()
+      .value()
 
     artistColors = {}
-    for own i, artist of artists
-      artistColors[artist] = COLORS[i] or "gray"
+    for own i, x of a
+      artistColors[x[0].artist()] =
+        color: COLORS[i] or "gray"
+        count: x.length
     @set artistColors: artistColors

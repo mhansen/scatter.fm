@@ -60,7 +60,7 @@ construct_flot_series = (scrobbles) ->
     date = scrobble.date().getTime()
     time = scrobble.date().getHours() + (scrobble.date().getMinutes() / 60)
     series.push
-      color: legendModel.get("artistColors")[scrobble.artist()]
+      color: legendModel.get("artistColors")[scrobble.artist()].color
       data: [[date, time]]
       scrobble: scrobble
     if not track_indices[scrobble.artist() + "#" + scrobble.track()]?
