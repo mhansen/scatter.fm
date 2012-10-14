@@ -14,14 +14,14 @@ window.FetchModel = Backbone.Model.extend
     # fetch first page
     req1 = new Request page: 1, user: username
     requestQueue.add req1
-    req1.on "error", (err) =>
+    req1.bind "error", (err) =>
       console.log ":( oh no! an error happened querying last.fm: #{err}"
       @initialize()
-    req1.on "ratelimited", (err) =>
+    req1.bind "ratelimited", (err) =>
       console.log ":( oh no! an error happened querying last.fm: #{err}"
       @initialize()
 
-    req1.on "success", (json) =>
+    req1.bind "success", (json) =>
       window.scrobbleCollection.add_from_lastfm_json json
       totalPages = parseInt json.recenttracks["@attr"].totalPages
 
@@ -37,7 +37,7 @@ window.FetchModel = Backbone.Model.extend
 
       _([totalPages..2]).each (page) =>
         req = new Request page: page, user: username
-        req.on "success", (json) =>
+        req.bind "success", (json) =>
           window.scrobbleCollection.add_from_lastfm_json json
           @set
             lastPageFetched: page
@@ -46,10 +46,10 @@ window.FetchModel = Backbone.Model.extend
           if @numPagesFetched() == totalPages
             @set isFetching: false
           console.log @get "pagesFetched"
-        req.on "error", (err) =>
+        req.bind "error", (err) =>
           console.log ":( oh no! an error happened querying last.fm: #{err}"
           @initialize()
-        req.on "ratelimited", =>
+        req.bind "ratelimited", =>
           console.log "rate limited. :("
           requestQueue.add req # try again later
         requestQueue.add req

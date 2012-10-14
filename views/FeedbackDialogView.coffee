@@ -1,4 +1,3 @@
-$("#feedback").on "click", ->
+$("#feedback").click ->
   $("#feedback-dialog").toggle()
-$("#feedback-dialog .close").on "click", ->
-  $("#feedback-dialog").hide()
+$("#feedback-dialog .close").click -> $("#feedback-dialog").hide()
