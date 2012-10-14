@@ -31,6 +31,10 @@ window.FetchModel = Backbone.Model.extend
         pagesFetched: [1]
       @trigger "newPageFetched"
 
+      if totalPages == 1
+        @set isFetching: false
+        return
+
       _([totalPages..2]).each (page) =>
         req = new Request page: page, user: username
         req.bind "success", (json) =>
