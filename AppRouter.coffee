@@ -13,6 +13,4 @@ router.on "route:search", (user, filterTerm) ->
     user: user
     filterTerm: filterTerm
 
-
-a = Backbone.history.start()
-console.log a
+Backbone.history.start()
