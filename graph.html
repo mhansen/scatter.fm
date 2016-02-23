@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Scatter.FM | Last.FM Visualisation</title>
+    <link href='lib/bootstrap/bootstrap.css' rel='stylesheet'>
+    <link href='style.css' rel='stylesheet'>
+    <!--[if lte IE 8]>
+      <script src='lib/flot/excanvas.min.js'></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class='topbar'>
+      <div class='fill'>
+        <div class='container'>
+          <a class='brand' href='/'>Scatter.FM</a>
+          <ul class='nav'>
+            <li>
+              <a href='//markhansen.co.nz/lastfm-scattergraph/'>About</a>
+            </li>
+            <li>
+              <a href='javascript:void()' id='feedback'>Give Feedback</a>
+            </li>
+          </ul>
+          <form id='searchForm' style='display:none;'>
+            <input class='span3' id='search' name='search' placeholder='Filter Songs'>
+            <a class='btn primary' href="javascript:void($('#searchForm').submit());" id='filter'>
+              Filter
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class='container-fluid' style='min-width: 300px'>
+      <div class='sidebar' id='sidebar'>
+        <div class='well'>
+          <div id='user'>
+            User:
+            <a class='user_link'></a>
+          </div>
+          <div id='legend_wrap' style='display:none;'>
+            <h3>Artist Legend</h3>
+            <ul id='legend'></ul>
+          </div>
+          <div class='throbber' id='fetchThrobber' style='display:none;'>
+            <span id='fetchStatus'></span>
+            <img src='throbber.gif'>
+          </div>
+          <div class='throbber' id='drawingThrobber' style='display:none;'>
+            Plotting <span id="drawStatus"></span>... 
+            <img src="throbber.gif">
+          </div>
+          <div class='api_link'>
+            Data from the
+            <a href='http://www.last.fm/api' id='lastfm_link'>Last.fm API</a>
+          </div>
+          <div class='extra-top' id='tips'>
+            <h3>Tips</h3>
+            <ul>
+            <li>Double-click to zoom in.</li>
+            <li>Scroll down to zoom out.</li>
+            <li>Drag to pan.</li>
+            </ul>
+          </div>
+          <div class='extra-top' id='share'>
+            <a class='btn primary large' id='share-btn'>Share this graph</a>
+          </div>
+          <div class='extra-top' id='user'>
+            Not
+            <a class='user_link'></a>
+            ?
+            <br>
+            <a class='btn' href='index.html' id='another_user'>View another user</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='flot_container'></div>
+    <div class='modal' id='share-dialog' style='display:none;'>
+      <div class='modal-header'>
+        <h3>Share this graph</h3>
+        <a class='close' href='javascript:void()'>x</a>
+      </div>
+      <div class='modal-body'>
+        <p>Use this link to share the graph:</p>
+        <input id='share_link' readonly='readonly' style='width:400px' value='loading...'>
+      </div>
+    </div>
+    <div class='modal' id='feedback-dialog' style='display:none;'>
+      <div class='modal-header'>
+        <h3>Give Feedback</h3>
+        <a class='close' href='javascript:void()'>x</a>
+      </div>
+      <div class='modal-body'>
+        <p>Comments, feedback, criticism, or suggestions, I&#39;d love to hear from you!
+        You can leave a 
+        <a href="//markhansen.co.nz/lastfm-scattergraph/#disqus-thread">comment on my blog</a> 
+        or <a href="mailto:mark@markhansen.co.nz">email me</a>.</p>
+      </div>
+    </div>
+    <script src='log.js'></script>
+    <script src='lib/mustache.js'></script>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+    <script src='lib/flot/jquery.flot.js'></script>
+    <script src='lib/flot/jquery.flot.navigate.js'></script>
+    <script src='lib/flot/jquery.flot.resize.js'></script>
+    <script src='lib/date.js'></script>
+    <script src='lib/underscore-min.js'></script>
+    <script src='lib/backbone.js'></script>
+    <script src='models/AppModel.js'></script>
+    <script src='models/LegendModel.js'></script>
+    <script src='models/FetchModel.js'></script>
+    <script src='models/ScrobbleCollection.js'></script>
+    <script src='models/FlotScrobbleGraphViewModel.js'></script>
+    <script src='models/Request.js'></script>
+    <script src='models/RequestQueue.js'></script>
+    <script src='AppController.js'></script>
+    <script src='views/DrawingThrobberView.js'></script>
+    <script src='views/ToolTipView.js'></script>
+    <script src='views/FetchThrobberView.js'></script>
+    <script src='views/FlashingScrobbleView.js'></script>
+    <script src='views/UsernameView.js'></script>
+    <script src='views/LegendView.js'></script>
+    <script src='views/FlotScrobbleGraphView.js'></script>
+    <script src='views/FilterBoxView.js'></script>
+    <script src='views/FeedbackDialogView.js'></script>
+    <script src='views/ShareDialogView.js'></script>
+    <script src='AppRouter.js'></script>
+  </body>
+</html>

@@ -1,7 +1,5 @@
 AppController.js
 AppRouter.js
-graph.html
-index.html
 index.js
 log.js
 models/*.js

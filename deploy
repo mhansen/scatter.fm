@@ -1,0 +1,3 @@
+#!/bin/sh
+~/Downloads/gsutil/gsutil -m rsync -R -d . gs://scatterfm.markhansen.co.nz
+~/Downloads/gsutil/gsutil -m acl ch -r -u AllUsers:R gs://scatterfm.markhansen.co.nz

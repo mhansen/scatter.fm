@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Scatter.FM | A Visualisation of Your Last.fm History</title>
+    <link href='lib/bootstrap/bootstrap.css' rel='stylesheet'>
+    <link href='style.css' rel='stylesheet'>
+    <meta content='Unlock old memories by browsing the music of your past. Visualise your entire listening history, in one graph.' name='description'>
+  </head>
+  <body>
+    <div class='topbar'>
+      <div class='topbar-inner'>
+        <div class='container-fluid'>
+          <a class='brand' href='/'>Scatter.FM</a>
+          <ul class='nav'>
+            <li>
+              <a href='//markhansen.co.nz/lastfm-scattergraph/'>About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class='container' id='intro_page'>
+      <div class='hero-unit' style='overflow:hidden'>
+        <div class='media-grid' style='float:right;'>
+          <a>
+            <img src='screenshot.png'>
+          </a>
+        </div>
+        <div class='copy' style='float:left;'>
+          <h1>Life&#39;s Soundtrack</h1>
+          
+          <p>Unlock old memories by browsing the music of your past.</p>
+          
+          <p>Visualise your entire listening history, in one graph.</p>
+          <form id='userForm'>
+            <input id='userInput' name='user' placeholder='Last.FM Username'>
+            <br>
+            <input class='btn large primary' type='submit' value='Visualise my scrobbles!'>
+          </form>
+        </div>
+      </div>
+      <div class='span5'>
+        <h2>When did I listen to...</h2>
+        
+        <ul>
+        <li><strong>Sgt. Pepper&#39;s Lonely Hearts Club Band</strong> for the first time?</li>
+        <li><strong>Party Rock Anthem</strong> on repeat for three hours straight?</li>
+        <li><strong>The Rolling Stones</strong> for the first time?</li>
+        </ul>
+      </div>
+      <div class='span5'>
+        <h2>Your listening story</h2>
+        
+        <p>Life changes often precipitate changes in listening
+        habits - your listening history can give insight into
+        your life history.</p>
+        
+        <p>Is your story reflected in your songs?</p>
+      </div>
+      <div class='span5'>
+        <h2>What did I listen to...</h2>
+        
+        <ul>
+        <li>two years ago?</li>
+        <li>at Tyler&#39;s party?</li>
+        <li>at work last summer?</li>
+        <li>out at the beach at Christmas?</li>
+        </ul>
+      </div>
+    </div>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+    <script src='log.js'></script>
+    <script src='index.js'></script>
+  </body>
+</html>
