@@ -1,8 +1,3 @@
-// these are colors that are pretty easy to tell apart in the graph.
-// we don't want colors that are hard to distinguish, like purple vs violet
-const COLORS = [ "red", "green", "blue", "purple",
-           "brown", "orange", "cyan", "magenta" ];
-
 let FlotScrobbleGraphView = Backbone.View.extend({
   render() {
     if (scrobbleCollection.size() === 0) { return; }
