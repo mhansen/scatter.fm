@@ -4,8 +4,7 @@ const LEGEND_COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cy
 
 window.LegendModel = Backbone.Model.extend({
   initialize() {
-    return this.set({
-      artistColors: {}});
+    this.set({artistColors: {}});
   },
   compute_artist_colors(scrobbles) {
     let a = _.chain(scrobbles.models)
@@ -23,6 +22,6 @@ window.LegendModel = Backbone.Model.extend({
         count: x.length
       };
     }
-    return this.set({artistColors});
+    this.set({artistColors});
   }
 });

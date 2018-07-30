@@ -9,20 +9,20 @@ let rate_limit_ms = 500;
 window.RequestQueue = Backbone.Model.extend({
   initialize() {
     this.queue = [];
-    return this.currentlyEmptyingQueue = false;
+    this.currentlyEmptyingQueue = false;
   },
   add(req) {
     this.queue.push(req);
     if (!this.currentlyEmptyingQueue) {
-      return this.doAnotherRequest();
+      this.doAnotherRequest();
     }
   },
   doAnotherRequest() {
     if (this.queue.length === 0) {
-      return this.currentlyEmptyingQueue = false;
+      this.currentlyEmptyingQueue = false;
     } else {
       this.currentlyEmptyingQueue = true;
-      return _.delay( () => {
+      _.delay( () => {
         console.log(new Date + "running delayed request");
         this.queue.shift().run();
         return this.doAnotherRequest();

@@ -12,17 +12,17 @@ window.Request = Backbone.Model.extend({
       },
       success: json => {
         if (json.error === 29) {
-          return this.trigger("ratelimited", json.message);
+          this.trigger("ratelimited", json.message);
         } else if (json.error) {
-          return this.trigger("error", json.message);
+          this.trigger("error", json.message);
         } else if (json.recenttracks.total === "0") {
-          return this.trigger("error", "User has no scrobbles logged.");
+          this.trigger("error", "User has no scrobbles logged.");
         } else {
-          return this.trigger("success", json);
+          this.trigger("success", json);
         }
       },
       error: (jqXHR, textStatus, errorThrown) => {
-        return this.trigger("error", textStatus);
+        this.trigger("error", textStatus);
       },
       dataType: "jsonp",
       timeout: 20000
