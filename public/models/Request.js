@@ -1,7 +1,7 @@
 window.Request = Backbone.Model.extend({
   run() {
     return $.ajax({
-      url: "http://ws.audioscrobbler.com/2.0/",
+      url: "https://ws.audioscrobbler.com/2.0/",
       data: {
         method: "user.getrecenttracks",
         user: this.get("user"),
