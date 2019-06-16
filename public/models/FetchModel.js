@@ -50,7 +50,8 @@ window.FetchModel = Backbone.Model.extend({
           req.on("success", json => {
             window.scrobbleCollection.add_from_lastfm_json(json);
             this.set({
-              lastPageFetched: page});
+              lastPageFetched: page
+            });
             this.get("pagesFetched").push(page);
             this.trigger("newPageFetched");
             if (this.numPagesFetched() === totalPages) {
