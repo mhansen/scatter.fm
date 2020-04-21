@@ -24,8 +24,7 @@ window.Request = Backbone.Model.extend({
       error: (jqXHR, textStatus, errorThrown) => {
         this.trigger("error", textStatus);
       },
-      dataType: "jsonp",
-      timeout: 20000
+      dataType: "jsonp" //, timeout: 20000. Timeout error handling is flawed.
     });
   }
-}); // seems reasonable to wait 20s
+});
