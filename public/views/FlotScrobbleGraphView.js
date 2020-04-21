@@ -5,7 +5,7 @@ let FlotScrobbleGraphView = Backbone.View.extend({
   
     // The plotting locks up the DOM, so give it a chance to update
     // with a status message before launching the expensive plotting.
-    return setTimeout(function() {
+    setTimeout(function() {
       legendModel.compute_artist_colors(scrobbleCollection);
       let re = appModel.filterRegex();
 
