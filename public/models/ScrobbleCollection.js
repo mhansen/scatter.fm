@@ -9,7 +9,6 @@ let Scrobble = Backbone.Model.extend({
 window.ScrobbleCollection = Backbone.Collection.extend({
   model: Scrobble,
   add_from_lastfm_json(json) {
-    let result = [];
     for (let scrobble of json.recenttracks.track) {
       // Pull out just the information we need, because memory has been known
       // to run out with large datasets (e.g. 5 years of scrobbles). Leave the
@@ -34,8 +33,7 @@ window.ScrobbleCollection = Backbone.Collection.extend({
       if (scrobble['image'][1] && scrobble['image'][1]['#text']) {
         my_scrobble.image = scrobble['image'][1]['#text'];
       }
-      result.push(this.add(my_scrobble, { silent: true }));
+      this.add(my_scrobble, { silent: true });
     }
-    return result;
   }
 });
