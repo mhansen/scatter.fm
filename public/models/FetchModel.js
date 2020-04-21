@@ -20,12 +20,10 @@ window.FetchModel = Backbone.Model.extend({
     });
     requestQueue.add(req1);
     req1.on("error", err => {
-      console.log(`:( oh no! an error happened querying last.fm: ${err}`);
-      this.initialize();
+      console.error(`:( oh no! an error happened querying last.fm: ${err}`);
     });
     req1.on("ratelimited", err => {
-      console.log(`:( oh no! an error happened querying last.fm: ${err}`);
-      this.initialize();
+      console.error("rate limited. :(");
     });
 
     return req1.on("success", json => {
@@ -61,11 +59,10 @@ window.FetchModel = Backbone.Model.extend({
             console.log("Pages Fetched: ", this.get("pagesFetched"));
           });
           req.on("error", err => {
-            console.log(`:( oh no! an error happened querying last.fm: ${err}`);
-            this.initialize();
+            console.error(`:( oh no! an error happened querying last.fm: ${err}`);
           });
           req.on("ratelimited", () => {
-            console.log("rate limited. :(");
+            console.warning("rate limited. :(");
             requestQueue.add(req);
           }); // try again later
           result.push(requestQueue.add(req));
