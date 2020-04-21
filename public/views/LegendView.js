@@ -22,7 +22,7 @@ let LegendView = Backbone.View.extend({
     return this.$el.hide();
   }
 });
-  
+
 let legendView = new LegendView;
 
 legendModel.on("change:artistColors", (model, artistColors) => legendView.render());

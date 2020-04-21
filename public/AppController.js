@@ -4,9 +4,10 @@ window.graphViewModel = new FlotScrobbleGraphViewModel;
 window.legendModel = new LegendModel;
 window.scrobbleCollection = new ScrobbleCollection;
 window.requestQueue = new RequestQueue({
-  max_n_reqs_in_progress: 4});
+  max_n_reqs_in_progress: 4
+});
 
-appModel.on("change", function(model) {
+appModel.on("change", function (model) {
   let path = "/";
   if (model.user()) {
     // Update the URL path
@@ -18,13 +19,13 @@ appModel.on("change", function(model) {
   return router.navigate(path);
 });
 
-$("#searchForm").submit(function(e) {
+$("#searchForm").submit(function (e) {
   e.preventDefault();
   let filterTerm = filterBoxView.val();
-  return appModel.set({filterTerm});
+  return appModel.set({ filterTerm });
 });
 
-appModel.on("change:user", function(model, user){
+appModel.on("change:user", function (model, user) {
   window.scrobbleCollection = new ScrobbleCollection;
   if (user) {
     return fetchModel.fetch_scrobbles(user);

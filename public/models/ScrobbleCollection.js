@@ -14,11 +14,11 @@ window.ScrobbleCollection = Backbone.Collection.extend({
       // Pull out just the information we need, because memory has been known
       // to run out with large datasets (e.g. 5 years of scrobbles). Leave the
       // rest to be GC'd.
-    
+
       // You might think every scrobble has a date, but nope. 'now playing'
       // songs don't have a date, and they can break things. Skip them.
       if (scrobble['date'] == null) {
-         continue;
+        continue;
       }
       // Old tracks (e.g. 1970) are probably bugs. Last.FM was founded in 2002.
       // Filter out obviously wrong scrobbles.
@@ -34,7 +34,7 @@ window.ScrobbleCollection = Backbone.Collection.extend({
       if (scrobble['image'][1] && scrobble['image'][1]['#text']) {
         my_scrobble.image = scrobble['image'][1]['#text'];
       }
-      result.push(this.add(my_scrobble, {silent: true}));
+      result.push(this.add(my_scrobble, { silent: true }));
     }
     return result;
   }

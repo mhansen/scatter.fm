@@ -11,7 +11,7 @@ window.FetchModel = Backbone.Model.extend({
 
   fetch_scrobbles(username) {
     if (!username) { throw "Invalid Username"; }
-    this.set({isFetching: true});
+    this.set({ isFetching: true });
 
     // fetch first page
     let req1 = new Request({
@@ -35,18 +35,19 @@ window.FetchModel = Backbone.Model.extend({
       this.set({
         lastPageFetched: 1,
         totalPages,
-        pagesFetched: [1]});
+        pagesFetched: [1]
+      });
       this.trigger("newPageFetched");
 
       if (totalPages === 1) {
-        this.set({isFetching: false});
+        this.set({ isFetching: false });
         return;
       }
 
       return (() => {
         let result = [];
         for (var page = totalPages, asc = totalPages <= 2; asc ? page <= 2 : page >= 2; asc ? page++ : page--) {
-          var req = new Request({page, user: username});
+          var req = new Request({ page, user: username });
           req.on("success", json => {
             window.scrobbleCollection.add_from_lastfm_json(json);
             this.set({
@@ -55,7 +56,7 @@ window.FetchModel = Backbone.Model.extend({
             this.get("pagesFetched").push(page);
             this.trigger("newPageFetched");
             if (this.numPagesFetched() === totalPages) {
-              this.set({isFetching: false});
+              this.set({ isFetching: false });
             }
             console.log("Pages Fetched: ", this.get("pagesFetched"));
           });

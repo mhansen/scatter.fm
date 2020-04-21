@@ -1,11 +1,11 @@
 let FlotScrobbleGraphView = Backbone.View.extend({
   render() {
     if (scrobbleCollection.size() === 0) { return; }
-    graphViewModel.set({isDrawing: true});
-  
+    graphViewModel.set({ isDrawing: true });
+
     // The plotting locks up the DOM, so give it a chance to update
     // with a status message before launching the expensive plotting.
-    return _.defer(function() {
+    return _.defer(function () {
       legendModel.compute_artist_colors(scrobbleCollection);
       let re = appModel.filterRegex();
 
@@ -17,17 +17,17 @@ let FlotScrobbleGraphView = Backbone.View.extend({
       let maxTime = scrobbleCollection.max(scrobble => scrobble.date()).date();
 
       plot_flot_series(flot_series, minTime, maxTime);
-      return graphViewModel.set({isDrawn: true, isDrawing: false});
+      return graphViewModel.set({ isDrawn: true, isDrawing: false });
     });
   }
 });
 
-var construct_flot_series = function(scrobbles) {
+var construct_flot_series = function (scrobbles) {
   window.track_indices = {
     // Here's an example:
     //"snow patrol#eyes open": {
-      //series_index: 1
-      //datapoint_index: 0
+    //series_index: 1
+    //datapoint_index: 0
     //}
   };
 
@@ -52,8 +52,8 @@ var construct_flot_series = function(scrobbles) {
   return series;
 };
 
-var plot_flot_series = function(flot_series, minTime, maxTime) {
-  let ONE_DAY_IN_MS = 1000*60*60*24;
+var plot_flot_series = function (flot_series, minTime, maxTime) {
+  let ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
   try {
     return window.plot = $.plot($("#flot_container"), flot_series, {
       xaxis: {
@@ -72,11 +72,14 @@ var plot_flot_series = function(flot_series, minTime, maxTime) {
         min: 0,
         max: 24,
         tickLength: 0,
-        ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24 ],
+        ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24],
         tickFormatter(val, axis) {
-          if (val === 0) { return "12am";
-          } else if (val < 12) { return `${val}am`;
-          } else if (val === 12) { return "12pm";
+          if (val === 0) {
+            return "12am";
+          } else if (val < 12) {
+            return `${val}am`;
+          } else if (val === 12) {
+            return "12pm";
           } else { return `${val - 12}pm`; }
         },
         zoomRange: false,
@@ -110,7 +113,7 @@ let redraw_on_response_number = 1;
 
 appModel.on("change:user", () => redraw_on_response_number = 1);
 
-fetchModel.on("newPageFetched", function() {
+fetchModel.on("newPageFetched", function () {
   if (fetchModel.numPagesFetched() === redraw_on_response_number) {
     // Redrawing is slow as hell, and O(n^2) if we draw it n times.
     // So only draw it log2(n) times, for O(nlogn) load times.  Do

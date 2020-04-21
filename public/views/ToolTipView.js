@@ -27,7 +27,7 @@ let ToolTipView = Backbone.View.extend({
 
     // Bring the arrow into the middle of the popover vertically
     let tipsyArrowYOffset = 70; //px, from style.css. 
-    
+
     let css = {
       top: y - tipsyArrowYOffset,
       right: $(document).width() - x
@@ -41,7 +41,7 @@ window.toolTipView = new ToolTipView;
 
 let previousPointIndex = null;
 
-$("#flot_container").on("plothover plotclick", function(event, pos, item) {
+$("#flot_container").on("plothover plotclick", function (event, pos, item) {
   if (item) { // we're overing over a data point
     // Have we already drawn the tooltip?
     if (toolTipView.visible && (previousPointIndex === item.seriesIndex)) { return; }
@@ -54,7 +54,7 @@ $("#flot_container").on("plothover plotclick", function(event, pos, item) {
   }
 });
 
-$("#flot_container").mouseout(function() {
+$("#flot_container").mouseout(function () {
   toolTipView.remove();
   if (window.plot != null) { return window.plot.unhighlight(); }
 });

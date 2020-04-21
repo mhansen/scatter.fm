@@ -3,8 +3,8 @@
 window.AppModel = Backbone.Model.extend({
   user() { return this.get("user"); },
   initialize() {
-    this.set({user: null});
-    this.set({filterTerm: ""});
+    this.set({ user: null });
+    this.set({ filterTerm: "" });
   },
   filterRegex() { return new RegExp(this.get("filterTerm"), "i"); },
   validate(attrs) {

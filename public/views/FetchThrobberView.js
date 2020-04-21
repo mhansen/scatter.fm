@@ -17,7 +17,7 @@ let fetchThrobberView = new FetchThrobberView;
 
 fetchModel.on("newPageFetched", () => fetchThrobberView.render());
 
-fetchModel.on("change:isFetching", function(model) {
+fetchModel.on("change:isFetching", function (model) {
   if (model.get("isFetching")) {
     return fetchThrobberView.render();
   } else { return fetchThrobberView.remove(); }

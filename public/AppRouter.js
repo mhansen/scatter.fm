@@ -7,7 +7,7 @@ let AppRouter = Backbone.Router.extend({
 });
 window.router = new AppRouter;
 
-router.on("route:user", user => appModel.set({user}));
+router.on("route:user", user => appModel.set({ user }));
 
 router.on("route:search", (user, filterTerm) =>
   appModel.set({

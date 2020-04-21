@@ -3,7 +3,7 @@ let FlashingScrobbleView = Backbone.View.extend({
   render(scrobble) {
     if (this.flashingTimer != null) { clearInterval(this.flashingTimer); }
     let flashOn = false;
-    let flash = function() {
+    let flash = function () {
       flashOn = !flashOn;
       if (flashOn) {
         return Array.from(track_indices[scrobble.artist() + "#" + scrobble.track()]).map((indices) =>
@@ -23,7 +23,7 @@ let FlashingScrobbleView = Backbone.View.extend({
 
 window.flashingScrobbleView = new FlashingScrobbleView;
 
-$("#flot_container").on("plothover plotclick", function(event, pos, item) {
+$("#flot_container").on("plothover plotclick", function (event, pos, item) {
   if (item) { // we're hovering over an data point
     return flashingScrobbleView.render(item.series.scrobble);
   } else { // we're hovering over whitespace

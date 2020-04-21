@@ -1,10 +1,10 @@
 // these are colors that are pretty easy to tell apart in the graph.
 // we don't want colors that are hard to distinguish, like purple vs violet
-const LEGEND_COLORS = [ "red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta" ];
+const LEGEND_COLORS = ["red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta"];
 
 window.LegendModel = Backbone.Model.extend({
   initialize() {
-    this.set({artistColors: {}});
+    this.set({ artistColors: {} });
   },
   compute_artist_colors(scrobbles) {
     let a = _.chain(scrobbles.models)
@@ -22,6 +22,6 @@ window.LegendModel = Backbone.Model.extend({
         count: x.length
       };
     }
-    this.set({artistColors});
+    this.set({ artistColors });
   }
 });
