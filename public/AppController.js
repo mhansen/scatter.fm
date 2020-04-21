@@ -16,13 +16,13 @@ appModel.on("change", function (model) {
       path += `/filter/${model.get("filterTerm")}`;
     }
   }
-  return router.navigate(path);
+  router.navigate(path);
 });
 
 $("#searchForm").submit(function (e) {
   e.preventDefault();
   let filterTerm = filterBoxView.val();
-  return appModel.set({ filterTerm });
+  appModel.set({ filterTerm });
 });
 
 appModel.on("change:user", function (model, user) {

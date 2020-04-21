@@ -2,9 +2,9 @@ let FilterBoxView = Backbone.View.extend({
   el: "#searchForm",
   render(isDrawn) {
     if (isDrawn) {
-      return this.$el.fadeIn(1000);
+      this.$el.fadeIn(1000);
     } else {
-      return this.$el.hide();
+      this.$el.hide();
     }
   },
   val() { return $("#search").val(); }

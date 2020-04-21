@@ -2,9 +2,9 @@ window.DrawingThrobberView = Backbone.View.extend({
   render() {
     if (graphViewModel.get("isDrawing")) {
       $("#drawingThrobber").show();
-      return $("#drawStatus").text(`${scrobbleCollection.size()} scrobbles`);
+      $("#drawStatus").text(`${scrobbleCollection.size()} scrobbles`);
     } else {
-      return $("#drawingThrobber").hide();
+      $("#drawingThrobber").hide();
     }
   }
 });

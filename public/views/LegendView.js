@@ -16,13 +16,13 @@ let LegendView = Backbone.View.extend({
       .text("[Other Artists]")
       .css("color", "gray")
       .appendTo("#legend");
-    return this.$el.show();
+    this.$el.show();
   },
   remove() {
-    return this.$el.hide();
+    this.$el.hide();
   }
 });
-
+  
 let legendView = new LegendView;
 
 legendModel.on("change:artistColors", (model, artistColors) => legendView.render());

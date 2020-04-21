@@ -17,7 +17,7 @@ let FlotScrobbleGraphView = Backbone.View.extend({
       let maxTime = scrobbleCollection.max(scrobble => scrobble.date()).date();
 
       plot_flot_series(flot_series, minTime, maxTime);
-      return graphViewModel.set({isDrawn: true, isDrawing: false});
+      graphViewModel.set({isDrawn: true, isDrawing: false});
     }, 0);
   }
 });
@@ -55,7 +55,7 @@ var construct_flot_series = function(scrobbles) {
 var plot_flot_series = function(flot_series, minTime, maxTime) {
   let ONE_DAY_IN_MS = 1000*60*60*24;
   try {
-    return window.plot = $.plot($("#flot_container"), flot_series, {
+    window.plot = $.plot($("#flot_container"), flot_series, {
       xaxis: {
         min: minTime,
         max: maxTime,
@@ -100,7 +100,7 @@ var plot_flot_series = function(flot_series, minTime, maxTime) {
     }
     );
   } catch (error) {
-    return console.log(error);
+    console.log(error);
   }
 };
 
@@ -117,7 +117,7 @@ fetchModel.on("newPageFetched", function() {
     // this by only drawing on response 1, 2, 4, 8, 16... etc until
     // the final response.
     redraw_on_response_number *= 2;
-    return flotScrobbleGraphView.render();
+    flotScrobbleGraphView.render();
   }
 });
 

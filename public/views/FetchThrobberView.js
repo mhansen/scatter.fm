@@ -6,9 +6,9 @@ let FetchThrobberView = Backbone.View.extend({
       let t = fetchModel.get('totalPages');
       let status = `Fetching your scrobbles... ${n}/${t} pages done.`;
       this.$("#fetchStatus").text(status);
-      return this.$el.show();
+      this.$el.show();
     } else {
-      return this.$el.hide();
+      this.$el.hide();
     }
   }
 });
@@ -19,6 +19,8 @@ fetchModel.on("newPageFetched", () => fetchThrobberView.render());
 
 fetchModel.on("change:isFetching", function (model) {
   if (model.get("isFetching")) {
-    return fetchThrobberView.render();
-  } else { return fetchThrobberView.remove(); }
+    fetchThrobberView.render();
+  } else {
+    fetchThrobberView.remove();
+  }
 });

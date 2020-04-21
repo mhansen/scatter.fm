@@ -25,7 +25,7 @@ window.RequestQueue = Backbone.Model.extend({
       setTimeout(() => {
         console.log(new Date + "running delayed request");
         this.queue.shift().run();
-        return this.doAnotherRequest();
+        this.doAnotherRequest();
       }, rate_limit_ms);
     }
   },

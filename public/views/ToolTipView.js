@@ -33,7 +33,7 @@ let ToolTipView = Backbone.View.extend({
       right: $(document).width() - x
     };
 
-    return this.$el.html(tooltip_html).css(css).appendTo("body").fadeIn(200);
+    this.$el.html(tooltip_html).css(css).appendTo("body").fadeIn(200);
   }
 });
 
@@ -47,14 +47,16 @@ $("#flot_container").on("plothover plotclick", function (event, pos, item) {
     if (toolTipView.visible && (previousPointIndex === item.seriesIndex)) { return; }
     previousPointIndex = item.seriesIndex;
     toolTipView.render(item.pageX, item.pageY, item.series.scrobble);
-    return toolTipView.visible = true;
+    toolTipView.visible = true;
   } else { // we're hovering over whitespace
     toolTipView.remove();
-    return toolTipView.visible = false;
+    toolTipView.visible = false;
   }
 });
 
 $("#flot_container").mouseout(function () {
   toolTipView.remove();
-  if (window.plot != null) { return window.plot.unhighlight(); }
+  if (window.plot != null) {
+     window.plot.unhighlight();
+  }
 });
