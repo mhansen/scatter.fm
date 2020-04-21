@@ -28,7 +28,7 @@ $("#searchForm").submit(function (e) {
 appModel.on("change:user", function (model, user) {
   window.scrobbleCollection = new ScrobbleCollection;
   if (user) {
-    return fetchModel.fetch_scrobbles(user);
+    fetchModel.fetch_scrobbles(user);
   }
 });
 

@@ -26,7 +26,7 @@ window.FetchModel = Backbone.Model.extend({
       console.error("rate limited. :(");
     });
 
-    return req1.on("success", json => {
+    req1.on("success", json => {
       window.scrobbleCollection.add_from_lastfm_json(json);
       let totalPages = parseInt(json.recenttracks["@attr"].totalPages);
 
@@ -42,8 +42,7 @@ window.FetchModel = Backbone.Model.extend({
         return;
       }
 
-      return (() => {
-        let result = [];
+      (() => {
         for (var page = totalPages, asc = totalPages <= 2; asc ? page <= 2 : page >= 2; asc ? page++ : page--) {
           var req = new Request({ page, user: username });
           req.on("success", json => {
@@ -65,9 +64,8 @@ window.FetchModel = Backbone.Model.extend({
             console.warning("rate limited. :(");
             requestQueue.add(req);
           }); // try again later
-          result.push(requestQueue.add(req));
+          requestQueue.add(req);
         }
-        return result;
       })();
     });
   }
