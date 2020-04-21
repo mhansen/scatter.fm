@@ -22,7 +22,7 @@ window.RequestQueue = Backbone.Model.extend({
       this.currentlyEmptyingQueue = false;
     } else {
       this.currentlyEmptyingQueue = true;
-      _.delay(() => {
+      setTimeout(() => {
         console.log(new Date + "running delayed request");
         this.queue.shift().run();
         return this.doAnotherRequest();
