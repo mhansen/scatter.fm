@@ -4,32 +4,28 @@ window.graphViewModel = new FlotScrobbleGraphViewModel;
 window.legendModel = new LegendModel;
 window.scrobbleCollection = new ScrobbleCollection;
 window.requestQueue = new RequestQueue({
-  max_n_reqs_in_progress: 4
+    max_n_reqs_in_progress: 4
 });
-
 appModel.on("change", function (model) {
-  let path = "/";
-  if (model.user()) {
-    // Update the URL path
-    path = `/user/${model.user()}`;
-    if (model.get("filterTerm")) {
-      path += `/filter/${model.get("filterTerm")}`;
+    let path = "/";
+    if (model.user()) {
+        // Update the URL path
+        path = `/user/${model.user()}`;
+        if (model.get("filterTerm")) {
+            path += `/filter/${model.get("filterTerm")}`;
+        }
     }
-  }
-  router.navigate(path);
+    router.navigate(path);
 });
-
 $("#searchForm").submit(function (e) {
-  e.preventDefault();
-  let filterTerm = filterBoxView.val();
-  appModel.set({ filterTerm });
+    e.preventDefault();
+    let filterTerm = filterBoxView.val();
+    appModel.set({ filterTerm });
 });
-
 appModel.on("change:user", function (model, user) {
-  window.scrobbleCollection = new ScrobbleCollection;
-  if (user) {
-    fetchModel.fetch_scrobbles(user);
-  }
+    window.scrobbleCollection = new ScrobbleCollection;
+    if (user) {
+        fetchModel.fetch_scrobbles(user);
+    }
 });
-
 fetchModel.on("error", message => alert(`Last.FM Error: ${message}`));

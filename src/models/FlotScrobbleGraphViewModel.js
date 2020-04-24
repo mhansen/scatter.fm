@@ -1,4 +1,4 @@
 window.FlotScrobbleGraphViewModel = Backbone.Model.extend({
-    isDrawing: false,
-    isDrawn: false
+  isDrawing: false,
+  isDrawn: false
 });
