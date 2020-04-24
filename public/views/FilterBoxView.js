@@ -1,4 +1,4 @@
-let FilterBoxView = Backbone.View.extend({
+const FilterBoxView = Backbone.View.extend({
     el: "#searchForm",
     render(isDrawn) {
         if (isDrawn) {
@@ -10,5 +10,5 @@ let FilterBoxView = Backbone.View.extend({
     },
     val() { return $("#search").val(); }
 });
-window.filterBoxView = new FilterBoxView;
+const filterBoxView = new FilterBoxView;
 graphViewModel.on("change:isDrawn", (model, isDrawn) => filterBoxView.render(isDrawn));

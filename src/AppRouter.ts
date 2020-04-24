@@ -5,7 +5,7 @@ let AppRouter = Backbone.Router.extend({
     "user/:user/filter/:searchterm": "search"
   }
 });
-window.router = new AppRouter;
+let router = new AppRouter;
 
 router.on("route:user", user => appModel.set({ user }));
 

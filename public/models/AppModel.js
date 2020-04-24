@@ -1,6 +1,6 @@
 // Global state that I couldn't find a more specific place for
 // It's all used to form the path of the URL.
-window.AppModel = Backbone.Model.extend({
+const AppModel = Backbone.Model.extend({
     user() { return this.get("user"); },
     initialize() {
         this.set({ user: null });

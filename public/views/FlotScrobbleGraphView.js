@@ -1,4 +1,4 @@
-let FlotScrobbleGraphView = Backbone.View.extend({
+const FlotScrobbleGraphView = Backbone.View.extend({
     render() {
         if (scrobbleCollection.size() === 0) {
             return;

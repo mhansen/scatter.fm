@@ -1,4 +1,4 @@
-window.Request = Backbone.Model.extend({
+const LastFMRequest = Backbone.Model.extend({
     run() {
         return $.ajax({
             url: "https://ws.audioscrobbler.com/2.0/",

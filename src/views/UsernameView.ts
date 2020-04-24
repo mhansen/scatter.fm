@@ -1,4 +1,4 @@
-let UsernameView = Backbone.View.extend({
+const UsernameView = Backbone.View.extend({
   render() {
     let user = appModel.get("user");
     $(".user_link").text(user);
@@ -6,5 +6,5 @@ let UsernameView = Backbone.View.extend({
   }
 });
 
-let usernameView = new UsernameView;
+const usernameView = new UsernameView;
 appModel.on("change:user", () => usernameView.render());

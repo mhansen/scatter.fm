@@ -1,9 +1,9 @@
-window.appModel = new AppModel;
-window.fetchModel = new FetchModel;
-window.graphViewModel = new FlotScrobbleGraphViewModel;
-window.legendModel = new LegendModel;
-window.scrobbleCollection = new ScrobbleCollection;
-window.requestQueue = new RequestQueue({
+let appModel = new AppModel;
+let fetchModel = new FetchModel;
+let graphViewModel = new FlotScrobbleGraphViewModel;
+let legendModel = new LegendModel;
+let scrobbleCollection = new ScrobbleCollection;
+let requestQueue = new RequestQueue({
     max_n_reqs_in_progress: 4
 });
 appModel.on("change", function (model) {
@@ -23,7 +23,7 @@ $("#searchForm").submit(function (e) {
     appModel.set({ filterTerm });
 });
 appModel.on("change:user", function (model, user) {
-    window.scrobbleCollection = new ScrobbleCollection;
+    scrobbleCollection = new ScrobbleCollection;
     if (user) {
         fetchModel.fetch_scrobbles(user);
     }

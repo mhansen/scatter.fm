@@ -1,4 +1,4 @@
-let FetchThrobberView = Backbone.View.extend({
+const FetchThrobberView = Backbone.View.extend({
   el: "#fetchThrobber",
   render() {
     if (fetchModel.get("isFetching")) {
@@ -13,7 +13,7 @@ let FetchThrobberView = Backbone.View.extend({
   }
 });
 
-let fetchThrobberView = new FetchThrobberView;
+const fetchThrobberView = new FetchThrobberView;
 
 fetchModel.on("newPageFetched", () => fetchThrobberView.render());
 

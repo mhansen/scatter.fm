@@ -1,4 +1,4 @@
-let ToolTipView = Backbone.View.extend({
+const ToolTipView = Backbone.View.extend({
   tagname: "div",
   className: "popover left",
   id: "tooltip",
@@ -22,8 +22,7 @@ let ToolTipView = Backbone.View.extend({
       album: scrobble.album(),
       date: scrobble.date().toString("HH:mm, ddd dd MMM yyyy"),
       image: scrobble.image()
-    }
-    );
+    });
 
     // Bring the arrow into the middle of the popover vertically
     let tipsyArrowYOffset = 70; //px, from style.css. 
@@ -37,7 +36,7 @@ let ToolTipView = Backbone.View.extend({
   }
 });
 
-window.toolTipView = new ToolTipView;
+const toolTipView = new ToolTipView;
 
 let previousPointIndex = null;
 

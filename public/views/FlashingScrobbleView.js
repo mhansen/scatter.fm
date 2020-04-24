@@ -1,4 +1,4 @@
-let FlashingScrobbleView = Backbone.View.extend({
+const FlashingScrobbleView = Backbone.View.extend({
     initialize() { this.flashingTimer = null; },
     render(scrobble) {
         if (this.flashingTimer != null) {
@@ -26,7 +26,7 @@ let FlashingScrobbleView = Backbone.View.extend({
         }
     }
 });
-window.flashingScrobbleView = new FlashingScrobbleView;
+const flashingScrobbleView = new FlashingScrobbleView;
 $("#flot_container").on("plothover plotclick", function (event, pos, item) {
     if (item) { // we're hovering over an data point
         flashingScrobbleView.render(item.series.scrobble);

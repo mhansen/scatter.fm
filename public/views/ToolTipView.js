@@ -1,4 +1,4 @@
-let ToolTipView = Backbone.View.extend({
+const ToolTipView = Backbone.View.extend({
     tagname: "div",
     className: "popover left",
     id: "tooltip",
@@ -31,7 +31,7 @@ let ToolTipView = Backbone.View.extend({
         this.$el.html(tooltip_html).css(css).appendTo("body").fadeIn(200);
     }
 });
-window.toolTipView = new ToolTipView;
+const toolTipView = new ToolTipView;
 let previousPointIndex = null;
 $("#flot_container").on("plothover plotclick", function (event, pos, item) {
     if (item) { // we're overing over a data point

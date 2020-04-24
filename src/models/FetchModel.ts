@@ -1,4 +1,4 @@
-window.FetchModel = Backbone.Model.extend({
+const FetchModel = Backbone.Model.extend({
   initialize() {
     this.set({
       pagesFetched: [],
@@ -14,7 +14,7 @@ window.FetchModel = Backbone.Model.extend({
     this.set({ isFetching: true });
 
     // fetch first page
-    let req1 = new Request({
+    let req1 = new LastFMRequest({
       page: 1,
       user: username
     });
@@ -27,7 +27,7 @@ window.FetchModel = Backbone.Model.extend({
     });
 
     req1.on("success", json => {
-      window.scrobbleCollection.add_from_lastfm_json(json);
+      scrobbleCollection.add_from_lastfm_json(json);
       let totalPages = parseInt(json.recenttracks["@attr"].totalPages);
 
       this.set({
@@ -44,9 +44,9 @@ window.FetchModel = Backbone.Model.extend({
 
       (() => {
         for (var page = totalPages, asc = totalPages <= 2; asc ? page <= 2 : page >= 2; asc ? page++ : page--) {
-          var req = new Request({ page, user: username });
+          var req = new LastFMRequest({ page, user: username });
           req.on("success", json => {
-            window.scrobbleCollection.add_from_lastfm_json(json);
+            scrobbleCollection.add_from_lastfm_json(json);
             this.set({
               lastPageFetched: page
             });
@@ -61,7 +61,7 @@ window.FetchModel = Backbone.Model.extend({
             console.error(`:( oh no! an error happened querying last.fm: ${err}`);
           });
           req.on("ratelimited", () => {
-            console.warning("rate limited. :(");
+            console.warn("rate limited. :(");
             requestQueue.add(req);
           }); // try again later
           requestQueue.add(req);

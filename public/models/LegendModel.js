@@ -1,7 +1,7 @@
 // these are colors that are pretty easy to tell apart in the graph.
 // we don't want colors that are hard to distinguish, like purple vs violet
 const LEGEND_COLORS = ["red", "green", "blue", "purple", "brown", "orange", "cyan", "magenta"];
-window.LegendModel = Backbone.Model.extend({
+const LegendModel = Backbone.Model.extend({
     initialize() {
         this.set({ artistColors: {} });
     },

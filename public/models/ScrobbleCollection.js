@@ -1,11 +1,11 @@
-let Scrobble = Backbone.Model.extend({
+const Scrobble = Backbone.Model.extend({
     artist() { return this.get("artist"); },
     album() { return this.get("album"); },
     track() { return this.get("track"); },
     date() { return this.get("date"); },
     image() { return this.get("image"); }
 });
-window.ScrobbleCollection = Backbone.Collection.extend({
+const ScrobbleCollection = Backbone.Collection.extend({
     model: Scrobble,
     add_from_lastfm_json(json) {
         for (let scrobble of json.recenttracks.track) {
@@ -26,7 +26,8 @@ window.ScrobbleCollection = Backbone.Collection.extend({
                 track: scrobble['name'],
                 artist: scrobble['artist']['#text'],
                 album: scrobble['album']['#text'],
-                date: new Date(scrobble['date']['uts'] * 1000)
+                date: new Date(scrobble['date']['uts'] * 1000),
+                image: null
             };
             if (scrobble['image'][1] && scrobble['image'][1]['#text']) {
                 my_scrobble.image = scrobble['image'][1]['#text'];

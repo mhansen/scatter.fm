@@ -1,4 +1,4 @@
-let LegendView = Backbone.View.extend({
+const LegendView = Backbone.View.extend({
     el: "#legend_wrap",
     render() {
         this.$("li").remove();
@@ -22,5 +22,5 @@ let LegendView = Backbone.View.extend({
         this.$el.hide();
     }
 });
-let legendView = new LegendView;
+const legendView = new LegendView;
 legendModel.on("change:artistColors", (model, artistColors) => legendView.render());
