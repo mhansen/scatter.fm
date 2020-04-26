@@ -47,62 +47,57 @@ var construct_flot_series = function (scrobbles) {
 };
 var plot_flot_series = function (flot_series, minTime, maxTime) {
     let ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
-    try {
-        window.plot = $.plot($("#flot_container"), flot_series, {
-            xaxis: {
-                min: minTime,
-                max: maxTime,
-                mode: "time",
-                timeformat: "%d %b %y",
-                tickLength: 0,
-                zoomRange: [ONE_DAY_IN_MS, maxTime - minTime],
-                panRange: [minTime, maxTime],
-                position: "top"
+    plot = $.plot($("#flot_container"), flot_series, {
+        xaxis: {
+            min: minTime,
+            max: maxTime,
+            mode: "time",
+            timeformat: "%d %b %y",
+            tickLength: 0,
+            zoomRange: [ONE_DAY_IN_MS, maxTime - minTime],
+            panRange: [minTime, maxTime],
+            position: "top"
+        },
+        yaxis: {
+            transform(v) { return -v; },
+            inverseTransform(v) { return -v; },
+            min: 0,
+            max: 24,
+            tickLength: 0,
+            ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24],
+            tickFormatter(val, axis) {
+                if (val === 0) {
+                    return "12am";
+                }
+                else if (val < 12) {
+                    return `${val}am`;
+                }
+                else if (val === 12) {
+                    return "12pm";
+                }
+                else {
+                    return `${val - 12}pm`;
+                }
             },
-            yaxis: {
-                transform(v) { return -v; },
-                inverseTransform(v) { return -v; },
-                min: 0,
-                max: 24,
-                tickLength: 0,
-                ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24],
-                tickFormatter(val, axis) {
-                    if (val === 0) {
-                        return "12am";
-                    }
-                    else if (val < 12) {
-                        return `${val}am`;
-                    }
-                    else if (val === 12) {
-                        return "12pm";
-                    }
-                    else {
-                        return `${val - 12}pm`;
-                    }
-                },
-                zoomRange: false,
-                panRange: false
-            },
-            points: {
-                radius: 1,
-                show: true
-            },
-            grid: {
-                clickable: true,
-                hoverable: true,
-                autoHighlight: false
-            },
-            zoom: {
-                interactive: true
-            },
-            pan: {
-                interactive: true
-            }
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
+            zoomRange: false,
+            panRange: false
+        },
+        points: {
+            radius: 1,
+            show: true
+        },
+        grid: {
+            clickable: true,
+            hoverable: true,
+            autoHighlight: false
+        },
+        zoom: {
+            interactive: true
+        },
+        pan: {
+            interactive: true
+        }
+    });
 };
 let flotScrobbleGraphView = new FlotScrobbleGraphView;
 let redraw_on_response_number = 1;
