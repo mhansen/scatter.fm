@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": "https://github.com/mhansen/scatter.fm",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/backbone": "^1.4.4",
+    "@types/jquery": "^3.5.1",
+    "@types/mustache": "^4.0.1"
+  }
+}
