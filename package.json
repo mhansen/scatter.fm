@@ -5,7 +5,7 @@
   "repository": "https://github.com/mhansen/scatter.fm",
   "license": "MIT",
   "devDependencies": {
-    "@types/backbone": "^1.4.9",
+    "@types/backbone": "^1.4.10",
     "@types/jquery": "^3.5.5",
     "@types/mustache": "^4.1.1"
   }
