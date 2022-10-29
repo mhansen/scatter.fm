@@ -7,7 +7,7 @@ const LastFMRequest = Backbone.Model.extend({
         user: this.get("user"),
         api_key: "274b18a7aa58eea083ce78c0135953fd",
         format: "json",
-        limit: "200",
+        limit: "1000",
         page: this.get("page")
       },
       success: json => {
