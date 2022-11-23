@@ -7,6 +7,6 @@
   "devDependencies": {
     "@types/backbone": "^1.4.15",
     "@types/jquery": "^3.5.14",
-    "@types/mustache": "^4.2.1"
+    "@types/mustache": "^4.2.2"
   }
 }
