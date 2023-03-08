@@ -90,12 +90,6 @@ var plot_flot_series = function (flot_series, minTime, maxTime) {
             clickable: true,
             hoverable: true,
             autoHighlight: false
-        },
-        zoom: {
-            interactive: true
-        },
-        pan: {
-            interactive: true
         }
     });
 };
