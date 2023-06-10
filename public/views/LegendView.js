@@ -5,7 +5,7 @@ const LegendView = Backbone.View.extend({
         let artistColors = legendModel.get("artistColors");
         for (let artist in artistColors) {
             let color = artistColors[artist];
-            if (color.color !== "gray") {
+            if (color.showInLegend) {
                 $("<li>")
                     .text(`${artist} (${color.count})`)
                     .css("color", color.color)
@@ -14,7 +14,7 @@ const LegendView = Backbone.View.extend({
         }
         $("<li>")
             .text("[Other Artists]")
-            .css("color", "gray")
+            .css("color", legendModel.get("otherColor"))
             .appendTo("#legend");
         this.$el.show();
     },
