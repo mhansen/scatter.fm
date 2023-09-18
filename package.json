@@ -6,7 +6,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/backbone": "^1.4.16",
-    "@types/jquery": "^3.5.18",
+    "@types/jquery": "^3.5.19",
     "@types/mustache": "^4.2.2"
   }
 }
