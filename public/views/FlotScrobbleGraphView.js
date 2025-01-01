@@ -1,4 +1,4 @@
-const FlotScrobbleGraphView = Backbone.View.extend({
+class FlotScrobbleGraphView extends Backbone.View {
     render() {
         if (scrobbleCollection.size() === 0) {
             return;
@@ -9,17 +9,20 @@ const FlotScrobbleGraphView = Backbone.View.extend({
         setTimeout(function () {
             legendModel.compute_artist_colors(scrobbleCollection);
             let re = appModel.filterRegex();
-            let filtered_scrobbles = scrobbleCollection.filter(s => re.exec(s.track()) || re.exec(s.artist()) || re.exec(s.album()));
+            let filtered_scrobbles = scrobbleCollection.filter(s => re.exec(s.track()) != null ||
+                re.exec(s.artist()) != null ||
+                re.exec(s.album()) != null);
             let flot_series = construct_flot_series(filtered_scrobbles);
             let minTime = scrobbleCollection.min(scrobble => scrobble.date()).date();
             let maxTime = scrobbleCollection.max(scrobble => scrobble.date()).date();
             plot_flot_series(flot_series, minTime, maxTime);
             graphViewModel.set({ isDrawn: true, isDrawing: false });
         }, 0);
+        return this;
     }
-});
+}
 var construct_flot_series = function (scrobbles) {
-    window.track_indices = {
+    const track_indices = window['track_indices'] = {
     // Here's an example:
     //"snow patrol#eyes open": {
     //series_index: 1
@@ -31,7 +34,7 @@ var construct_flot_series = function (scrobbles) {
         let date = scrobble.date().getTime();
         let time = scrobble.date().getHours() + (scrobble.date().getMinutes() / 60);
         series.push({
-            color: legendModel.get("artistColors")[scrobble.artist()].color,
+            color: legendModel.get_artist_color(scrobble.artist()).color,
             data: [[date, time]],
             scrobble
         });
@@ -47,7 +50,9 @@ var construct_flot_series = function (scrobbles) {
 };
 var plot_flot_series = function (flot_series, minTime, maxTime) {
     let ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
-    plot = $.plot($("#flot_container"), flot_series, {
+    // Don't have types for this old version of flot.
+    // @ts-ignore
+    window['plot'] = $.plot($("#flot_container"), flot_series, {
         xaxis: {
             min: minTime,
             max: maxTime,
@@ -93,7 +98,7 @@ var plot_flot_series = function (flot_series, minTime, maxTime) {
         }
     });
 };
-let flotScrobbleGraphView = new FlotScrobbleGraphView;
+let flotScrobbleGraphView = new FlotScrobbleGraphView();
 let redraw_on_response_number = 1;
 appModel.on("change:user", () => redraw_on_response_number = 1);
 fetchModel.on("newPageFetched", function () {

@@ -1,8 +1,8 @@
-let appModel = new AppModel;
-let fetchModel = new FetchModel;
-let graphViewModel = new FlotScrobbleGraphViewModel;
-let legendModel = new LegendModel;
-let scrobbleCollection = new ScrobbleCollection;
+let appModel = new AppModel();
+let fetchModel = new FetchModel();
+let graphViewModel = new FlotScrobbleGraphViewModel();
+let legendModel = new LegendModel();
+let scrobbleCollection = new ScrobbleCollection();
 let requestQueue = new RequestQueue({
     max_n_reqs_in_progress: 4
 });

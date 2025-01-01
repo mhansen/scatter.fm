@@ -1,4 +1,4 @@
-const LastFMRequest = Backbone.Model.extend({
+class LastFMRequest extends Backbone.Model {
     run() {
         return $.ajax({
             url: "https://ws.audioscrobbler.com/2.0/",
@@ -30,4 +30,4 @@ const LastFMRequest = Backbone.Model.extend({
             dataType: "jsonp" //, timeout: 20000. Timeout error handling is flawed.
         });
     }
-});
+}

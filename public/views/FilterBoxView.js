@@ -1,14 +1,23 @@
-const FilterBoxView = Backbone.View.extend({
-    el: "#searchForm",
-    render(isDrawn) {
-        if (isDrawn) {
+class FilterBoxView extends Backbone.View {
+    constructor() {
+        super(...arguments);
+        this.isDrawn = false;
+    }
+    render() {
+        if (this.isDrawn) {
             this.$el.fadeIn(1000);
         }
         else {
             this.$el.hide();
         }
-    },
+        return this;
+    }
     val() { return $("#search").val(); }
+}
+const filterBoxView = new FilterBoxView({
+    el: "#searchForm",
 });
-const filterBoxView = new FilterBoxView;
-graphViewModel.on("change:isDrawn", (model, isDrawn) => filterBoxView.render(isDrawn));
+graphViewModel.on("change:isDrawn", (model, isDrawn) => {
+    filterBoxView.isDrawn = isDrawn;
+    filterBoxView.render();
+});

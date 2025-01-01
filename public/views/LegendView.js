@@ -1,13 +1,11 @@
-const LegendView = Backbone.View.extend({
-    el: "#legend_wrap",
+class LegendView extends Backbone.View {
     render() {
         this.$("li").remove();
         let artistColors = legendModel.get("artistColors");
-        for (let artist in artistColors) {
-            let color = artistColors[artist];
+        for (const color of artistColors.values()) {
             if (color.showInLegend) {
                 $("<li>")
-                    .text(`${artist} (${color.count})`)
+                    .text(`${color.artist} (${color.count})`)
                     .css("color", color.color)
                     .appendTo("#legend");
             }
@@ -17,10 +15,14 @@ const LegendView = Backbone.View.extend({
             .css("color", legendModel.get("otherColor"))
             .appendTo("#legend");
         this.$el.show();
-    },
+        return this;
+    }
     remove() {
         this.$el.hide();
+        return this;
     }
+}
+const legendView = new LegendView({
+    el: "#legend_wrap",
 });
-const legendView = new LegendView;
 legendModel.on("change:artistColors", (model, artistColors) => legendView.render());

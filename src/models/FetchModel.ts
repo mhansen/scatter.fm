@@ -1,4 +1,4 @@
-const FetchModel = Backbone.Model.extend({
+class FetchModel extends Backbone.Model {
   initialize() {
     this.set({
       pagesFetched: [],
@@ -6,8 +6,8 @@ const FetchModel = Backbone.Model.extend({
       lastPageFetched: 0,
       isFetching: false
     });
-  },
-  numPagesFetched() { return this.get("pagesFetched").length; },
+  }
+  numPagesFetched() { return this.get("pagesFetched").length; }
 
   fetch_scrobbles(username) {
     if (!username) { throw "Invalid Username"; }
@@ -69,4 +69,4 @@ const FetchModel = Backbone.Model.extend({
       })();
     });
   }
-});
+}
