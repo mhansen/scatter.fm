@@ -1,8 +1,4 @@
-const ToolTipView = Backbone.View.extend({
-  tagname: "div",
-  className: "popover left",
-  id: "tooltip",
-  visible: false,
+class ToolTipView extends Backbone.View {
   render(x, y, scrobble) {
     let template = `\
 <div class='arrow'></div>
@@ -33,10 +29,16 @@ const ToolTipView = Backbone.View.extend({
     };
 
     this.$el.html(tooltip_html).css(css).appendTo("body").fadeIn(200);
+    return this;
   }
-});
+}
 
-const toolTipView = new ToolTipView;
+const toolTipView = new ToolTipView({
+  tagname: "div",
+  className: "popover left",
+  id: "tooltip",
+  visible: false,
+});
 
 let previousPointIndex = null;
 

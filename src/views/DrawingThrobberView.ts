@@ -1,4 +1,4 @@
-const DrawingThrobberView = Backbone.View.extend({
+class DrawingThrobberView extends Backbone.View {
   render() {
     if (graphViewModel.get("isDrawing")) {
       $("#drawingThrobber").show();
@@ -6,9 +6,10 @@ const DrawingThrobberView = Backbone.View.extend({
     } else {
       $("#drawingThrobber").hide();
     }
+    return this;
   }
-});
+}
 
-const drawingThrobberView = new DrawingThrobberView;
+const drawingThrobberView = new DrawingThrobberView();
 
 graphViewModel.on("change:isDrawing", (model, isDrawing) => drawingThrobberView.render());

@@ -16,29 +16,40 @@ const LEGEND_COLORS = [
   '#ffff99',
 ];
 
-const LegendModel = Backbone.Model.extend({
+class ArtistColor {
+  artist: string;
+  color: string;
+  count: number;
+  showInLegend: boolean;
+}
+
+class LegendModel extends Backbone.Model {
   initialize() {
     this.set({ artistColors: {} });
-  },
-  compute_artist_colors(scrobbles) {
+  }
+  get_artist_color(artist: string): ArtistColor {
+    return this.get('artistColors').get(artist.toLowerCase());
+  }
+  compute_artist_colors(scrobbles: ScrobbleCollection) {
     let a = _.chain(scrobbles.models)
-      .groupBy(s => s.artist())
+      .groupBy(s => s.artist().toLowerCase())
       .toArray()
       .sortBy('length')
       .reverse()
       .value();
 
-    let artistColors = {};
+    let artistColors: Map<string, ArtistColor> = new Map();
     const otherColor = LEGEND_COLORS[0];
     for (let i = 0; i < a.length; i++) {
       let x = a[i];
-      artistColors[x[0].artist()] = {
+      artistColors.set(x[0].artist().toLowerCase(), {
+        artist: x[0].artist(),
         color: LEGEND_COLORS[i + 1] || otherColor,
         count: x.length,
         showInLegend: !!LEGEND_COLORS[i + 1],
-      };
+      });
     }
 
     this.set({ artistColors, otherColor });
   }
-});
+}

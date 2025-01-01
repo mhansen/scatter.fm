@@ -1,5 +1,7 @@
-const FlashingScrobbleView = Backbone.View.extend({
-  initialize() { this.flashingTimer = null; },
+class FlashingScrobbleView extends Backbone.View {
+  initialize() {
+    this.flashingTimer = null;
+  }
   render(scrobble) {
     if (this.flashingTimer != null) { clearInterval(this.flashingTimer); }
     let flashOn = false;
@@ -13,15 +15,17 @@ const FlashingScrobbleView = Backbone.View.extend({
       }
     };
     this.flashingTimer = setInterval(flash, 200);
-  },
+    return this;
+  }
   remove() {
     if (this.flashingTimer != null) { clearInterval(this.flashingTimer); }
     this.flashingTimer = null;
     if (window.plot != null) { window.plot.unhighlight(); }
+    return this;
   }
-});
+}
 
-const flashingScrobbleView = new FlashingScrobbleView;
+const flashingScrobbleView = new FlashingScrobbleView();
 
 $("#flot_container").on("plothover plotclick", function (event, pos, item) {
   if (item) { // we're hovering over an data point

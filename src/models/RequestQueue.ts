@@ -6,17 +6,17 @@
 // seconds.
 const rate_limit_ms = 500;
 
-const RequestQueue = Backbone.Model.extend({
-  initialize() {
-    this.queue = [];
-    this.currentlyEmptyingQueue = false;
-  },
+class RequestQueue extends Backbone.Model {
+  queue = [];
+  currentlyEmptyingQueue = false;
+
   add(req) {
     this.queue.push(req);
     if (!this.currentlyEmptyingQueue) {
       this.doAnotherRequest();
     }
-  },
+  }
+
   doAnotherRequest() {
     if (this.queue.length === 0) {
       this.currentlyEmptyingQueue = false;
@@ -28,8 +28,8 @@ const RequestQueue = Backbone.Model.extend({
         this.doAnotherRequest();
       }, rate_limit_ms);
     }
-  },
-  numReqsPending() {
-    return this.queue.size();
   }
-});
+  numReqsPending() {
+    return this.queue.length;
+  }
+}

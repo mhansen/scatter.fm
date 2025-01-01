@@ -1,12 +1,15 @@
-const Scrobble = Backbone.Model.extend({
-    artist() { return this.get("artist"); },
-    album() { return this.get("album"); },
-    track() { return this.get("track"); },
-    date() { return this.get("date"); },
+class Scrobble extends Backbone.Model {
+    artist() { return this.get("artist"); }
+    album() { return this.get("album"); }
+    track() { return this.get("track"); }
+    date() { return this.get("date"); }
     image() { return this.get("image"); }
-});
-const ScrobbleCollection = Backbone.Collection.extend({
-    model: Scrobble,
+}
+class ScrobbleCollection extends Backbone.Collection {
+    constructor() {
+        super(...arguments);
+        this.model = Scrobble;
+    }
     add_from_lastfm_json(json) {
         for (let scrobble of json.recenttracks.track) {
             // Pull out just the information we need, because memory has been known
@@ -35,4 +38,4 @@ const ScrobbleCollection = Backbone.Collection.extend({
             this.add(my_scrobble, { silent: true });
         }
     }
-});
+}
