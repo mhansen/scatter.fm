@@ -22,7 +22,10 @@ class LegendModel extends Backbone.Model {
         this.set({ artistColors: {} });
     }
     get_artist_color(artist) {
-        return this.get('artistColors').get(artist.toLowerCase());
+        return this.artist_colors()[artist.toLowerCase()];
+    }
+    artist_colors() {
+        return this.get('artistColors');
     }
     compute_artist_colors(scrobbles) {
         let a = _.chain(scrobbles.models)
@@ -31,16 +34,16 @@ class LegendModel extends Backbone.Model {
             .sortBy('length')
             .reverse()
             .value();
-        let artistColors = new Map();
+        let artistColors = {};
         const otherColor = LEGEND_COLORS[0];
         for (let i = 0; i < a.length; i++) {
-            let x = a[i];
-            artistColors.set(x[0].artist().toLowerCase(), {
-                artist: x[0].artist(),
+            let scrobbles = a[i];
+            artistColors[scrobbles[0].artist().toLowerCase()] = {
+                artist: scrobbles[0].artist(),
                 color: LEGEND_COLORS[i + 1] || otherColor,
-                count: x.length,
+                count: scrobbles.length,
                 showInLegend: !!LEGEND_COLORS[i + 1],
-            });
+            };
         }
         this.set({ artistColors, otherColor });
     }
