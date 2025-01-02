@@ -15,7 +15,7 @@ const filterBoxView = new FilterBoxView({
   el: "#searchForm",
 });
 
-graphViewModel.on("change:isDrawn", (model, isDrawn) => {
+graphViewModel.on("change:isDrawn", (model: any, isDrawn: boolean) => {
   filterBoxView.isDrawn = isDrawn;
   filterBoxView.render()
 });

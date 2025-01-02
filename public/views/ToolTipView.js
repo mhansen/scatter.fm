@@ -55,7 +55,7 @@ $("#flot_container").on("plothover plotclick", function (event, pos, item) {
         toolTipView.visible = false;
     }
 });
-$("#flot_container").mouseout(function () {
+$("#flot_container").on("mouseout", function () {
     toolTipView.remove();
     // @ts-ignore
     if (window.plot != null) {

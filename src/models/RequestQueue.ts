@@ -7,10 +7,10 @@
 const rate_limit_ms = 500;
 
 class RequestQueue extends Backbone.Model {
-  queue = [];
+  queue: LastFMRequest[] = [];
   currentlyEmptyingQueue = false;
 
-  add(req) {
+  add(req: LastFMRequest) {
     this.queue.push(req);
     if (!this.currentlyEmptyingQueue) {
       this.doAnotherRequest();
