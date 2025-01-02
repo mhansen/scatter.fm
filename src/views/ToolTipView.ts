@@ -1,4 +1,7 @@
 class ToolTipView extends Backbone.View {
+  visible: boolean = false;
+
+  // @ts-ignore
   render(x, y, scrobble) {
     let template = `\
 <div class='arrow'></div>
@@ -12,6 +15,7 @@ class ToolTipView extends Backbone.View {
   </div>
 </div>`;
 
+    // @ts-ignore
     let tooltip_html = Mustache.to_html(template, {
       name: scrobble.track(),
       artist: scrobble.artist(),
@@ -34,10 +38,9 @@ class ToolTipView extends Backbone.View {
 }
 
 const toolTipView = new ToolTipView({
-  tagname: "div",
+  tagName: "div",
   className: "popover left",
   id: "tooltip",
-  visible: false,
 });
 
 let previousPointIndex = null;
@@ -57,7 +60,9 @@ $("#flot_container").on("plothover plotclick", function (event, pos, item) {
 
 $("#flot_container").mouseout(function () {
   toolTipView.remove();
+  // @ts-ignore
   if (window.plot != null) {
-     window.plot.unhighlight();
+    // @ts-ignore
+    window.plot.unhighlight();
   }
 });

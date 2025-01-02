@@ -1,7 +1,9 @@
 class FlashingScrobbleView extends Backbone.View {
-    initialize() {
+    constructor() {
+        super(...arguments);
         this.flashingTimer = null;
     }
+    // @ts-ignore
     render(scrobble) {
         if (this.flashingTimer != null) {
             clearInterval(this.flashingTimer);
@@ -10,9 +12,13 @@ class FlashingScrobbleView extends Backbone.View {
         let flash = function () {
             flashOn = !flashOn;
             if (flashOn) {
-                Array.from(track_indices[scrobble.artist() + "#" + scrobble.track()]).forEach((indices) => window.plot.highlight(indices.series_index, indices.datapoint_index));
+                // @ts-ignore
+                Array.from(track_indices[scrobble.artist() + "#" + scrobble.track()]).forEach((indices) => 
+                // @ts-ignore
+                window.plot.highlight(indices.series_index, indices.datapoint_index));
             }
             else {
+                // @ts-ignore
                 window.plot.unhighlight();
             }
         };
@@ -24,6 +30,7 @@ class FlashingScrobbleView extends Backbone.View {
             clearInterval(this.flashingTimer);
         }
         this.flashingTimer = null;
+        // @ts-ignore
         if (window.plot != null) {
             window.plot.unhighlight();
         }
