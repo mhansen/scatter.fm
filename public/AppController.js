@@ -17,7 +17,7 @@ appModel.on("change", function (model) {
     }
     router.navigate(path);
 });
-$("#searchForm").submit(function (e) {
+$("#searchForm").on("submit", function (e) {
     e.preventDefault();
     let filterTerm = filterBoxView.val();
     appModel.set({ filterTerm });

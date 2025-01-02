@@ -12,4 +12,4 @@ class DrawingThrobberView extends Backbone.View {
 
 const drawingThrobberView = new DrawingThrobberView();
 
-graphViewModel.on("change:isDrawing", (model, isDrawing) => drawingThrobberView.render());
+graphViewModel.on("change:isDrawing", (model: any, isDrawing: boolean) => drawingThrobberView.render());

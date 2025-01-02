@@ -1,7 +1,7 @@
 // Global state that I couldn't find a more specific place for
 // It's all used to form the path of the URL.
 class AppModel extends Backbone.Model {
-  user() {
+  user(): string | null {
     return this.get("user");
   }
   initialize() {

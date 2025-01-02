@@ -56,7 +56,7 @@ var construct_flot_series = function (scrobbles: Scrobble[]) {
   return series;
 };
 
-var plot_flot_series = function (flot_series, minTime, maxTime) {
+var plot_flot_series = function (flot_series, minTime: Date, maxTime: Date) {
   let ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
   // Don't have types for this old version of flot.
   // @ts-ignore
@@ -67,7 +67,7 @@ var plot_flot_series = function (flot_series, minTime, maxTime) {
       mode: "time",
       timeformat: "%d %b %y",
       tickLength: 0,
-      zoomRange: [ONE_DAY_IN_MS, maxTime - minTime],
+      zoomRange: [ONE_DAY_IN_MS, maxTime.getTime() - minTime.getTime()],
       panRange: [minTime, maxTime],
       position: "top"
     },

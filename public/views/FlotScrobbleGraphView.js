@@ -59,7 +59,7 @@ var plot_flot_series = function (flot_series, minTime, maxTime) {
             mode: "time",
             timeformat: "%d %b %y",
             tickLength: 0,
-            zoomRange: [ONE_DAY_IN_MS, maxTime - minTime],
+            zoomRange: [ONE_DAY_IN_MS, maxTime.getTime() - minTime.getTime()],
             panRange: [minTime, maxTime],
             position: "top"
         },

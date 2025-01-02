@@ -26,4 +26,4 @@ class LegendView extends Backbone.View {
 const legendView = new LegendView({
     el: "#legend_wrap",
 });
-legendModel.on("change:artistColors", (model, artistColors) => legendView.render());
+legendModel.on("change:artistColors", () => legendView.render());
