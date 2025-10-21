@@ -79,7 +79,7 @@ var plot_flot_series = function (flot_series, minTime: Date, maxTime: Date) {
       tickLength: 0,
       ticks: [0, 3, 6, 9, 12, 15, 18, 21, 24],
       tickFormatter(val, axis) {
-        if (val === 0) {
+        if (val === 0 || val === 24) {
           return "12am";
         } else if (val < 12) {
           return `${val}am`;
